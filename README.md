@@ -40,9 +40,9 @@ App
 
 Singleton
 
-Class App contain configuration and bootstrap method run().
+Class App contain configuration and bootstrap method @run()@.
 
-Configuration situated in config.php file.
+Configuration situated in @config.php@ file.
 
 Example of config.php:
 
@@ -60,7 +60,7 @@ return array(
 );
 </pre>
 
-You can access to this properties through App class.
+You can access this properties through App class.
 
 Examples:
 
@@ -72,7 +72,7 @@ $mailer->setTo('customemail@example.com');
 $mailer->submit();
 </pre>
 
-In this example we see that we have 'class' property that tald Flexio to use 'Mailer' class. Method getConfig() will return instance of class 'Mailer'. Note: when you trying to access config property through App::instance()->someProperty you automaticly calling getConfig('someProperty') method.
+In this example we see that we have 'class' property that told Flexio to use 'Mailer' class. Method getConfig() will return instance of class 'Mailer'. Note: when you trying to access config property through @App::instance()->someProperty@ you automaticly calling getConfig('someProperty') method.
 
 <pre>
 echo App::instance()->version; // 1.0
@@ -86,7 +86,11 @@ echo App::instance()->roles[0]; // guest
 
 Same as previouse example but now we have simple array as property 'roles' value.
 
+<pre>
+echo App::instance()->db; // Object
+</pre>
 
+But some properties are already defined in 'App' class. They are: 'request', 'observer', 'loader', 'router', 'db', 'models', 'plugins'. And when we trying to access this properties as simple array - we will get error. This properties are objects.
 
 <pre>
 static instance()             Get app instance
