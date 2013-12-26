@@ -23,7 +23,7 @@ class Plugin
 				$name = substr($method, 2);
 				$name[0] = strtolower($name[0]);
 				
-				Observer::observe($name, array($this, $method));
+				App::instance()->observer->observe($name, array($this, $method));
 			}
 		}
 	}
