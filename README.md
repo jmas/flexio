@@ -6,6 +6,7 @@ Awesome flexible CMS for simple tasks.
 Folders structure
 =================
 
+<pre>
 app                           Application
   controllers                 Controllers
     SomeController.php
@@ -32,3 +33,4 @@ app                           Application
 classes                       Classes
   ...
 index.php                     Start point
+</pre>
