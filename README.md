@@ -154,8 +154,10 @@ $router = new Router(array(
     '&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;',
     '&lt;controller:\w+&gt;/&lt;action:\w+&gt;',
   ),
-  'defaultController'=>'page',
-  'defaultAction'=>'index',
+  'defaultParams'=>array(
+    'controller'=>'page',
+    'action'=>'index',
+  ),
 ));
 
 $params = $router->route('layout/show'); // array('controller'=>'layout', 'action'=>'show')
