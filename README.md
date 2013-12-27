@@ -3,6 +3,24 @@ flexio
 
 Awesome flexible CMS for simple tasks.
 
+Principles
+==========
+
+<ul>
+<li>Simple and smart</li>
+<li>Flexible and extendable</li>
+<li>Lightweight and fast</li>
+</ul>
+
+Requirements
+============
+
+<ul>
+<li>PHP 5.3 or greater</li>
+<li>MySQL 5.0 or greater</li>
+<li>1 Mb free space</li>
+</ul>
+
 Folders structure
 =================
 
@@ -38,13 +56,26 @@ index.php                     Start point
 App
 ===
 
-Singleton
+<b>Singleton</b>
 
-Class App contain configuration and bootstrap method @run()@.
+<b>Methods:</b>
 
-Configuration situated in @config.php@ file.
+<pre>
+static instance()             Get app instance
+__construct($config=array())  Constructor
+__get($key)                   Getter. Wrap getConfig() method
+getConfig($key, $defaultValue=null)
+                              Get config value. Return config value or $defaultValue
+run()                         Run application
+</pre>
 
-Example of config.php:
+<b>Description:</b>
+
+Class <code>App</code> contain configuration and bootstrap method <code>run()</code>.
+
+Configuration situated in <code>config.php</code> file.
+
+Example of <code>config.php</code>:
 
 <pre>
 return array(
@@ -60,9 +91,9 @@ return array(
 );
 </pre>
 
-You can access this properties through App class.
+You can access this properties through <code>App</code> class.
 
-Examples:
+<b>Examples:</b>
 
 <pre>
 $mailer = App::instance()->mailer; // Instance of class 'Mailer'
@@ -72,32 +103,72 @@ $mailer->setTo('customemail@example.com');
 $mailer->submit();
 </pre>
 
-In this example we see that we have 'class' property that told Flexio to use 'Mailer' class. Method getConfig() will return instance of class 'Mailer'. Note: when you trying to access config property through @App::instance()->someProperty@ you automaticly calling getConfig('someProperty') method.
+In this example we see that we have <code>class</code> property that told <code>App</code> to use <code>Mailer</code> class. Method <code>getConfig()</code> will return instance of class <code>Mailer</code>.
+
+Note: When you trying to access config property through <code>App::instance()->someProperty</code> you automaticly calling <code>getConfig('someProperty')</code> method.
 
 <pre>
 echo App::instance()->version; // 1.0
 </pre>
 
-In this example we see that we have simple string value. Because we have't 'class' property in our config.php file.
+In this example we see that we have simple string value. Because we have't <code>class</code> property in our <code>config.php</code> file.
 
 <pre>
 echo App::instance()->roles[0]; // guest
 </pre>
 
-Same as previouse example but now we have simple array as property 'roles' value.
+Same as previouse example but now we have simple array as property <code>roles</code>.
 
 <pre>
 echo App::instance()->db; // Object
 </pre>
 
-But some properties are already defined in 'App' class. They are: 'request', 'observer', 'loader', 'router', 'db', 'models', 'plugins'. And when we trying to access this properties as simple array - we will get error. This properties are objects.
+But some properties are already defined in <code>App</code> class. They are: <code>request</code>, <code>observer</code>, <code>loader</code>, <code>router</code>, <code>db</code>, <code>models</code>, <code>plugins</code>. And when we trying to access this properties as simple array - we will get error. This properties are objects.
+
+Router
+======
+
+<b>Methods:</b>
 
 <pre>
-static instance()             Get app instance
 __construct($config=array())  Constructor
-__get($key)                   Getter. Wrap getConfig() method
-getConfig($key, $defaultValue=null)
-                              Get config value. Return config value or $defaultValue
-run()                         Run application
+route($path)                  Convert path to 'params' by 'routes' rulles
+createPath($params=array())   Create 'path' by 'params'
 </pre>
+
+<b>Description:</b>
+
+Class <code>Router</code> is using for extracting different <code>params</code> from <code>path</code> by <code>routes</code> rulles.
+
+For example we need several params <code>constructor</code>, <code>action</code> and sometimes <code>plugin</code> for run some part of code.
+
+<code>Router</code> get <code>path</code> and extract <code>params</code> from it by <code>route()</code> method. We can do reverse operation: convert <code>params</code> to <code>path</code> by <code>createPath()</code> method.
+
+<b>Examples:</b>
+
+<pre>
+$router = new Router(array(
+  'routes'=>array(
+    'plugin/&lt;plugin:\w+&gt;/&lt;controller:\w+&gt;',
+    'plugin/&lt;plugin:\w+&gt;/&lt;controller:\w+&gt;/&lt;action:\w+&gt;',
+    '&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;',
+    '&lt;controller:\w+&gt;/&lt;action:\w+&gt;',
+  ),
+  'defaultController'=>'page',
+  'defaultAction'=>'index',
+));
+
+$params = $router->route('layout/show'); // array('controller'=>'layout', 'action'=>'show')
+</pre>
+
+In this example we created new instance of <code>Router</code> and then convert <code>path</code> to <code>params</code> array.
+
+<pre>
+$params = $router->route('layout'); // array('controller'=>'layout', 'action'=>'index')
+</pre>
+
+In this example we passed <code>path</code> with only one segment <code>layout</code> and then in result we got <code>params</code> array with two properties. It was two properties becouse we have <code>defaultController</code> and <code>defaultAction</code> in class configuration. If <code>Router</code> can't find <code>controller</code> or <code>action</code> it takes this properties from config defaults.
+
+Controller
+==========
 
