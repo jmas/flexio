@@ -1,7 +1,9 @@
 <?php
 
-defined('APP_PATH') OR define('APP_PATH', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'app'));
+defined('ROOT_PATH') OR define('ROOT_PATH', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
+defined('APP_PATH') OR define('APP_PATH', realpath(ROOT_PATH . DIRECTORY_SEPARATOR . 'app'));
 defined('CLASSES_PATH') OR define('CLASSES_PATH', dirname(__FILE__));
+defined('HELPERS_PATH') OR define('HELPERS_PATH', CLASSES_PATH . DIRECTORY_SEPARATOR . 'helpers');
 defined('CONTROLLERS_PATH') OR define('CONTROLLERS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'controllers');
 defined('MODELS_PATH') OR define('MODELS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'models');
 defined('VIEWS_PATH') OR define('VIEWS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'views');
@@ -30,6 +32,7 @@ class App
 			'class'=>'Loader',
 			'paths'=>array(
 				CLASSES_PATH,
+				HELPERS_PATH,
 				MODELS_PATH,
 			),
 		),
@@ -77,7 +80,7 @@ class App
 	public function __construct($config=array())
 	{
 		if (! class_exists('Arr')) {
-			require_once(CLASSES_PATH . DIRECTORY_SEPARATOR . 'Arr.php');
+			require_once(HELPERS_PATH . DIRECTORY_SEPARATOR . 'Arr.php');
 		}
 
 		if (! class_exists('Loader')) {

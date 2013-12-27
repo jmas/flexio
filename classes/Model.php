@@ -20,7 +20,7 @@ abstract class Model
 	/**
 	 *
 	 */
-	private $db;
+	protected $db;
 
 	/**
 	 *

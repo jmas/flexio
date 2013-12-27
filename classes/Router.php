@@ -8,9 +8,12 @@ class Router
 	/**
 	 *
 	 */
-	public $routes = array();
+	protected $routes = array();
 
-	public $defaultParams=array(
+	/**
+	 *
+	 */
+	protected $defaultParams=array(
 		'controller'=>'default',
 		'action'=>'default',
 	);
@@ -75,6 +78,8 @@ class Router
 	public function createPath(array $params=array())
 	{
 		$realPath = null;
+
+		$params = Arr::merge($this->defaultParams, $params);
 
 		foreach ($this->routes as $pattern) {
 			$realPath = $pattern;

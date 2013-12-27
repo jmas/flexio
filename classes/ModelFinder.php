@@ -5,7 +5,7 @@ class ModelFinder
 	/**
 	 *
 	 */
-	public $db;
+	protected $db;
 
 	/**
 	 *
