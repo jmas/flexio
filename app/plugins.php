@@ -1,5 +1,6 @@
-<?php
-
-return array(
-	'activePlugins'=>array('pageContent'),
+<?php return array (
+  'installed' => 
+  array (
+  	'skeleton'
+  ),
 );
