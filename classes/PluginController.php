@@ -30,7 +30,7 @@ class PluginController extends Controller
 	public function getViewPath($viewName)
 	{
 		$viewPath = $this->getPlugin()->getPath() . DIRECTORY_SEPARATOR
-				. 'views' . DIRECTORY_SEPARATOR
+				. VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR
 				. $this->getId() . DIRECTORY_SEPARATOR
 				. $viewName . '.php';
 

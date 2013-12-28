@@ -3,18 +3,22 @@
 defined('APP_FOLDER_NAME') OR define('APP_FOLDER_NAME', 'app');
 defined('LAYOUTS_FOLDER_NAME') OR define('LAYOUTS_FOLDER_NAME', 'layouts');
 defined('ASSETS_FOLDER_NAME') OR define('ASSETS_FOLDER_NAME', 'assets');
+defined('CONTROLLERS_FOLDER_NAME') OR define('CONTROLLERS_FOLDER_NAME', 'controllers');
+defined('VIEWS_FOLDER_NAME') OR define('VIEWS_FOLDER_NAME', 'views');
+defined('MODELS_FOLDER_NAME') OR define('MODELS_FOLDER_NAME', 'models');
 
 defined('CONFIG_FILE_NAME') OR define('CONFIG_FILE_NAME', 'config.php');
 defined('PLUGINS_CONFIG_FILE_NAME') OR define('PLUGINS_CONFIG_FILE_NAME', 'plugins.php');
+defined('LOADER_FILE_NAME') OR define('LOADER_FILE_NAME', 'Loader.php');
 
 defined('ROOT_PATH') OR define('ROOT_PATH', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 defined('APP_PATH') OR define('APP_PATH', realpath(ROOT_PATH . DIRECTORY_SEPARATOR . APP_FOLDER_NAME));
 defined('CLASSES_PATH') OR define('CLASSES_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . 'classes');
 defined('ASSETS_PATH') OR define('ASSETS_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . ASSETS_FOLDER_NAME);
 defined('HELPERS_PATH') OR define('HELPERS_PATH', CLASSES_PATH . DIRECTORY_SEPARATOR . 'helpers');
-defined('CONTROLLERS_PATH') OR define('CONTROLLERS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'controllers');
-defined('MODELS_PATH') OR define('MODELS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'models');
-defined('VIEWS_PATH') OR define('VIEWS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'views');
+defined('CONTROLLERS_PATH') OR define('CONTROLLERS_PATH', APP_PATH . DIRECTORY_SEPARATOR . CONTROLLERS_FOLDER_NAME);
+defined('MODELS_PATH') OR define('MODELS_PATH', APP_PATH . DIRECTORY_SEPARATOR . MODELS_FOLDER_NAME);
+defined('VIEWS_PATH') OR define('VIEWS_PATH', APP_PATH . DIRECTORY_SEPARATOR . VIEWS_FOLDER_NAME);
 defined('PLUGINS_PATH') OR define('PLUGINS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'plugins');
 defined('LAYOUTS_PATH') OR define('LAYOUTS_PATH', VIEWS_PATH . DIRECTORY_SEPARATOR . LAYOUTS_FOLDER_NAME);
 defined('THEMES_PATH') OR define('THEMES_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'themes');
@@ -114,7 +118,7 @@ class App
 		}
 
 		if (! class_exists('Loader')) {
-			require_once(CLASSES_PATH . DIRECTORY_SEPARATOR . 'Loader.php');
+			require_once(CLASSES_PATH . DIRECTORY_SEPARATOR . LOADER_FILE_NAME);
 		}
 
 		$configPath = APP_PATH . DIRECTORY_SEPARATOR . CONFIG_FILE_NAME;
@@ -251,7 +255,7 @@ class App
 
 			$controllerPath = PLUGINS_PATH . DIRECTORY_SEPARATOR
 							. $pluginName . DIRECTORY_SEPARATOR
-							. 'controllers' . DIRECTORY_SEPARATOR
+							. CONTROLLERS_FOLDER_NAME . DIRECTORY_SEPARATOR
 							. $controllerClassName . '.php';
 		} else {
 			$controllerPath = CONTROLLERS_PATH . DIRECTORY_SEPARATOR

@@ -43,7 +43,7 @@ class Plugin
 			}
 		}
 
-		$modelsPath = $this->getPath() . DIRECTORY_SEPARATOR . 'models';
+		$modelsPath = $this->getPath() . DIRECTORY_SEPARATOR . MODELS_FOLDER_NAME;
 
 		if (is_dir($modelsPath)) {
 			App::instance()->loader->addPath($modelsPath);
@@ -117,7 +117,7 @@ class Plugin
 	 */
 	public function renderView($viewName, array $values=array())
 	{
-		$viewPath = $this->getPath() . DIRECTORY_SEPARATOR . 'views'
+		$viewPath = $this->getPath() . DIRECTORY_SEPARATOR . VIEWS_FOLDER_NAME
 		          . DIRECTORY_SEPARATOR . $viewName . '.php';
 
         $themeName = App::instance()->theme;
