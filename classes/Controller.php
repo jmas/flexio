@@ -87,7 +87,7 @@ class Controller
 		if ($themeName!==null) {
 			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR
 			      . $themeName . DIRECTORY_SEPARATOR
-			      . 'app' . DIRECTORY_SEPARATOR
+			      . APP_FOLDER_NAME . DIRECTORY_SEPARATOR
 			      . $this->getId() . DIRECTORY_SEPARATOR
 			      . $viewName . '.php';
 
@@ -111,8 +111,8 @@ class Controller
 		if ($themeName!==null) {
 			$themeLayoutPath = THEMES_PATH . DIRECTORY_SEPARATOR
 			      . $themeName . DIRECTORY_SEPARATOR
-			      . 'app' . DIRECTORY_SEPARATOR
-			      . 'layouts' . DIRECTORY_SEPARATOR
+			      . APP_FOLDER_NAME . DIRECTORY_SEPARATOR
+			      . LAYOUTS_FOLDER_NAME . DIRECTORY_SEPARATOR
 			      . $this->layoutName . '.php';
 
 			if (is_file($themeLayoutPath)) {

@@ -1,14 +1,19 @@
 <?php
 
+defined('APP_FOLDER_NAME') OR define('APP_FOLDER_NAME', 'app');
+defined('LAYOUTS_FOLDER_NAME') OR define('LAYOUTS_FOLDER_NAME', 'layouts');
+defined('ASSETS_FOLDER_NAME') OR define('ASSETS_FOLDER_NAME', 'assets');
+
 defined('ROOT_PATH') OR define('ROOT_PATH', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
-defined('APP_PATH') OR define('APP_PATH', realpath(ROOT_PATH . DIRECTORY_SEPARATOR . 'app'));
-defined('CLASSES_PATH') OR define('CLASSES_PATH', dirname(__FILE__));
+defined('APP_PATH') OR define('APP_PATH', realpath(ROOT_PATH . DIRECTORY_SEPARATOR . APP_FOLDER_NAME));
+defined('CLASSES_PATH') OR define('CLASSES_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . 'classes');
+defined('ASSETS_PATH') OR define('ASSETS_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . ASSETS_FOLDER_NAME);
 defined('HELPERS_PATH') OR define('HELPERS_PATH', CLASSES_PATH . DIRECTORY_SEPARATOR . 'helpers');
 defined('CONTROLLERS_PATH') OR define('CONTROLLERS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'controllers');
 defined('MODELS_PATH') OR define('MODELS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'models');
 defined('VIEWS_PATH') OR define('VIEWS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'views');
 defined('PLUGINS_PATH') OR define('PLUGINS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'plugins');
-defined('LAYOUTS_PATH') OR define('LAYOUTS_PATH', VIEWS_PATH . DIRECTORY_SEPARATOR . 'layouts');
+defined('LAYOUTS_PATH') OR define('LAYOUTS_PATH', VIEWS_PATH . DIRECTORY_SEPARATOR . LAYOUTS_FOLDER_NAME);
 defined('THEMES_PATH') OR define('THEMES_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'themes');
 
 defined('CONFIG_FILE_NAME') OR define('CONFIG_FILE_NAME', 'config.php');
@@ -19,6 +24,9 @@ defined('PLUGINS_CONFIG_FILE_NAME') OR define('PLUGINS_CONFIG_FILE_NAME', 'plugi
  */
 class App
 {
+	const STATUS_DEV = 'development';
+	const STATUS_PROD = 'production';
+
 	/**
 	 *
 	 */
@@ -29,6 +37,7 @@ class App
 	 */
 	protected $config = array(
 		'theme'=>null,
+		'status'=>self::STATUS_PROD,
 		'request'=>array(
 			'class'=>'Request',
 		),
@@ -181,7 +190,7 @@ class App
 	 */
 	public function getAssetUrl($path)
 	{
-		return $this->getBaseUrl() . '/assets/' . $path;
+		return $this->getBaseUrl() . '/' . ASSETS_FOLDER_NAME . '/' . $path;
 	}
 
 	/**
@@ -189,19 +198,23 @@ class App
 	 */
 	public function moveAssets()
 	{
-		$pluginAssetsPath = APP_PATH . DIRECTORY_SEPARATOR . 'assets';
-		$outAssetsPath = ROOT_PATH . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'app';
+		$assetsPath = ASSETS_PATH;
+		$outAssetsPath = ASSETS_PATH . DIRECTORY_SEPARATOR . APP_FOLDER_NAME;
 
-		if (! is_dir($pluginAssetsPath)) {
+		if (! is_dir($assetsPath)) {
 			return false;
 		}
 
 		if (is_dir($outAssetsPath)) {
-			return false;
+			if ($this->status === self::STATUS_PROD) {
+				return false;
+			} else {
+				Fs::remove($outAssetsPath);
+			}
 		}
 
 		//Fs::mkdir($outAssetsPath);
-		Fs::copy($pluginAssetsPath, $outAssetsPath);
+		Fs::copy($assetsPath, $outAssetsPath);
 
 		return true;
 	}

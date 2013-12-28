@@ -41,11 +41,15 @@ class Fs
 	    );
 	    
 	    foreach ($it as $file) {
-	        if (in_array($file->getBasename(), array('.', '..'))) {
+	    	if (in_array($file->getBasename(), array('.', '..'))) {
 	            continue;
 	        } elseif ($file->isDir()) {
+	    		chmod($file->getPathname(), 0777);
+
 	            rmdir($file->getPathname());
 	        } elseif ($file->isFile() || $file->isLink()) {
+	    		chmod($file->getPathname(), 0777);
+
 	            unlink($file->getPathname());
 	        }
 	    }

@@ -57,19 +57,23 @@ class Plugin
 	 */
 	public function moveAssets()
 	{
-		$pluginAssetsPath = $this->getPath() . DIRECTORY_SEPARATOR . 'assets';
-		$outAssetsPath = ROOT_PATH . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . $this->getId();
+		$assetsPath = $this->getPath() . DIRECTORY_SEPARATOR . ASSETS_FOLDER_NAME;
+		$outAssetsPath = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getId();
 
-		if (! is_dir($pluginAssetsPath)) {
+		if (! is_dir($assetsPath)) {
 			return false;
 		}
-
+		
 		if (is_dir($outAssetsPath)) {
-			return false;
+			if (App::instance()->status === App::STATUS_PROD) {
+				return false;
+			} else {
+				Fs::remove($outAssetsPath);
+			}
 		}
 
 		//Fs::mkdir($outAssetsPath);
-		Fs::copy($pluginAssetsPath, $outAssetsPath);
+		Fs::copy($assetsPath, $outAssetsPath);
 
 		return true;
 	}
@@ -79,7 +83,7 @@ class Plugin
 	 */
 	public function getAssetUrl($path)
 	{
-		return App::instance()->getBaseUrl() . '/assets/' . $this->getId() . '/' . $path;
+		return App::instance()->getBaseUrl() . '/' . ASSETS_FOLDER_NAME . '/' . $this->getId() . '/' . $path;
 	}
 
 	/**
