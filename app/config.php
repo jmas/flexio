@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'theme'=>'default',
+	'theme'=>null,
 	'db'=>array(
 		'dsn'=>'mysql:dbname=flexio;host=127.0.0.1',
 	),
