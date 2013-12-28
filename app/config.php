@@ -1,8 +1,6 @@
 <?php
 
 return array(
-	'defaultController'=>'page',
-	'defaultAction'=>'index',
 	'db'=>array(
 		'dsn'=>'mysql:dbname=flexio;host=127.0.0.1',
 	),

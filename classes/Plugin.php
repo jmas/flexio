@@ -28,6 +28,23 @@ class Plugin
 		}
 	}
 
-	public function install() { return true; }
-	public function uninstall() { return true; }
+	public function beforeInstall() { return true; }
+	public function beforeUninstall() { return true; }
+
+	/**
+	 *
+	 */
+	public function getId()
+	{
+		$className = get_class($this);
+		$name = lcfirst(rtrim('Plugin', $className));
+	}
+
+	/**
+	 *
+	 */
+	public function getPath()
+	{
+		return PLUGINS_PATH . DIRECTORY_SEPARATOR . $this->getId();
+	}
 }

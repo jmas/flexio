@@ -9,7 +9,9 @@ defined('MODELS_PATH') OR define('MODELS_PATH', APP_PATH . DIRECTORY_SEPARATOR .
 defined('VIEWS_PATH') OR define('VIEWS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'views');
 defined('PLUGINS_PATH') OR define('PLUGINS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'plugins');
 defined('LAYOUTS_PATH') OR define('LAYOUTS_PATH', VIEWS_PATH . DIRECTORY_SEPARATOR . 'layouts');
+
 defined('CONFIG_FILE_NAME') OR define('CONFIG_FILE_NAME', 'config.php');
+defined('PLUGINS_CONFIG_FILE_NAME') OR define('PLUGINS_CONFIG_FILE_NAME', 'plugins.php');
 
 class App
 {
@@ -97,8 +99,6 @@ class App
 			$this->config,
 			$config
 		);
-
-		$this->loader->register();
 	}
 
 	/**
@@ -133,6 +133,11 @@ class App
 	 */
 	public function run()
 	{
+		$this->loader->register();
+		$this->plugins->registerInstalled();
+
+		$this->observer->notify('appStart');
+
 		$path = $this->request->getParam('path');
 		$params = $this->router->route($path);
 
@@ -144,9 +149,17 @@ class App
 		if (! empty($params['plugin'])) {
 			$pluginName = preg_replace('/[^A-Za-z0-9_\-]/', '', $params['plugin']);
 
-			$controllerPath = PLUGINS_PATH . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controllerClassName . '.php';
+			if (! $this->plugins->isInstalled($pluginName)) {
+				throw new Exception("Plugin '{$pluginName}' not installed.");
+			}
+
+			$controllerPath = PLUGINS_PATH . DIRECTORY_SEPARATOR
+							. $pluginName . DIRECTORY_SEPARATOR
+							. 'controllers' . DIRECTORY_SEPARATOR
+							. $controllerClassName . '.php';
 		} else {
-			$controllerPath = CONTROLLERS_PATH . DIRECTORY_SEPARATOR . $controllerClassName . '.php';
+			$controllerPath = CONTROLLERS_PATH . DIRECTORY_SEPARATOR
+							. $controllerClassName . '.php';
 		}
 
 		if (! file_exists($controllerPath)) {
@@ -161,5 +174,7 @@ class App
 
 		$controller = new $controllerClassName;
 		$controller->exec($actionName, $params);
+
+		$this->observer->notify('appEnd');
 	}
 }

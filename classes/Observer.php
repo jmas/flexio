@@ -24,7 +24,7 @@ class Observer
 	 */
 	public function observe($name, $callback)
 	{
-		if (! isset(self::$observers[$name])) {
+		if (! isset($this->observers[$name])) {
 			$this->observers[$name] = array();
 		}
 

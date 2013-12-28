@@ -7,18 +7,18 @@ Principles
 ==========
 
 <ul>
-<li>Simple and smart</li>
-<li>Flexible and extendable</li>
-<li>Lightweight and fast</li>
+  <li>Simple and smart</li>
+  <li>Flexible and extendable</li>
+  <li>Lightweight and fast</li>
 </ul>
 
 Requirements
 ============
 
 <ul>
-<li>PHP 5.3 or greater</li>
-<li>MySQL 5.0 or greater</li>
-<li>1 Mb free space</li>
+  <li>PHP 5.3 or greater</li>
+  <li>MySQL 5.0 or greater</li>
+  <li>1 Mb free space</li>
 </ul>
 
 Folders structure

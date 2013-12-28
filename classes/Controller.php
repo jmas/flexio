@@ -33,7 +33,7 @@ class Controller
 	 */
 	public function beforeExec($actionName, array $params=array())
 	{
-		App::instance()->observer->notify('controllerBeforeExec', $actionName, $params);
+		App::instance()->observer->notify('controllerBeforeExec', $this, $actionName, $params);
 		return true;
 	}
 
@@ -42,10 +42,13 @@ class Controller
 	 */
 	public function afterExec($actionName, array $params=array())
 	{
-		App::instance()->observer->notify('controllerAfterExec', $actionName, $params);
+		App::instance()->observer->notify('controllerAfterExec', $this, $actionName, $params);
 		return true;
 	}
 
+	/**
+	 *
+	 */
 	public function render($viewName, array $values=array())
 	{
 		$className = get_class($this);
@@ -67,5 +70,13 @@ class Controller
 		));
 
 		return $layout->render();
+	}
+
+	/**
+	 *
+	 */
+	public function getId()
+	{
+		return lcfirst(rtrim('Controller', get_class($this)));
 	}
 }
