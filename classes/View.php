@@ -2,9 +2,19 @@
 
 class View
 {
+	/**
+	 *
+	 */
 	protected $values=array();
+
+	/**
+	 *
+	 */
 	protected $path;
 
+	/**
+	 *
+	 */
 	public function __construct($config=array())
 	{
 		foreach ($config as $key=>$value) {
@@ -14,26 +24,41 @@ class View
 		}
 	}
 
+	/**
+	 *
+	 */
 	public function __get($key)
 	{
 		return $this->getValue($key);
 	}
 
+	/**
+	 *
+	 */
 	public function __toString()
 	{
 		return $this->render();
 	}
 
+	/**
+	 *
+	 */
 	public function setValues($values=array())
 	{
 		$this->values=$values;
 	}
 
+	/**
+	 *
+	 */
 	public function setValue($key, $value)
 	{
 		$this->values[$key]=$value;
 	}
 
+	/**
+	 *
+	 */
 	public function getValue($key, $defaultValue=null)
 	{
 		if (isset($this->values[$key])) {
@@ -43,6 +68,9 @@ class View
 		return $defaultValue;
 	}
 
+	/**
+	 *
+	 */
 	public function render()
 	{
 		if (! is_file($this->path)) {

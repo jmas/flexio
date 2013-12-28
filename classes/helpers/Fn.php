@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @class Fn
+ */
 class Fn
 {
 	/**

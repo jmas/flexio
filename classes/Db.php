@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @class Db
+ */
 class Db extends PDO
 {
 	/**

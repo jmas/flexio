@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @class Loader
+ */
 class Loader
 {
 	/**

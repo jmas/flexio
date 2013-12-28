@@ -1,10 +1,18 @@
 <?php
- 
+
+/**
+ * @class Archiver
+ */
 class Archiver 
 {
- 
+    /**
+     *
+     */
     protected $files = array();
  
+    /**
+     *
+     */
     public function pack($source, $archivePath=null)
     {   
  
@@ -55,6 +63,9 @@ class Archiver
         return $zip->close();
     }
     
+    /**
+     *
+     */
     public function unpack($fileSource, $extractPath=null) 
     {
         $fileSource = realpath($fileSource);
@@ -83,10 +94,12 @@ class Archiver
         
     }
     
+    /**
+     *
+     */
     public function getOutput()
     {
         return $this->files;
     
     }
-    
 }

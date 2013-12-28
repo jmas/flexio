@@ -1,8 +1,18 @@
 <?php
 
+/**
+ * @class PluginManager
+ */
 class PluginManager
 {
+	/**
+	 *
+	 */
 	protected $installed=array();
+
+	/**
+	 *
+	 */
 	protected $registered=array();
 
 	/**

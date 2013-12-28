@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @class Arr
+ */
 class Arr
 {
 	/**

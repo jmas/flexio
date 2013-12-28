@@ -1,13 +1,22 @@
 <?php
 
+/**
+ * @class PluginController
+ */
 class PluginController extends Controller
 {
+	/**
+	 *
+	 */
 	public function getPlugin()
 	{
 		$pluginName = App::instance()->getParam('plugin');
 		return App::instance()->plugins->getPlugin($pluginName);
 	}
 
+	/**
+	 *
+	 */
 	public function render($viewName, array $values=array())
 	{
 		$className = get_class($this);
@@ -24,7 +33,7 @@ class PluginController extends Controller
 			'path'=>$viewPath,
 			'values'=>$values,
 		));
-		
+
 		$view->setValue('plugin', $this->getPlugin());
 
 		$layout = new View(array(

@@ -13,6 +13,9 @@ defined('LAYOUTS_PATH') OR define('LAYOUTS_PATH', VIEWS_PATH . DIRECTORY_SEPARAT
 defined('CONFIG_FILE_NAME') OR define('CONFIG_FILE_NAME', 'config.php');
 defined('PLUGINS_CONFIG_FILE_NAME') OR define('PLUGINS_CONFIG_FILE_NAME', 'plugins.php');
 
+/**
+ * @class App
+ */
 class App
 {
 	/**

@@ -1,7 +1,13 @@
 <?php
 
+/**
+ * @class Controller
+ */
 class Controller
 {
+	/**
+	 *
+	 */
 	protected $layoutName='default';
 
 	/**

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @class ModelFinder
+ */
 class ModelFinder
 {
 	/**

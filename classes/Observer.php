@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @class Observer
+ */
 class Observer
 {
 	/**

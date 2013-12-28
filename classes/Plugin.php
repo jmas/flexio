@@ -1,8 +1,18 @@
 <?php
 
+/**
+ * @class Plugin
+ */
 class Plugin
 {
+	/**
+	 *
+	 */
 	protected $name;
+
+	/**
+	 *
+	 */
 	protected $version;
 
 	/**
