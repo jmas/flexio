@@ -4,6 +4,9 @@ defined('APP_FOLDER_NAME') OR define('APP_FOLDER_NAME', 'app');
 defined('LAYOUTS_FOLDER_NAME') OR define('LAYOUTS_FOLDER_NAME', 'layouts');
 defined('ASSETS_FOLDER_NAME') OR define('ASSETS_FOLDER_NAME', 'assets');
 
+defined('CONFIG_FILE_NAME') OR define('CONFIG_FILE_NAME', 'config.php');
+defined('PLUGINS_CONFIG_FILE_NAME') OR define('PLUGINS_CONFIG_FILE_NAME', 'plugins.php');
+
 defined('ROOT_PATH') OR define('ROOT_PATH', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 defined('APP_PATH') OR define('APP_PATH', realpath(ROOT_PATH . DIRECTORY_SEPARATOR . APP_FOLDER_NAME));
 defined('CLASSES_PATH') OR define('CLASSES_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . 'classes');
@@ -16,8 +19,7 @@ defined('PLUGINS_PATH') OR define('PLUGINS_PATH', APP_PATH . DIRECTORY_SEPARATOR
 defined('LAYOUTS_PATH') OR define('LAYOUTS_PATH', VIEWS_PATH . DIRECTORY_SEPARATOR . LAYOUTS_FOLDER_NAME);
 defined('THEMES_PATH') OR define('THEMES_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'themes');
 
-defined('CONFIG_FILE_NAME') OR define('CONFIG_FILE_NAME', 'config.php');
-defined('PLUGINS_CONFIG_FILE_NAME') OR define('PLUGINS_CONFIG_FILE_NAME', 'plugins.php');
+defined('PLUGINS_CONFIG_FILE_PATH') OR define('PLUGINS_CONFIG_FILE_PATH', APP_PATH . DIRECTORY_SEPARATOR . PLUGINS_CONFIG_FILE_NAME);
 
 /**
  * @class App
@@ -54,8 +56,10 @@ class App
 		),
 		'router'=>array(
 			'class'=>'Router',
-			'defaultController'=>'page',
-			'defaultAction'=>'index',
+			'defaultParams'=>array(
+				'controller'=>'default',
+				'action'=>'index',
+			),
 			'routes'=>array(
 				'plugin/<plugin:\w+>/<controller:\w+>',
 				'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',

@@ -1,15 +1,9 @@
 <?php
 
 return array(
-	'theme'=>null,
+	'theme'=>'null',
 	'db'=>array(
 		'dsn'=>'mysql:dbname=flexio;host=127.0.0.1',
 	),
-	'plugins'=>require_once(APP_PATH . DIRECTORY_SEPARATOR . PLUGINS_CONFIG_FILE_NAME),
-	'router'=>array(
-		'defaultParams'=>array(
-			'controller'=>'default',
-			'action'=>'index',
-		),
-	),
+	'plugins'=>require_once(PLUGINS_CONFIG_FILE_PATH),
 );
