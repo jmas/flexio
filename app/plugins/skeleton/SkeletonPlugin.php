@@ -7,11 +7,11 @@ class SkeletonPlugin extends Plugin
 
 	public function onAppStart()
 	{
-		echo 'app start';
+		echo $this->renderView('appStart');
 	}
 
 	public function onAppEnd()
 	{
-		echo 'app end';
+		echo $this->renderView('appEnd');
 	}
 }

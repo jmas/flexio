@@ -67,6 +67,16 @@ class App
 	/**
 	 *
 	 */
+	protected $params=array();
+
+	/**
+	 *
+	 */
+	protected $controller;
+
+	/**
+	 *
+	 */
 	static public function instance()
 	{
 		if (! self::$instance) {
@@ -131,6 +141,26 @@ class App
 	/**
 	 *
 	 */
+	public function getParams()
+	{
+		return $this->params;
+	}
+
+	/**
+	 *
+	 */
+	public function getParam($key)
+	{
+		if (isset($this->params[$key])) {
+			return $this->params[$key];
+		}
+
+		return null;
+	}
+
+	/**
+	 *
+	 */
 	public function run()
 	{
 		$this->loader->register();
@@ -139,15 +169,15 @@ class App
 		$this->observer->notify('appStart');
 
 		$path = $this->request->getParam('path');
-		$params = $this->router->route($path);
+		$this->params = $this->router->route($path);
 
-		$controllerName = preg_replace('/[^A-Za-z0-9_\-]/', '', $params['controller']);
-		$actionName = preg_replace('/[^A-Za-z0-9_\-]/', '', $params['action']);
+		$controllerName = preg_replace('/[^A-Za-z0-9_\-]/', '', $this->params['controller']);
+		$actionName = preg_replace('/[^A-Za-z0-9_\-]/', '', $this->params['action']);
 
 		$controllerClassName = ucfirst($controllerName) . 'Controller';
 
-		if (! empty($params['plugin'])) {
-			$pluginName = preg_replace('/[^A-Za-z0-9_\-]/', '', $params['plugin']);
+		if (! empty($this->params['plugin'])) {
+			$pluginName = preg_replace('/[^A-Za-z0-9_\-]/', '', $this->params['plugin']);
 
 			if (! $this->plugins->isInstalled($pluginName)) {
 				throw new Exception("Plugin '{$pluginName}' not installed.");
@@ -172,8 +202,8 @@ class App
 			throw new Exception("Controller class '{$controllerClassName}' not found.");
 		}
 
-		$controller = new $controllerClassName;
-		$controller->exec($actionName, $params);
+		$this->controller = new $controllerClassName;
+		$this->controller->exec($actionName, $this->params);
 
 		$this->observer->notify('appEnd');
 	}

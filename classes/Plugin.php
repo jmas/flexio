@@ -26,6 +26,12 @@ class Plugin
 				App::instance()->observer->observe($name, array($this, $method));
 			}
 		}
+
+		$modelsPath = $this->getPath() . DIRECTORY_SEPARATOR . 'models';
+
+		if (is_dir($modelsPath)) {
+			App::instance()->loader->addPath($modelsPath);
+		}
 	}
 
 	public function beforeInstall() { return true; }
@@ -36,8 +42,7 @@ class Plugin
 	 */
 	public function getId()
 	{
-		$className = get_class($this);
-		$name = lcfirst(rtrim('Plugin', $className));
+		return lcfirst(basename(get_class($this), 'Plugin'));
 	}
 
 	/**
@@ -46,5 +51,21 @@ class Plugin
 	public function getPath()
 	{
 		return PLUGINS_PATH . DIRECTORY_SEPARATOR . $this->getId();
+	}
+
+	/**
+	 *
+	 */
+	public function renderView($viewName, array $values=array())
+	{
+		$viewPath = $this->getPath() . DIRECTORY_SEPARATOR . 'views'
+		          . DIRECTORY_SEPARATOR . $viewName . '.php';
+
+		$view = new View(array(
+			'path'=>$viewPath,
+			'values'=>$values,
+		));
+
+		return $view->render();
 	}
 }

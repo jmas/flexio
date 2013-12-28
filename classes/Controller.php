@@ -77,6 +77,6 @@ class Controller
 	 */
 	public function getId()
 	{
-		return lcfirst(rtrim('Controller', get_class($this)));
+		return lcfirst(basename(get_class($this), 'Controller'));
 	}
 }
