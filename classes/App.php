@@ -59,7 +59,7 @@ class App
 			'password'=>'root',
 		),
 		'models'=>array(
-			'class'=>'ModelFinder',
+			'class'=>'ModelManager',
 			'dbConnectionName'=>'db',
 		),
 		'plugins'=>array(
