@@ -2,15 +2,18 @@
 
 class PluginController extends Controller
 {
+	public function getPlugin()
+	{
+		$pluginName = App::instance()->getParam('plugin');
+		return App::instance()->plugins->getPlugin($pluginName);
+	}
+
 	public function render($viewName, array $values=array())
 	{
 		$className = get_class($this);
 		$controllerName = lcfirst(str_replace('Controller', '', $className));
 
-		$pluginName = App::instance()->getParam('plugin');
-		$plugin = App::instance()->plugins->getPlugin($pluginName);
-
-		$viewPath = $plugin->getPath() . DIRECTORY_SEPARATOR
+		$viewPath = $this->getPlugin()->getPath() . DIRECTORY_SEPARATOR
 				. 'views' . DIRECTORY_SEPARATOR
 				. $this->getId() . DIRECTORY_SEPARATOR
 				. $viewName . '.php';
@@ -21,6 +24,8 @@ class PluginController extends Controller
 			'path'=>$viewPath,
 			'values'=>$values,
 		));
+		
+		$view->setValue('plugin', $this->getPlugin());
 
 		$layout = new View(array(
 			'path'=>$layoutPath,

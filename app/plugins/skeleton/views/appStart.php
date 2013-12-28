@@ -1,1 +1,1 @@
-Application is started.
+Application is started. <?php echo App::instance()->getBaseUrl(); ?>

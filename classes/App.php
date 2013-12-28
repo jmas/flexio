@@ -161,9 +161,53 @@ class App
 	/**
 	 *
 	 */
+	public function getBaseUrl($absolute=false)
+	{
+		return rtrim(sprintf(
+			"%s://%s%s",
+			isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+			$_SERVER['HTTP_HOST'],
+			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+		), '/');
+	}
+
+	/**
+	 *
+	 */
+	public function getAssetUrl($path)
+	{
+		return $this->getBaseUrl() . '/assets/' . $path;
+	}
+
+	/**
+	 *
+	 */
+	public function moveAssets()
+	{
+		$pluginAssetsPath = APP_PATH . DIRECTORY_SEPARATOR . 'assets';
+		$outAssetsPath = ROOT_PATH . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'app';
+
+		if (! is_dir($pluginAssetsPath)) {
+			return false;
+		}
+
+		if (is_dir($outAssetsPath)) {
+			return false;
+		}
+
+		//Fs::mkdir($outAssetsPath);
+		Fs::copy($pluginAssetsPath, $outAssetsPath);
+
+		return true;
+	}
+
+	/**
+	 *
+	 */
 	public function run()
 	{
 		$this->loader->register();
+		$this->moveAssets();
 		$this->plugins->registerInstalled();
 
 		$this->observer->notify('appStart');

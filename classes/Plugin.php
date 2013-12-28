@@ -5,6 +5,9 @@ class Plugin
 	protected $name;
 	protected $version;
 
+	/**
+	 *
+	 */
 	public function __construct($config=array())
 	{
 		foreach ($config as $key=>$value) {
@@ -14,6 +17,9 @@ class Plugin
 		}
 	}
 
+	/**
+	 *
+	 */
 	public function register()
 	{
 		$methods = get_class_methods($this);
@@ -32,9 +38,48 @@ class Plugin
 		if (is_dir($modelsPath)) {
 			App::instance()->loader->addPath($modelsPath);
 		}
+
+		$this->moveAssets();
 	}
 
+	/**
+	 *
+	 */
+	public function moveAssets()
+	{
+		$pluginAssetsPath = $this->getPath() . DIRECTORY_SEPARATOR . 'assets';
+		$outAssetsPath = ROOT_PATH . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . $this->getId();
+
+		if (! is_dir($pluginAssetsPath)) {
+			return false;
+		}
+
+		if (is_dir($outAssetsPath)) {
+			return false;
+		}
+
+		//Fs::mkdir($outAssetsPath);
+		Fs::copy($pluginAssetsPath, $outAssetsPath);
+
+		return true;
+	}
+
+	/**
+	 *
+	 */
+	public function getAssetUrl($path)
+	{
+		return App::instance()->getBaseUrl() . '/assets/' . $this->getId() . '/' . $path;
+	}
+
+	/**
+	 *
+	 */
 	public function beforeInstall() { return true; }
+
+	/**
+	 *
+	 */
 	public function beforeUninstall() { return true; }
 
 	/**
@@ -65,6 +110,8 @@ class Plugin
 			'path'=>$viewPath,
 			'values'=>$values,
 		));
+
+		$view->setValue('plugin', $this);
 
 		return $view->render();
 	}
