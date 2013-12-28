@@ -154,8 +154,10 @@ $router = new Router(array(
     '&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;',
     '&lt;controller:\w+&gt;/&lt;action:\w+&gt;',
   ),
-  'defaultController'=>'page',
-  'defaultAction'=>'index',
+  'defaultParams'=>array(
+    'controller'=>'page',
+    'action'=>'index',
+  ),
 ));
 
 $params = $router->route('layout/show'); // array('controller'=>'layout', 'action'=>'show')
@@ -167,7 +169,7 @@ In this example we created new instance of <code>Router</code> and then convert 
 $params = $router->route('layout'); // array('controller'=>'layout', 'action'=>'index')
 </pre>
 
-In this example we passed <code>path</code> with only one segment <code>layout</code> and then in result we got <code>params</code> array with two properties. It was two properties becouse we have <code>defaultController</code> and <code>defaultAction</code> in class configuration. If <code>Router</code> can't find <code>controller</code> or <code>action</code> it takes this properties from config defaults.
+In this example we passed <code>path</code> with only one segment <code>layout</code> and then in result we got <code>params</code> array with two properties. It was two properties becouse we have <code>defaultParams</code> in class configuration. If <code>Router</code> can't find <code>controller</code> or <code>action</code> it takes this properties from config <code>defaultParams</code>.
 
 Controller
 ==========
