@@ -9,6 +9,7 @@ defined('MODELS_PATH') OR define('MODELS_PATH', APP_PATH . DIRECTORY_SEPARATOR .
 defined('VIEWS_PATH') OR define('VIEWS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'views');
 defined('PLUGINS_PATH') OR define('PLUGINS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'plugins');
 defined('LAYOUTS_PATH') OR define('LAYOUTS_PATH', VIEWS_PATH . DIRECTORY_SEPARATOR . 'layouts');
+defined('THEMES_PATH') OR define('THEMES_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'themes');
 
 defined('CONFIG_FILE_NAME') OR define('CONFIG_FILE_NAME', 'config.php');
 defined('PLUGINS_CONFIG_FILE_NAME') OR define('PLUGINS_CONFIG_FILE_NAME', 'plugins.php');
@@ -27,6 +28,7 @@ class App
 	 *
 	 */
 	protected $config = array(
+		'theme'=>null,
 		'request'=>array(
 			'class'=>'Request',
 		),

@@ -57,11 +57,8 @@ class Controller
 	 */
 	public function render($viewName, array $values=array())
 	{
-		$className = get_class($this);
-		$controllerName = lcfirst(str_replace('Controller', '', $className));
-
-		$viewPath = VIEWS_PATH . DIRECTORY_SEPARATOR . $controllerName . DIRECTORY_SEPARATOR . $viewName . '.php';
-		$layoutPath = LAYOUTS_PATH . DIRECTORY_SEPARATOR . $this->layoutName . '.php';
+		$viewPath = $this->getViewPath($viewName);
+		$layoutPath = $this->getLayoutPath();
 
 		$view = new View(array(
 			'path'=>$viewPath,
@@ -76,6 +73,54 @@ class Controller
 		));
 
 		return $layout->render();
+	}
+
+	/**
+	 *
+	 */
+	public function getViewPath($viewName)
+	{
+		$viewPath = VIEWS_PATH . DIRECTORY_SEPARATOR . $this->getId() . DIRECTORY_SEPARATOR . $viewName . '.php';
+
+		$themeName = App::instance()->theme;
+
+		if ($themeName!==null) {
+			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR
+			      . $themeName . DIRECTORY_SEPARATOR
+			      . 'app' . DIRECTORY_SEPARATOR
+			      . $this->getId() . DIRECTORY_SEPARATOR
+			      . $viewName . '.php';
+
+			if (is_file($themeViewPath)) {
+				$viewPath = $themeViewPath;
+			}
+		}
+
+		return $viewPath;
+	}
+
+	/**
+	 *
+	 */
+	public function getLayoutPath()
+	{
+		$layoutPath = LAYOUTS_PATH . DIRECTORY_SEPARATOR . $this->layoutName . '.php';
+
+		$themeName = App::instance()->theme;
+
+		if ($themeName!==null) {
+			$themeLayoutPath = THEMES_PATH . DIRECTORY_SEPARATOR
+			      . $themeName . DIRECTORY_SEPARATOR
+			      . 'app' . DIRECTORY_SEPARATOR
+			      . 'layouts' . DIRECTORY_SEPARATOR
+			      . $this->layoutName . '.php';
+
+			if (is_file($themeLayoutPath)) {
+				$layoutPath = $themeLayoutPath;
+			}
+		}
+
+		return $layoutPath;
 	}
 
 	/**

@@ -116,6 +116,19 @@ class Plugin
 		$viewPath = $this->getPath() . DIRECTORY_SEPARATOR . 'views'
 		          . DIRECTORY_SEPARATOR . $viewName . '.php';
 
+        $themeName = App::instance()->theme;
+
+		if ($themeName!==null) {
+			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR
+			      . $themeName . DIRECTORY_SEPARATOR
+			      . $this->getId() . DIRECTORY_SEPARATOR
+			      . $viewName . '.php';
+			
+			if (is_file($themeViewPath)) {
+				$viewPath = $themeViewPath;
+			}
+		}
+
 		$view = new View(array(
 			'path'=>$viewPath,
 			'values'=>$values,

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @class ModelFinder
+ * @class ModelManager
  */
 class ModelManager
 {

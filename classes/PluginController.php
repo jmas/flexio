@@ -19,30 +19,35 @@ class PluginController extends Controller
 	 */
 	public function render($viewName, array $values=array())
 	{
-		$className = get_class($this);
-		$controllerName = lcfirst(str_replace('Controller', '', $className));
+		return parent::render($viewName, array(
+			'plugin'=>$this->getPlugin(),
+		));
+	}
 
+	/**
+	 *
+	 */
+	public function getViewPath($viewName)
+	{
 		$viewPath = $this->getPlugin()->getPath() . DIRECTORY_SEPARATOR
 				. 'views' . DIRECTORY_SEPARATOR
 				. $this->getId() . DIRECTORY_SEPARATOR
 				. $viewName . '.php';
-		
-		$layoutPath = LAYOUTS_PATH . DIRECTORY_SEPARATOR . $this->layoutName . '.php';
 
-		$view = new View(array(
-			'path'=>$viewPath,
-			'values'=>$values,
-		));
+		$themeName = App::instance()->theme;
 
-		$view->setValue('plugin', $this->getPlugin());
+		if ($themeName!==null) {
+			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR
+			      . $themeName . DIRECTORY_SEPARATOR
+			      . $this->getPlugin()->getId() . DIRECTORY_SEPARATOR
+			      . $this->getId() . DIRECTORY_SEPARATOR
+			      . $viewName . '.php';
+			
+			if (is_file($themeViewPath)) {
+				$viewPath = $themeViewPath;
+			}
+		}
 
-		$layout = new View(array(
-			'path'=>$layoutPath,
-			'values'=>array(
-				'content'=>$view->render(),
-			),
-		));
-
-		return $layout->render();
+		return $viewPath;
 	}
 }
