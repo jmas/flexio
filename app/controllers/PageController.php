@@ -2,8 +2,18 @@
 
 class PageController extends Controller
 {
-	public function indexAction()
+	public function beforeExec($actionName)
 	{
+		if ($actionName !== 'index') { // && not auth
+			throw new Exception("Not authentificated.");
+		}
+
+		return true;
+	}
+
+	public function indexAction($path=null)
+	{
+		var_dump($path);
 		// var_dump(App::instance()->models->find('Page'));
 
 		// var_dump(App::instance()->models->findAll('Page'));

@@ -38,8 +38,14 @@ class Router
 	public function route($path)
 	{
 		$params = array();
+		$defaultParams = $this->defaultParams;
 
-		foreach ($this->routes as $pattern) {
+		foreach ($this->routes as $key=>$pattern) {
+			if (gettype($pattern) === 'array') {
+				$defaultParams = array_merge($defaultParams, $pattern);
+				$pattern = $key;
+			}
+
 			preg_match_all('/<(\w+):(.*?)>/', $pattern, $patternSegments, PREG_SET_ORDER);
 
 			$realPattern = $pattern;
@@ -52,8 +58,8 @@ class Router
 
 			if (preg_match($realPattern, $path, $matches)) {
 				foreach ($matches as $i=>$match) {
-					if ($i===0) { continue; }
-
+					if ($i===0 || empty($patternSegments[$i-1])) { continue; }
+					
 					$params[ $patternSegments[$i-1][1] ] = $match;
 				}
 				
@@ -61,7 +67,7 @@ class Router
 			}
 		}
 
-		foreach ($this->defaultParams as $key=>$value) {
+		foreach ($defaultParams as $key=>$value) {
 			if (! isset($params[$key])) {
 				$params[$key]=$value;
 			}

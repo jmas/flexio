@@ -61,14 +61,16 @@ class App
 		'router'=>array(
 			'class'=>'Router',
 			'defaultParams'=>array(
-				'controller'=>'default',
+				'controller'=>'page',
 				'action'=>'index',
 			),
 			'routes'=>array(
-				'plugin/<plugin:\w+>/<controller:\w+>',
-				'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',
-				'<controller:\w+>/<action:\w+>/<id:\d+>',
-				'<controller:\w+>/<action:\w+>',
+				// '<controller:(page|user|layout|snippet)>/<action:\w+>',
+				// 'plugin/<plugin:\w+>/<controller:\w+>',
+				// 'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',
+				// '<path:.+>',
+				// '<controller:\w+>/<action:\w+>/<id:\d+>',
+				// '<controller:\w+>/<action:\w+>',
 			),
 		),
 		'db'=>array(
