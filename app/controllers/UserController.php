@@ -30,7 +30,6 @@ class UserController extends Controller
 	public function indexAction()
 	{	
 		$models = App::instance()->models->findAll('User');
-		var_dump($models[0]->getPermissions());
 		echo $this->render('index', 
 			array(
 				'models' => $models
