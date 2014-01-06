@@ -2,6 +2,9 @@
 
 class Nav
 {
+	/**
+	 *
+	 */
 	protected $items=array();
 
 	/**
@@ -35,7 +38,7 @@ class Nav
 
 				$result .= '</ul></li>';
 			} else {
-				$result .= '<li class="active"><a href="' . App::instance()->createUrl($item['url']) . '">'.$item['name'].'</a></li>';
+				$result .= '<li><a href="' . App::instance()->createUrl($item['url']) . '">'.$item['name'].'</a></li>';
 			}
 			
 		}
@@ -51,6 +54,14 @@ class Nav
 	public function append($items)
 	{
 		$this->items = $this->mergeItems($this->items, $items);
+	}
+
+	/**
+	 *
+	 */
+	public function getItems()
+	{
+		return $this->items;
 	}
 
 	/**
