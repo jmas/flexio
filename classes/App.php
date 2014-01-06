@@ -142,6 +142,39 @@ class App
 						),
 					),
 				),
+				array(
+					'name'=>'Users',
+					'url'=>array(
+						'controller'=>'user',
+						'action'=>'index',
+					),
+				),
+				array(
+					'name'=>'Settings',
+					'items'=>array(
+						array(
+							'name'=>'General',
+							'url'=>array(
+								'controller'=>'setting',
+								'action'=>'index',
+							),
+						),
+						array(
+							'name'=>'Plugins',
+							'url'=>array(
+								'controller'=>'setting',
+								'action'=>'plugin',
+							),
+						),
+						array(
+							'name'=>'Update',
+							'url'=>array(
+								'controller'=>'setting',
+								'action'=>'update',
+							),
+						),
+					),
+				),
 			),
 		),
 	);
