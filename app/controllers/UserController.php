@@ -1,7 +1,13 @@
 <?php
 
+/**
+ *
+ */
 class UserController extends Controller
 {
+	/**
+	 *
+	 */
 	public function beforeExec($actionName, array $params=array())
 	{
 		parent::beforeExec($actionName, $params);
@@ -18,11 +24,17 @@ class UserController extends Controller
 		return true;
 	}
 
+	/**
+	 *
+	 */
 	public function indexAction()
 	{
 		echo $this->render('index');
 	}
 
+	/**
+	 *
+	 */
 	public function profileAction($id=null)
 	{
 		echo $this->render('profile');

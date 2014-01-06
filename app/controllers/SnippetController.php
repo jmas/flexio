@@ -1,7 +1,13 @@
 <?php
 
+/**
+ *
+ */
 class SnippetController extends Controller
 {
+	/**
+	 *
+	 */
 	public function beforeExec($actionName, array $params=array())
 	{
 		parent::beforeExec($actionName, $params);
@@ -18,6 +24,9 @@ class SnippetController extends Controller
 		return true;
 	}
 
+	/**
+	 *
+	 */
 	public function indexAction()
 	{
 		echo $this->render('index');

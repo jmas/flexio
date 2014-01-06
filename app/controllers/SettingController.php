@@ -1,7 +1,13 @@
 <?php
 
+/**
+ *
+ */
 class SettingController extends Controller
 {
+	/**
+	 *
+	 */
 	public function beforeExec($actionName, array $params=array())
 	{
 		parent::beforeExec($actionName, $params);

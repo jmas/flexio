@@ -1,7 +1,13 @@
 <?php
 
+/**
+ *
+ */
 class PageController extends Controller
 {
+	/**
+	 *
+	 */
 	public function beforeExec($actionName, array $params=array())
 	{
 		parent::beforeExec($actionName, $params);
@@ -18,17 +24,11 @@ class PageController extends Controller
 		return true;
 	}
 
+	/**
+	 *
+	 */
 	public function indexAction($path=null)
 	{
-		//var_dump($path);
-		// var_dump(App::instance()->models->find('Page'));
-
-		// var_dump(App::instance()->models->findAll('Page'));
-
-		// var_dump(App::instance()->models->findAllByAttrs('Page', array(
-		// 	'path'=>'/myslug',
-		// )));
-
 		echo $this->render('index');
 	}
 }

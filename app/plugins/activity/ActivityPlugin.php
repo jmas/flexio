@@ -1,5 +1,8 @@
 <?php
 
+/**
+ *
+ */
 class ActivityPlugin extends Plugin
 {
 	/**

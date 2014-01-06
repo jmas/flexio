@@ -1,5 +1,8 @@
 <?php
 
+/**
+ *
+ */
 class ActivityController extends PluginController
 {
 	/**
