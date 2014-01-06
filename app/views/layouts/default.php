@@ -42,7 +42,7 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="#">Flexio</a>
+	      <a class="navbar-brand" href="<?php echo App::instance()->createUrl(App::instance()->defaultRoute); ?>"><?php echo App::instance()->name; ?></a>
 	    </div>
 	    <div class="navbar-collapse collapse">
 			<?php echo App::instance()->nav->render(); ?>

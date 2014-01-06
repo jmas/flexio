@@ -32,8 +32,8 @@ class App
 {
 	const STATUS_DEV = 'development';
 	const STATUS_PROD = 'production';
-	const URL_PATH = 'path';
-	const URL_QUERY = 'query';
+	const URL_MODE_PATH = 'path';
+	const URL_MODE_QUERY = 'query';
 
 	/**
 	 *
@@ -44,10 +44,11 @@ class App
 	 *
 	 */
 	protected $config = array(
+		'name'=>'App',
 		'theme'=>null,
 		'status'=>self::STATUS_PROD,
 		'urlPathName'=>'path',
-		'urlType'=>self::URL_QUERY,
+		'urlMode'=>self::URL_MODE_QUERY,
 		'defaultRoute'=>array(
 			'controller'=>'page',
 			'action'=>'index',
@@ -265,7 +266,7 @@ class App
 	 */
 	public function createUrl($params)
 	{
-		return $this->getBaseUrl() . ($this->urlType === self::URL_QUERY ? '?' . $this->urlPathName . '=': '/') . $this->router->createPath($params, $this->urlType === self::URL_QUERY);
+		return $this->getBaseUrl() . ($this->urlMode === self::URL_MODE_QUERY ? '?' . $this->urlPathName . '=': '/') . $this->router->createPath($params, $this->urlMode === self::URL_MODE_QUERY);
 	}
 
 	/**
@@ -285,7 +286,7 @@ class App
 	 */
 	public function moveAssets()
 	{
-		$assetsPath = ASSETS_PATH;
+		$assetsPath = APP_PATH . DIRECTORY_SEPARATOR . ASSETS_FOLDER_NAME;
 		$outAssetsPath = ASSETS_PATH . DIRECTORY_SEPARATOR . APP_FOLDER_NAME;
 
 		if (! is_dir($assetsPath)) {

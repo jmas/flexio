@@ -15,15 +15,17 @@ class Fs
 	    @mkdir($dst, $mode);
 	    @chmod($dst, $mode);
 
-	    while (false !== ($file = readdir($dir))) {
-	        if ($file!=='.' && $file!=='..') {
-	            if (is_dir($src . DIRECTORY_SEPARATOR . $file)) {
-	                self::copy($src . DIRECTORY_SEPARATOR . $file, $dst . DIRECTORY_SEPARATOR . $file);
-	            } else {
-	                copy($src . DIRECTORY_SEPARATOR . $file, $dst . DIRECTORY_SEPARATOR . $file);
-	                @chmod($dst . DIRECTORY_SEPARATOR . $file, $mode);
-	            }
-	        }
+	    while (false !== ($item = readdir($dir))) {
+	        if ($item==='.' || $item==='..') {
+	        	continue;
+	        };
+
+            if (is_dir($src . DIRECTORY_SEPARATOR . $item)) {
+                self::copy($src . DIRECTORY_SEPARATOR . $item, $dst . DIRECTORY_SEPARATOR . $item);
+            } else {
+                copy($src . DIRECTORY_SEPARATOR . $item, $dst . DIRECTORY_SEPARATOR . $item);
+                @chmod($dst . DIRECTORY_SEPARATOR . $item, $mode);
+            }
 	    }
 
 	    closedir($dir);
@@ -33,7 +35,7 @@ class Fs
 	/**
 	 *
 	 */
-	public function remove($path)
+	static public function remove($path)
 	{
 	    $it = new RecursiveIteratorIterator(
 	        new RecursiveDirectoryIterator($path),
@@ -60,7 +62,7 @@ class Fs
 	/**
 	 *
 	 */
-	function mkdir($path, $mode = 0777)
+	static public function mkdir($path, $mode = 0777)
 	{
 		$dirs = explode(DIRECTORY_SEPARATOR , $path);
 		$count = count($dirs);
