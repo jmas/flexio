@@ -25,7 +25,7 @@ class Controller
 		if (! method_exists($this, $methodName)) {
 			throw new Exception("Action '{$actionName}' is not exists.");
 		}
-
+		
 		$result = Fn::callNamed($this, $methodName, $params);
 
 		if (! $this->afterExec($actionName, $params)) {
