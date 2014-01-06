@@ -9,7 +9,7 @@ class SkeletonPlugin extends Plugin
 	{
 		return array(
 			array(
-				'name'=>'Content',
+				'name'=>'Skeleton',
 				'items'=>array(
 					array(
 						'name'=>'Skeleton',
