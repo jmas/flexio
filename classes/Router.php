@@ -83,37 +83,57 @@ class Router
 	 * @param $perms array Route properties array
 	 * @return string Created path
 	 */
-	public function createPath(array $params=array())
+	public function createPath(array $params=array(), $isQuery=false)
 	{
 		$realPath = null;
+		$bestPattern = null;
+		$bestPatternSegments=array();
+		$bestCount = 0;
+		$paramsKeys = array_keys($params);
 
 		$params = Arr::merge($this->defaultParams, $params);
 
 		foreach ($this->routes as $pattern) {
-			$realPath = $pattern;
-			$accepted = true;
+			// $accepted = true;
 
-			preg_match_all('/<(\w+):(.*?)>/', $realPath, $patternSegments, PREG_SET_ORDER);
+			preg_match_all('/<(\w+):(.*?)>/', $pattern, $patternSegments, PREG_SET_ORDER);
+			
+			$count=0;
 
 			foreach ($patternSegments as $segment) {
-				if (isset($params[ $segment[1] ]) === true
-					&& preg_match('/' . $segment[2] . '/', $params[ $segment[1] ]))
-				{
-					$realPath = str_replace($segment[0], $params[ $segment[1] ], $realPath);
-					unset($params[ $segment[1] ]);
+				if (in_array($segment[1], $paramsKeys)) {
+					$count++;
 				} else {
-					$accepted = false;
-					break;
+					$count--;
 				}
 			}
 
-			if ($accepted === true) { break; }
+			if ($count > $bestCount) {
+				$bestPattern = $pattern;
+				$bestCount = $count;
+				$bestPatternSegments = $patternSegments;
+			}
+
+			// if ($accepted === true) { break; }
 		}
+
+		$realPath = $bestPattern;
+
+		foreach ($bestPatternSegments as $segment) {
+			if (isset($params[ $segment[1] ]) === true
+				&& preg_match('/(' . $segment[2] . ')/', $params[ $segment[1] ]))
+			{
+				$realPath = str_replace($segment[0], $params[ $segment[1] ], $realPath);
+				unset($params[ $segment[1] ]);
+			}
+		}
+
+		// var_dump($params, $bestPattern);
 
 		if ($realPath === null) { return null; }
 
 		if (empty($params) === false) {
-			$realPath .= '?' . http_build_query($params);
+			$realPath .= ($isQuery ? '&': '?') . http_build_query($params);
 		}
 
 		return $realPath;

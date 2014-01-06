@@ -35,6 +35,14 @@ class View
 	/**
 	 *
 	 */
+	public function __isset($key)
+	{
+		return isset($this->values[$key]);
+	}
+
+	/**
+	 *
+	 */
 	public function __toString()
 	{
 		return $this->render();
@@ -66,6 +74,14 @@ class View
 		}
 
 		return $defaultValue;
+	}
+
+	/**
+	 *
+	 */
+	public function getValues()
+	{
+		return $this->values;
 	}
 
 	/**

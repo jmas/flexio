@@ -9,6 +9,7 @@ class Controller
 	 *
 	 */
 	protected $layoutName='default';
+	protected $layoutValues=array();
 
 	/**
 	 *
@@ -67,9 +68,9 @@ class Controller
 
 		$layout = new View(array(
 			'path'=>$layoutPath,
-			'values'=>array(
+			'values'=>Arr::merge($this->layoutValues, array(
 				'content'=>$view->render(),
-			),
+			)),
 		));
 
 		return $layout->render();
@@ -80,7 +81,9 @@ class Controller
 	 */
 	public function getViewPath($viewName)
 	{
-		$viewPath = VIEWS_PATH . DIRECTORY_SEPARATOR . $this->getId() . DIRECTORY_SEPARATOR . $viewName . '.php';
+		$viewPath = VIEWS_PATH . DIRECTORY_SEPARATOR
+		          . $this->getId() . DIRECTORY_SEPARATOR
+		          . $viewName . '.php';
 
 		$themeName = App::instance()->theme;
 
@@ -104,7 +107,8 @@ class Controller
 	 */
 	public function getLayoutPath()
 	{
-		$layoutPath = LAYOUTS_PATH . DIRECTORY_SEPARATOR . $this->layoutName . '.php';
+		$layoutPath = LAYOUTS_PATH . DIRECTORY_SEPARATOR
+		            . $this->layoutName . '.php';
 
 		$themeName = App::instance()->theme;
 
@@ -121,6 +125,14 @@ class Controller
 		}
 
 		return $layoutPath;
+	}
+
+	/**
+	 *
+	 */
+	public function setLayoutValue($key, $value)
+	{
+		$this->layoutValues[$key]=$value;
 	}
 
 	/**

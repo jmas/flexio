@@ -32,6 +32,8 @@ class App
 {
 	const STATUS_DEV = 'development';
 	const STATUS_PROD = 'production';
+	const URL_PATH = 'path';
+	const URL_QUERY = 'query';
 
 	/**
 	 *
@@ -44,6 +46,12 @@ class App
 	protected $config = array(
 		'theme'=>null,
 		'status'=>self::STATUS_PROD,
+		'urlPathName'=>'path',
+		'urlType'=>self::URL_QUERY,
+		'defaultRoute'=>array(
+			'controller'=>'page',
+			'action'=>'index',
+		),
 		'request'=>array(
 			'class'=>'Request',
 		),
@@ -85,6 +93,55 @@ class App
 		),
 		'plugins'=>array(
 			'class'=>'PluginManager',
+		),
+		'auth'=>array(
+			'class'=>'Auth',
+		),
+		'flash'=>array(
+			'class'=>'Flash',
+		),
+		'nav'=>array(
+			'class'=>'Nav',
+			'items'=>array(
+				array(
+					'name'=>'Content',
+					'items'=>array(
+						array(
+							'name'=>'Pages',
+							'url'=>array(
+								'controller'=>'page',
+								'action'=>'index',
+							),
+						),
+						array(
+							'name'=>'Assets',
+							'url'=>array(
+								'controller'=>'asset',
+								'action'=>'index',
+							),
+						),
+					),
+				),
+				array(
+					'name'=>'Design',
+					'items'=>array(
+						array(
+							'name'=>'Layouts',
+							'url'=>array(
+								'controller'=>'layout',
+								'action'=>'index',
+							),
+						),
+						array(
+							'name'=>'Snippets',
+							'url'=>array(
+								'controller'=>'snippet',
+								'action'=>'index',
+							),
+						),
+					),
+				),
+			),
 		),
 	);
 
@@ -206,6 +263,26 @@ class App
 	/**
 	 *
 	 */
+	public function createUrl($params)
+	{
+		return $this->getBaseUrl() . ($this->urlType === self::URL_QUERY ? '?' . $this->urlPathName . '=': '/') . $this->router->createPath($params, $this->urlType === self::URL_QUERY);
+	}
+
+	/**
+	 *
+	 */
+	public function redirect(array $params=array())
+	{
+		$url =$this->createUrl($params);
+
+		header('Location: ' . $url);
+
+		$this->end();
+	}
+
+	/**
+	 *
+	 */
 	public function moveAssets()
 	{
 		$assetsPath = ASSETS_PATH;
@@ -234,13 +311,16 @@ class App
 	 */
 	public function run()
 	{
+		session_start();
+
 		$this->loader->register();
 		$this->moveAssets();
+		$this->auth->load();
 		$this->plugins->registerInstalled();
 
 		$this->observer->notify('appStart');
 
-		$path = $this->request->getParam('path');
+		$path = $this->request->getParam($this->urlPathName);
 		$this->params = $this->router->route($path);
 
 		$controllerName = preg_replace('/[^A-Za-z0-9_\-]/', '', $this->params['controller']);

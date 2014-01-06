@@ -50,6 +50,12 @@ class Plugin
 		}
 
 		$this->moveAssets();
+
+		$navItems = $this->navItems();
+
+		if ($navItems !== null) {
+			App::instance()->nav->append($navItems);
+		}
 	}
 
 	/**
@@ -95,6 +101,11 @@ class Plugin
 	 *
 	 */
 	public function beforeUninstall() { return true; }
+
+	/**
+	 *
+	 */
+	public function navItems() { return null; }
 
 	/**
 	 *

@@ -60,4 +60,45 @@ class Request
 	{
 
 	}
+
+	/**
+	 *
+	 */
+	public function isPost()
+	{
+		return $_SERVER['REQUEST_METHOD'] === 'POST';
+	}
+
+	/**
+	 *
+	 */
+	public function isGet()
+	{
+		return $_SERVER['REQUEST_METHOD'] === 'GET';
+	}
+
+	/**
+	 *
+	 */
+	public function isPut()
+	{
+		return $_SERVER['REQUEST_METHOD'] === 'PUT';
+	}
+
+	/**
+	 *
+	 */
+	public function isDelete()
+	{
+		return $_SERVER['REQUEST_METHOD'] === 'DELETE';
+	}
+
+	/**
+	 *
+	 */
+	public function isAjax()
+	{
+		return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+    		&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+	}
 }

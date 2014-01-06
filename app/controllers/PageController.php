@@ -4,16 +4,21 @@ class PageController extends Controller
 {
 	public function beforeExec($actionName)
 	{
-		if ($actionName !== 'index') { // && not auth
-			throw new Exception("Not authentificated.");
+		if (! App::instance()->auth->isLoggedIn()) {
+			App::instance()->redirect(array(
+				'controller'=>'auth',
+				'action'=>'index',
+			));
 		}
+
+		$this->setLayoutValue('isNavEnabled', true);
 
 		return true;
 	}
 
 	public function indexAction($path=null)
 	{
-		var_dump($path);
+		//var_dump($path);
 		// var_dump(App::instance()->models->find('Page'));
 
 		// var_dump(App::instance()->models->findAll('Page'));

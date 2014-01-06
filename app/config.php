@@ -7,7 +7,8 @@ return array(
 	),
 	'router'=>array(
 		'routes'=>array(
-			'<controller:(page|user|layout|snippet)>/<action:\w+>',
+			// '<controller:page|user|layout|snippet|auth|asset>',
+			'<controller:page|user|layout|snippet|auth|asset>/<action:\w+>',
 			'plugin/<plugin:\w+>/<controller:\w+>',
 			'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',
 			'<path:.+>',
