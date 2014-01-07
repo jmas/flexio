@@ -15,40 +15,15 @@
 </p>
 
 <div class="list-group">
-<div class="list-group-item">
-  <div class="pull-right">
-    <button type="button" class="btn btn-danger">Delete</button>
-  </div>
-  <h4 class="list-group-item-heading"><a href="#">Home page</a></h4>
-  <p class="list-group-item-text help-block small">
-    Created 10 Jan 2014. Last modified by Alex. <a href="#">40 comments</a>.
-  </p>
-</div>
-<div class="list-group-item">
-  <div class="pull-right">
-    <button type="button" class="btn btn-danger">Delete</button>
-  </div>
-  <h4 class="list-group-item-heading"><a href="#">Products</a></h4>
-  <p class="list-group-item-text help-block small">
-    Created 10 Jan 2014. Last modified by Alex. <a href="#">40 comments</a>.
-  </p>
-</div>
-<div class="list-group-item">
-  <div class="pull-right">
-    <button type="button" class="btn btn-danger">Delete</button>
-  </div>
-  <h4 class="list-group-item-heading"><a href="#">Product One</a></h4>
-  <p class="list-group-item-text help-block small">
-    Created 10 Jan 2014. Last modified by Alex. <a href="#">40 comments</a>.
-  </p>
-</div>
-<div class="list-group-item">
-  <div class="pull-right">
-    <button type="button" class="btn btn-danger">Delete</button>
-  </div>
-  <h4 class="list-group-item-heading"><a href="#">Contacts</a></h4>
-  <p class="list-group-item-text help-block small">
-    Created 10 Jan 2014. Last modified by Alex. <a href="#">40 comments</a>.
-  </p>
-</div>
+	<?php foreach ($this->models as $model): ?>
+	<div class="list-group-item">
+	  <div class="pull-right">
+	    <a class="btn btn-danger" href="<?php echo App::instance()->createUrl(array('controller'=>'page','action'=>'delete','id'=>$model->id)); ?>">Delete</a>
+	  </div>
+	  <h4 class="list-group-item-heading"><a href="<?php echo App::instance()->createUrl(array('controller'=>'page','action'=>'edit','id'=>$model->id)); ?>"><?php echo $model->name; ?></a></h4>
+	  <p class="list-group-item-text help-block small">
+	    Created 10 Jan 2014. Last modified by Alex. <a href="#">40 comments</a>.
+	  </p>
+	</div>
+	<?php endforeach; ?>
 </div>
