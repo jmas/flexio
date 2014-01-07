@@ -389,7 +389,7 @@ class App
 		}
 
 		$this->controller = new $controllerClassName;
-		$this->controller->exec($actionName, $this->params);
+		$this->controller->exec($actionName, Arr::merge($_GET, $this->params));
 
 		$this->observer->notify('appEnd');
 	}
