@@ -1,0 +1,1 @@
+User profile <?php var_dump($this->model); ?>

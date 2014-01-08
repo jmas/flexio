@@ -9,18 +9,16 @@
       </p>
 	  
       <div class="list-group">
-	  <?php foreach ($this->models as $model) {
-		$deleteLink = App::instance()->createUrl(array('controller'=>'user','action'=>'delete', 'id'=>$model->id));
-		echo '<div class="list-group-item">';
-		  echo '<div class="row">';
-			echo '<div class="col-md-3">' . $model->username .'</div>';
-			echo '<div class="col-md-3">' . $model->permissions .'</div>';
-			echo '<div class="col-md-3">site@site.com</div>';
-			echo '<div class="col-md-3"><a href="' . $deleteLink . '" type="button" class="btn btn-danger btn-xs pull-right">Delete</a></div>';
-		  echo '</div>';
-        echo '</div>';
-		}
-	  ?>
+        <?php foreach ($this->models as $model): ?>
+        <?php var_dump($model); ?>
+        <div class="list-group-item">
+          <div class="row">
+          <div class="col-md-3"><a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>$model->id)); ?>"><?php echo $model->username; ?></a></div>
+          <div class="col-md-3"><?php echo $model->email; ?></div>
+          <div class="col-md-3"><?php echo $model->permissions; ?></div>
+          <div class="col-md-3"><a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'delete', 'id'=>$model->id)); ?>" type="button" class="btn btn-danger btn-xs pull-right">Delete</a></div>
+          </div>
+        </div>
+       <?php endforeach; ?>
       </div>
-
     </div> <!-- /container -->

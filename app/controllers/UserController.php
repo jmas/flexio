@@ -44,8 +44,14 @@ class UserController extends Controller
 	/**
 	 *
 	 */
-	public function profileAction($id=null)
+	public function editAction($id=null)
 	{
-		echo $this->render('profile');
+  
+    $model = App::instance()->models->findAll('User', $id);
+		echo $this->render('profile',
+      array(
+      'model'=> $model 
+      )
+    );
 	}
 }
