@@ -1,0 +1,1 @@
+User add <?php var_dump($this->model); ?>

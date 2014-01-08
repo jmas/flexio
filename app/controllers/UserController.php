@@ -35,23 +35,47 @@ class UserController extends Controller
 				'models' => $models
 			) 
 		);
-	}
-	public function deleteAction($id)
-	{	
-		echo 'Delete ' . $id;
-	}
 
+		// $model = App::instance()->models->create('User', array(
+		// 	'name'=>'myname',
+		// 	'username'=>'myusername',
+		// 	'password'=>'mypassword',
+		// 	'email'=>'myemail@email.com',
+		// ));
+
+		// if ($model->save()) {
+		// 	echo('saved');
+		// } else {
+		// 	var_dump($model->getErrors());
+		// }
+	}
+  
+	/**
+	 *
+	 */
+	public function addAction()
+	{
+		echo $this->render('add');
+	}
+  
 	/**
 	 *
 	 */
 	public function editAction($id=null)
 	{
-  
-    $model = App::instance()->models->findAll('User', $id);
-		echo $this->render('profile',
+    $model = App::instance()->models->find('User', $id);
+		echo $this->render('edit',
       array(
-      'model'=> $model 
+      'model'=>$model 
       )
     );
+	}
+  
+	/**
+	 *
+	 */
+	public function deleteAction($id)
+	{	
+		echo 'Delete ' . $id;
 	}
 }
