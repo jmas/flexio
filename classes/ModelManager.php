@@ -32,19 +32,6 @@ class ModelManager
 	/**
 	 *
 	 */
-	public function getDb()
-	{
-		if ($this->db===null) {
-			$name=$this->dbConnectionName;
-			$this->db = App::instance()->{$name};
-		}
-
-		return $this->db;
-	}
-
-	/**
-	 *
-	 */
 	public function findAll($className, $args=array(), $values=array())
 	{
 		$return = array();
@@ -135,6 +122,30 @@ class ModelManager
         $stmt->execute($values);
         
         return (int) $stmt->fetchColumn();
+	}
+
+	/**
+	 *
+	 */
+	public function create($className, $attrs=array())
+	{
+		return new $className(array(
+			'attrs'=>$attrs,
+			'db'=>$this->getDb(),
+		));
+	}
+
+	/**
+	 *
+	 */
+	private function getDb()
+	{
+		if ($this->db===null) {
+			$name=$this->dbConnectionName;
+			$this->db = App::instance()->{$name};
+		}
+
+		return $this->db;
 	}
 
 	/**

@@ -35,7 +35,24 @@ class UserController extends Controller
 				'models' => $models
 			) 
 		);
+
+		// $model = App::instance()->models->create('User', array(
+		// 	'name'=>'myname',
+		// 	'username'=>'myusername',
+		// 	'password'=>'mypassword',
+		// 	'email'=>'myemail@email.com',
+		// ));
+
+		// if ($model->save()) {
+		// 	echo('saved');
+		// } else {
+		// 	var_dump($model->getErrors());
+		// }
 	}
+
+	/**
+	 *
+	 */
 	public function deleteAction($id)
 	{	
 		echo 'Delete ' . $id;
