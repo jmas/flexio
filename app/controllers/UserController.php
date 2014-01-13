@@ -35,13 +35,14 @@ class UserController extends Controller
 				'models' => $models
 			) 
 		);
+        
 
-		// $model = App::instance()->models->create('User', array(
-		// 	'name'=>'myname',
-		// 	'username'=>'myusername',
-		// 	'password'=>'mypassword',
-		// 	'email'=>'myemail@email.com',
-		// ));
+		$model = App::instance()->models->create('User', array(
+			'name'=>'myname',
+			'username'=>'myusername',
+			'password'=>'mypassword',
+			'email'=>'myemail@email.com',
+		));
 
 		// if ($model->save()) {
 		// 	echo('saved');
@@ -56,6 +57,18 @@ class UserController extends Controller
 	public function addAction()
 	{
 		echo $this->render('add');
+        
+        $request = App::instance()->request;
+        if ($request->isPost()) {
+
+        $model = App::instance()->models->create('User', array(
+			'name'=>'myname',
+			'username'=>'myusername',
+			'password'=>'mypassword',
+			'email'=>'myemail@email.com',
+		));
+        
+        }
 	}
   
 	/**
@@ -63,12 +76,24 @@ class UserController extends Controller
 	 */
 	public function editAction($id=null)
 	{
-    $model = App::instance()->models->find('User', $id);
-		echo $this->render('edit',
-      array(
-      'model'=>$model 
-      )
-    );
+        $model = App::instance()->models->find('User', $id);
+        
+        echo $this->render('edit',
+            array(
+                'model'=>$model 
+            )
+        );
+        
+        $request = App::instance()->request;
+        
+        if ($request->isPost()) {
+            App::instance()->flash->set('success', 'Saved.');
+            App::instance()->redirect(array(
+				'controller'=>'user',
+				'action'=>'edit',
+				'id'=>$id
+			));	
+        }
 	}
   
 	/**
@@ -76,6 +101,10 @@ class UserController extends Controller
 	 */
 	public function deleteAction($id)
 	{	
-		echo 'Delete ' . $id;
+        App::instance()->flash->set('success', 'User with id '. $id .' successfully removed.');
+            App::instance()->redirect(array(
+				'controller'=>'user',
+				'action'=>'index',
+			));
 	}
 }
