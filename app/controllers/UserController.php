@@ -30,12 +30,12 @@ class UserController extends Controller
 	public function indexAction()
 	{	
 		$models = App::instance()->models->findAll('User');
+		
 		echo $this->render('index', 
 			array(
 				'models' => $models
 			) 
 		);
-        
 
 		$model = App::instance()->models->create('User', array(
 			'name'=>'myname',

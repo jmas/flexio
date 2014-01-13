@@ -48,7 +48,7 @@
 			<?php echo App::instance()->nav->render(); ?>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'profile')); ?>"><?php echo App::instance()->auth->getUserName(); ?></a></li>
+				<li><a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>App::instance()->auth->getId())); ?>"><?php echo App::instance()->auth->getUserName(); ?></a></li>
 				<li><a href="<?php echo App::instance()->createUrl(array('controller'=>'auth', 'action'=>'logout')); ?>">Logout</a></li>
 			</ul>
 	    </div><!--/.nav-collapse -->

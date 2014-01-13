@@ -29,6 +29,10 @@ class PageController extends Controller
 	 */
 	public function indexAction($path=null)
 	{
-		echo $this->render('index');
+		$models = App::instance()->models->findAll('Page');
+
+		echo $this->render('index', array(
+			'models'=>$models,
+		));
 	}
 }
