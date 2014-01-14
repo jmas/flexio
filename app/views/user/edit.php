@@ -5,27 +5,27 @@
   </div>
   <form class="form-horizontal" role="form" method="post">
     <div class="form-group">
-      <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+      <label for="username" class="col-sm-2 control-label">Username</label>
       <div class="col-sm-4">
         <p class="form-control-static"><?php echo $this->model->username; ?></p>
       </div>
     </div>
     <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Name</label>
+      <label for="data[name]" class="col-sm-2 control-label">Name</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="name" value="<?php echo $this->model->name; ?>">
+        <input type="text" class="form-control" name="data[name]" value="<?php echo $this->model->name; ?>">
       </div>
     </div>
     <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Permissions</label>
+      <label for="data[permissions]" class="col-sm-2 control-label">Permissions</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="name" value="<?php echo $this->model->permissions; ?>">
+        <input type="text" class="form-control" name="data[permissions]" value="<?php echo $this->model->permissions; ?>">
       </div>
     </div>
     <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Email</label>
+      <label for="data[email]" class="col-sm-2 control-label">Email</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="name" value="<?php echo $this->model->email; ?>">
+        <input type="text" class="form-control" name="data[email]" value="<?php echo $this->model->email; ?>">
       </div>
     </div>
     <div class="form-group">

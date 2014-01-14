@@ -43,12 +43,6 @@ class UserController extends Controller
 			'password'=>'mypassword',
 			'email'=>'myemail@email.com',
 		));
-
-		// if ($model->save()) {
-		// 	echo('saved');
-		// } else {
-		// 	var_dump($model->getErrors());
-		// }
 	}
   
 	/**
@@ -56,19 +50,20 @@ class UserController extends Controller
 	 */
 	public function addAction()
 	{
-		echo $this->render('add');
-        
-        $request = App::instance()->request;
-        if ($request->isPost()) {
-
-        $model = App::instance()->models->create('User', array(
-			'name'=>'myname',
-			'username'=>'myusername',
-			'password'=>'mypassword',
-			'email'=>'myemail@email.com',
-		));
-        
+        if (App::instance()->request->isPost()) {
+            $data = App::instance()->request->getPost('data');
+            $model = App::instance()->models->create('User', $data);
+            if ($model->save()) {
+                 App::instance()->flash->set('success', 'User added successfully.');
+                 App::instance()->redirect(array(
+                    'controller'=>'user',
+                    'action'=>'index'
+                ));
+            } else {
+                var_dump($model->getErrors());
+            }
         }
+        echo $this->render('add');
 	}
   
 	/**
@@ -76,24 +71,28 @@ class UserController extends Controller
 	 */
 	public function editAction($id=null)
 	{
-        $model = App::instance()->models->find('User', $id);
+        $model = App::instance()->models->findByAttrs('User', array('id' => $id));
+
+        if (App::instance()->request->isPost()) {
+        
+            $model->setAttrs(App::instance()->request->getPost('data'));
+            if ($model->save()) {
+                 App::instance()->flash->set('success', 'Saved.');
+                 App::instance()->redirect(array(
+                    'controller'=>'user',
+                    'action'=>'edit',
+                    'id'=>$id
+                ));
+            } else {
+                var_dump($model->getErrors());
+            }
+        }
         
         echo $this->render('edit',
             array(
                 'model'=>$model 
             )
         );
-        
-        $request = App::instance()->request;
-        
-        if ($request->isPost()) {
-            App::instance()->flash->set('success', 'Saved.');
-            App::instance()->redirect(array(
-				'controller'=>'user',
-				'action'=>'edit',
-				'id'=>$id
-			));	
-        }
 	}
   
 	/**
@@ -101,10 +100,23 @@ class UserController extends Controller
 	 */
 	public function deleteAction($id)
 	{	
-        App::instance()->flash->set('success', 'User with id '. $id .' successfully removed.');
-            App::instance()->redirect(array(
-				'controller'=>'user',
-				'action'=>'index',
-			));
+        $model = App::instance()->models->findByAttrs('User', array('id' => $id));   
+        if ($model->username !== 'admin') {
+            if ($model->delete()) {
+                 App::instance()->flash->set('success', 'User '. $model->username .' successfully removed.');
+                 App::instance()->redirect(array(
+                    'controller'=>'user',
+                    'action'=>'index'
+                ));
+            } else {
+                var_dump($model->getErrors());
+            }
+        } else {
+            App::instance()->flash->set('error', 'User '. $model->username .' can not be removed.');
+                 App::instance()->redirect(array(
+                    'controller'=>'user',
+                    'action'=>'index'
+                ));
+        }
 	}
 }
