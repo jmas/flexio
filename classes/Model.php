@@ -105,6 +105,14 @@ abstract class Model
 	/**
 	 *
 	 */
+	public function setAttrs($attrs)
+	{
+		$this->attrs = $attrs;
+	}
+
+	/**
+	 *
+	 */
 	public function getAttr($key=null, $defaultValue=null)
 	{
 		if ($key===null) {
