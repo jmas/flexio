@@ -105,9 +105,9 @@ abstract class Model
 	/**
 	 *
 	 */
-	public function setAttrs($attrs)
+	public function setAttrs(array $attrs)
 	{
-		$this->attrs = $attrs;
+		$this->attrs = Arr::merge($this->attrs, $attrs);
 	}
 
 	/**
