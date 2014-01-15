@@ -43,6 +43,9 @@ class UserController extends Controller
 	 */
 	public function addAction()
 	{
+    
+    $model = App::instance()->models->create('User');
+
         if (App::instance()->request->isPost()) {
         
             $data = App::instance()->request->getPost('data');
@@ -50,14 +53,14 @@ class UserController extends Controller
             $model = App::instance()->models->create('User', $data);
             
             if ($model->save()) {
-                 App::instance()->flash->set('success', 'User added successfully.');
-                 App::instance()->redirect(array('controller'=>'user', 'action'=>'index'));
+                App::instance()->flash->set('success', 'User added successfully.');
+                App::instance()->redirect(array('controller'=>'user', 'action'=>'index'));
             } else {
-                var_dump($model->getErrors());
+                App::instance()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' field is required');
             }
         }
         
-        echo $this->render('add');
+        echo $this->render('add', array('model'=>$model));
 	}
   
 	/**
@@ -69,20 +72,18 @@ class UserController extends Controller
         
             if (App::instance()->request->isPost()) {
             
+                $model->setAttrs(App::instance()->request->getPost('data'));
+                
                 if ($model->save()) {
                     App::instance()->flash->set('success', 'Changes have been saved.');
                     App::instance()->redirect(array('controller'=>'user', 'action'=>'edit', 'id'=>$id ));
                     
                 } else {
-                    App::instance()->flash->set('error', 'Your form filled not correctly... '.implode(', ', $model->getErrors()).' is required');
+                    App::instance()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' is required');
                 }
             }
             
-            echo $this->render('edit',
-                array(
-                    'model'=>$model 
-                )
-            );
+            echo $this->render('edit', array('model'=>$model));
             
         } else {
             throw new Exception("Profile with id '{$id}' is not exists.");
