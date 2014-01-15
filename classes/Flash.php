@@ -67,6 +67,7 @@ class Flash
     public function set($var, $value)
     {
         $_SESSION[self::SESSION_KEY][$var] = $value;
+        $this->previous[$var] = $value;
     }
 
     /**
