@@ -3,11 +3,12 @@
   <div class="page-header">
     <h2>Edit user: <?php echo $this->model->username; ?></h2>
   </div>
-  <form class="form-horizontal" role="form" method="post">
+  
+  <form class="form-horizontal" role="form" method="post" autocomplete="off">
     <div class="form-group">
-      <label for="username" class="col-sm-2 control-label">Username</label>
+      <label for="data[username]" class="col-sm-2 control-label">Username</label>
       <div class="col-sm-4">
-        <p class="form-control-static"><?php echo $this->model->username; ?></p>
+        <input type="text" class="form-control" name="data[username]" value="<?php echo $this->model->username; ?>">
       </div>
     </div>
     <div class="form-group">

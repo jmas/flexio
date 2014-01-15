@@ -36,13 +36,6 @@ class UserController extends Controller
 				'models' => $models
 			) 
 		);
-
-		$model = App::instance()->models->create('User', array(
-			'name'=>'myname',
-			'username'=>'myusername',
-			'password'=>'mypassword',
-			'email'=>'myemail@email.com',
-		));
 	}
   
 	/**
@@ -51,18 +44,19 @@ class UserController extends Controller
 	public function addAction()
 	{
         if (App::instance()->request->isPost()) {
+        
             $data = App::instance()->request->getPost('data');
+            
             $model = App::instance()->models->create('User', $data);
+            
             if ($model->save()) {
                  App::instance()->flash->set('success', 'User added successfully.');
-                 App::instance()->redirect(array(
-                    'controller'=>'user',
-                    'action'=>'index'
-                ));
+                 App::instance()->redirect(array('controller'=>'user', 'action'=>'index'));
             } else {
                 var_dump($model->getErrors());
             }
         }
+        
         echo $this->render('add');
 	}
   
@@ -71,28 +65,28 @@ class UserController extends Controller
 	 */
 	public function editAction($id=null)
 	{
-        $model = App::instance()->models->findByAttrs('User', array('id' => $id));
-
-        if (App::instance()->request->isPost()) {
+        if ($model = App::instance()->models->findByAttrs('User', array('id' => $id))) {
         
-            $model->setAttrs(App::instance()->request->getPost('data'));
-            if ($model->save()) {
-                 App::instance()->flash->set('success', 'Saved.');
-                 App::instance()->redirect(array(
-                    'controller'=>'user',
-                    'action'=>'edit',
-                    'id'=>$id
-                ));
-            } else {
-                var_dump($model->getErrors());
+            if (App::instance()->request->isPost()) {
+            
+                if ($model->save()) {
+                    App::instance()->flash->set('success', 'Changes have been saved.');
+                    App::instance()->redirect(array('controller'=>'user', 'action'=>'edit', 'id'=>$id ));
+                    
+                } else {
+                    App::instance()->flash->set('error', 'Your form filled not correctly... '.implode(', ', $model->getErrors()).' is required');
+                }
             }
+            
+            echo $this->render('edit',
+                array(
+                    'model'=>$model 
+                )
+            );
+            
+        } else {
+            throw new Exception("Profile with id '{$id}' is not exists.");
         }
-        
-        echo $this->render('edit',
-            array(
-                'model'=>$model 
-            )
-        );
 	}
   
 	/**
