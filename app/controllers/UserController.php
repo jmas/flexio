@@ -49,7 +49,7 @@ class UserController extends Controller
         if (App::instance()->request->isPost()) {
         
             $data = App::instance()->request->getPost('data');
-            
+            $data['permissions'] = implode(',', $data['permissions']);
             $model = App::instance()->models->create('User', $data);
             
             if ($model->save()) {
@@ -71,9 +71,10 @@ class UserController extends Controller
         if ($model = App::instance()->models->findByAttrs('User', array('id' => $id))) {
         
             if (App::instance()->request->isPost()) {
-            
-                $model->setAttrs(App::instance()->request->getPost('data'));
-                
+                $data = App::instance()->request->getPost('data');
+                $data['password'] = empty($data['password']) ? $model->password : $data['password'];
+                $data['permissions'] = implode(',', $data['permissions']);
+                $model->setAttrs($data);
                 if ($model->save()) {
                     App::instance()->flash->set('success', 'Changes have been saved.');
                     App::instance()->redirect(array('controller'=>'user', 'action'=>'edit', 'id'=>$id ));
