@@ -187,6 +187,11 @@ class App
 	/**
 	 *
 	 */
+	protected $permissions=array();
+
+	/**
+	 *
+	 */
 	protected $controller;
 
 	/**
@@ -312,6 +317,20 @@ class App
 		header('Location: ' . $url);
 
 		$this->end();
+	}
+
+	/**
+	 *
+	 */
+	public function getAllPermissions()
+	{
+		if (empty($this->permissions)) {
+			$permissions=array('editor','developer','administrator');
+
+			$this->permissions=array_merge($permissions, $this->plugins->getAllPermissions());
+		}
+		
+		return $this->permissions;
 	}
 
 	/**

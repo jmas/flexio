@@ -24,4 +24,12 @@ class User extends Model
 	{
 		return explode(',', $this->permissions);
 	}
+
+	/**
+	 *
+	 */
+	public function hasPermission($name)
+	{
+		return in_array($name, $this->getPermissions());
+	}
 }

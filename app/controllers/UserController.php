@@ -28,7 +28,7 @@ class UserController extends Controller
 	 *
 	 */
 	public function indexAction()
-	{	
+	{
 		$models = App::instance()->models->findAll('User');
 		
 		echo $this->render('index', 
@@ -83,8 +83,13 @@ class UserController extends Controller
                     App::instance()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' is required');
                 }
             }
+
+            $permissions = App::instance()->getAllPermissions();
             
-            echo $this->render('edit', array('model'=>$model));
+            echo $this->render('edit', array(
+            	'model'=>$model,
+            	'permissions'=>$permissions,
+        	));
             
         } else {
             throw new Exception("Profile with id '{$id}' is not exists.");

@@ -18,6 +18,11 @@ class PluginManager
 	/**
 	 *
 	 */
+	protected $permissions=array();
+
+	/**
+	 *
+	 */
 	public function __construct($config=array())
 	{
 		foreach ($config as $key=>$value) {
@@ -121,6 +126,24 @@ class PluginManager
 		$content = '<?php return ' . var_export($config, true) . ';';
 
 		return file_put_contents($configPath, $content) !== false;
+	}
+
+	/**
+	 *
+	 */
+	public function getAllPermissions()
+	{
+		if (empty($this->permissions)) {
+			$permissions=array();
+
+			foreach ($this->registered as $plugin) {
+				$permissions=array_merge($permissions, $plugin->permissions());
+			}
+
+			$this->permissions=array_unique($permissions);
+		}
+
+		return $this->permissions;
 	}
 
 	/**

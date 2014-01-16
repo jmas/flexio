@@ -45,16 +45,13 @@
             <label for="data[permission]">Permissions</label>
             <small class="help-block">Roles restrict user privileges and turn parts of the administrative interface on or off.</small>
         </div>
-        <div class="col-md-4"> 
-            <div class="checkbox">Administrator
-                <input type="checkbox" name="data[permissions][administrator]" value="administrator" <?php echo (strpos($this->model->permissions, 'administrator') !== false ? 'checked' : ''); ?> parsley-group="permissions">
-            </div>
-            <div class="checkbox">Developer
-                <input type="checkbox" name="data[permissions][developer]" value="developer" <?php echo (strpos($this->model->permissions, 'developer') !== false ? 'checked' : ''); ?> parsley-group="permissions">
-            </div>
-            <div class="checkbox">Editor
-                <input type="checkbox" name="data[permissions][editor]" value="editor" <?php echo (strpos($this->model->permissions, 'editor') !== false ? 'checked' : ''); ?> parsley-group="permissions" parsley-mincheck="1">
-            </div>  
+        <div class="col-md-4">
+            <?php foreach($this->permissions as $permission): ?>
+                <label class="checkbox">
+                    <input type="checkbox" name="data[permissions][]" value="<?php echo $permission; ?>" <?php echo ($this->model->hasPermission($permission) ? 'checked' : ''); ?> parsley-group="permissions" />
+                    <?php echo $permission; ?>
+                </label>
+            <?php endforeach; ?>
         </div>
     </div>  
     <div class="form-group">

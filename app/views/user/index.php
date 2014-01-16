@@ -17,7 +17,7 @@
       <div class="col-md-3 text-center">
       <a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>$model->id)); ?>"><?php echo $model->name; ?></a> <em><?php echo $model->username; ?></em></div>
       <div class="col-md-3 text-center"><?php echo $model->email; ?></div>
-      <div class="col-md-3 text-center"><?php echo $model->permissions; ?></div>
+      <div class="col-md-3 text-center"><?php echo implode(', ', $model->getPermissions()); ?></div>
       <div class="col-md-2 text-center"><a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'delete', 'id'=>$model->id)); ?>" type="button" class="btn btn-danger btn-sm">Delete</a></div>
       </div>
     </div>
