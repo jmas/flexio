@@ -13,6 +13,8 @@
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
 
+    <link href="<?php echo App::instance()->getAssetUrl('css/style.css'); ?>" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <?php if (! empty($this->css)): ?> 
     <?php foreach ($this->css as $css): ?>

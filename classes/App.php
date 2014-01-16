@@ -291,7 +291,7 @@ class App
 	 */
 	public function getAssetUrl($path)
 	{
-		return $this->getBaseUrl() . '/' . ASSETS_FOLDER_NAME . '/' . $path;
+		return $this->getBaseUrl() . '/' . ASSETS_FOLDER_NAME . '/' . APP_FOLDER_NAME . '/' . $path;
 	}
 
 	/**
