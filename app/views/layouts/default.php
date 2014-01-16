@@ -13,12 +13,12 @@
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
 
-    <link href="<?php echo App::instance()->getAssetUrl('css/style.css'); ?>" rel="stylesheet">
+    <link href="<?php echo App::instance()->getAssetUrl('css/app.css'); ?>" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
     <?php if (! empty($this->css)): ?> 
     <?php foreach ($this->css as $css): ?>
-    <link href="<?php echo $css; ?>" rel="stylesheet">
+    <link href="<?php echo $css; ?>" rel="stylesheet" />
 	<?php endforeach; ?>
 	<?php endif; ?>
     
@@ -85,5 +85,6 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.2/parsley.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="<?php echo App::instance()->getAssetUrl('js/app.js'); ?>"></script>
   </body>
 </html>
