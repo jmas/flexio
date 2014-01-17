@@ -7,7 +7,7 @@
     <div class="form-group">
         <div class="col-md-4">
             <label for="data[name]">Name</label>
-            <small class="help-block">Your name?</small>
+            <small class="help-block">Your name that users will see.</small>
         </div>
         <div class="col-md-4">
             <input type="text" class="form-control" name="data[name]" value="<?php echo $this->model->name; ?>" required >
@@ -16,7 +16,7 @@
     <div class="form-group">
         <div class="col-md-4">
             <label for="data[email]">E-Mail</label>
-            <small class="help-block">Optional. Please use a valid e-mail address.</small>
+            <small class="help-block"></small>
         </div>
         <div class="col-md-4">
             <input type="text" class="form-control" name="data[email]" value="<?php echo $this->model->email; ?>" required >
@@ -25,7 +25,7 @@
     <div class="form-group">
         <div class="col-md-4">
             <label for="data[username]">Username</label>
-            <small class="help-block">At least 3 characters. Must be unique.</small>
+            <small class="help-block">Your username that you will use for login. At least 3 characters.</small>
         </div>
         <div class="col-md-4">
             <input type="text" class="form-control" name="data[username]" value="<?php echo $this->model->username; ?>" parsley-minlength="3" required >
@@ -37,7 +37,7 @@
             <small class="help-block">At least 3 characters.</small>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" name="data[password]" value="" parsley-minlength="3">
+            <input type="password" class="form-control" name="data[password]" value="" parsley-minlength="3">
         </div>
     </div>
     <div class="form-group">
@@ -47,10 +47,10 @@
         </div>
         <div class="col-md-4">
             <?php foreach($this->permissions as $permission): ?>
-                <label class="checkbox">
-                    <input type="checkbox" name="data[permissions][]" value="<?php echo $permission; ?>" <?php echo ($this->model->hasPermission($permission) ? 'checked' : ''); ?> parsley-group="permissions" />
+                <div class="checkbox">
+                    <input type="checkbox" name="data[permissions][]" value="<?php echo $permission; ?>" <?php echo ($this->model->hasPermission($permission) ? 'checked' : ''); ?> parsley-group="permissions" parsley-mincheck="1"/>
                     <?php echo $permission; ?>
-                </label>
+                </div>
             <?php endforeach; ?>
         </div>
     </div>  
