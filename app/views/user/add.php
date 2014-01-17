@@ -28,7 +28,7 @@
             <small class="help-block">Your username that you will use for login. At least 3 characters.</small>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" name="data[username]" value="<?php echo $this->model->username; ?>" parsley-minlength="3">
+            <input type="text" class="form-control" name="data[username]" value="<?php echo $this->model->username; ?>" parsley-minlength="3" required>
         </div>
     </div>
     <div class="form-group">
