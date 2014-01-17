@@ -59,7 +59,7 @@
     </div>   
     <div class="form-group">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary">Add user</button> - or - <a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
+            <button type="submit" class="btn btn-primary">Add user</button> or <a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
         </div>
     </div>
 </form>
