@@ -69,15 +69,27 @@ class Archiver
     /**
      *
      */
-    public function unpack($source, $destination=null) 
+    public function unpack($source, $destination=null, $isNeedOwerwrite=true) 
     { 
         $source = realpath($source);
         $sourcePath = dirname($source);
-        
+
         if (is_null($destination)) {
-            $extractPath = realpath($sourcePath) . DIRECTORY_SEPARATOR;
+            $destination = realpath(dirname($sourcePath)) . DIRECTORY_SEPARATOR;
         }
-        
+
+        if (is_dir($destination)) {
+            if ($isNeedOwerwrite) {
+                Fs::remove($destination);
+            } else {
+                return false;
+            }
+        }
+
+        if (! is_dir($destination)) {
+            Fs::mkdir($destination);
+        }
+
         $zip = new ZipArchive();
         
         if ($zip->open($source) === true) {
