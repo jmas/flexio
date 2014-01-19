@@ -18,6 +18,14 @@ class SkeletonPlugin extends Plugin
 	/**
 	 *
 	 */
+	public function permissions()
+	{
+		return array('skeleton-editor', 'skeleton-administrator', 'skeleton-developer');
+	}
+
+	/**
+	 *
+	 */
 	public function navItems()
 	{
 		return array(

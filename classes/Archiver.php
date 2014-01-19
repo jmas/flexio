@@ -13,7 +13,7 @@ class Archiver
     /**
      *
      */
-    public function pack($source, $destination=null)
+    public function pack($source, $destination=null, $isNeedOwerwrite=true)
     {
         $source = realpath($source);
         $sourcePath = dirname($source);
@@ -21,22 +21,40 @@ class Archiver
  
         if (is_null($destination)) {
             $destination = $sourcePath . DIRECTORY_SEPARATOR . $sourceBaseName . '.zip';
-        } 
-        
+        } else {
+            $fileName = basename($destination);
+            $destination = realpath(dirname($destination)) . DIRECTORY_SEPARATOR . $fileName;
+        }
+
+        if (is_file($destination)) {
+            if ($isNeedOwerwrite) {
+                unlink($destination);
+            } else {
+                return false;
+            }
+        }
+
         $zip = new ZipArchive();
         $zip->open($destination, ZipArchive::CREATE);
  
         if (is_dir($source)) {
             $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
             foreach ($iterator as $item) {
+                if (strpos($item->getFileName(), '.') === 0
+                    || strpos($item->getRealpath(), DIRECTORY_SEPARATOR . '.') !== false)
+                {
+                    continue;
+                }
+
                 if ($item->isDir()) {
                     if ($item->getRealpath() !== $sourcePath) {
                         $dir = str_replace($sourcePath . DIRECTORY_SEPARATOR, '', $item->getRealpath());
                         $zip->addEmptyDir(ltrim($dir, DIRECTORY_SEPARATOR)); 
                     }
                 } else if ($item->isFile()) {
-                    $this->output[] = str_replace($sourcePath . DIRECTORY_SEPARATOR, '', $item->getRealpath());
+                    $this->output[] = $item->getRealpath();
                     $file = str_replace($source . DIRECTORY_SEPARATOR, '', $item->getRealpath());
+
                     $zip->addFile($item->getRealpath(), $sourceBaseName . DIRECTORY_SEPARATOR . $file);   
                 } 
             }
@@ -51,16 +69,27 @@ class Archiver
     /**
      *
      */
-    public function unpack($source, $destination=null) 
-    {
-        
+    public function unpack($source, $destination=null, $isNeedOwerwrite=true) 
+    { 
         $source = realpath($source);
         $sourcePath = dirname($source);
-        
+
         if (is_null($destination)) {
-            $extractPath = realpath($sourcePath) . DIRECTORY_SEPARATOR;
+            $destination = realpath(dirname($sourcePath)) . DIRECTORY_SEPARATOR;
         }
-        
+
+        if (is_dir($destination)) {
+            if ($isNeedOwerwrite) {
+                Fs::remove($destination);
+            } else {
+                return false;
+            }
+        }
+
+        if (! is_dir($destination)) {
+            Fs::mkdir($destination);
+        }
+
         $zip = new ZipArchive();
         
         if ($zip->open($source) === true) {

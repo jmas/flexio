@@ -28,7 +28,7 @@ class UserController extends Controller
 	 *
 	 */
 	public function indexAction()
-	{	
+	{
 		$models = App::instance()->models->findAll('User');
 		
 		echo $this->render('index', 
@@ -36,19 +36,6 @@ class UserController extends Controller
 				'models' => $models
 			) 
 		);
-
-		$model = App::instance()->models->create('User', array(
-			'name'=>'myname',
-			'username'=>'myusername',
-			'password'=>'mypassword',
-			'email'=>'myemail@email.com',
-		));
-
-		// if ($model->save()) {
-		// 	echo('saved');
-		// } else {
-		// 	var_dump($model->getErrors());
-		// }
 	}
   
 	/**
@@ -56,19 +43,29 @@ class UserController extends Controller
 	 */
 	public function addAction()
 	{
-		echo $this->render('add');
-        
-        $request = App::instance()->request;
-        if ($request->isPost()) {
+    
+    $model = App::instance()->models->create('User');
 
-        $model = App::instance()->models->create('User', array(
-			'name'=>'myname',
-			'username'=>'myusername',
-			'password'=>'mypassword',
-			'email'=>'myemail@email.com',
-		));
+        if (App::instance()->request->isPost()) {
         
+            $data = App::instance()->request->getPost('data');
+            $data['permissions'] = implode(',', $data['permissions']);
+            $model = App::instance()->models->create('User', $data);
+            
+            if ($model->save()) {
+                App::instance()->flash->set('success', 'User added successfully.');
+                App::instance()->redirect(array('controller'=>'user', 'action'=>'index'));
+            } else {
+                App::instance()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' field is required');
+            }
         }
+        
+        $permissions = App::instance()->getAllPermissions();
+        
+        echo $this->render('add', array(
+            'model'=>$model,
+            'permissions'=>$permissions,
+        ));
 	}
   
 	/**
@@ -76,23 +73,31 @@ class UserController extends Controller
 	 */
 	public function editAction($id=null)
 	{
-        $model = App::instance()->models->find('User', $id);
+        if ($model = App::instance()->models->findByAttrs('User', array('id' => $id))) {
         
-        echo $this->render('edit',
-            array(
-                'model'=>$model 
-            )
-        );
-        
-        $request = App::instance()->request;
-        
-        if ($request->isPost()) {
-            App::instance()->flash->set('success', 'Saved.');
-            App::instance()->redirect(array(
-				'controller'=>'user',
-				'action'=>'edit',
-				'id'=>$id
-			));	
+            if (App::instance()->request->isPost()) {
+                $data = App::instance()->request->getPost('data');
+                $data['password'] = empty($data['password']) ? $model->password : $data['password'];
+                $data['permissions'] = implode(',', $data['permissions']);
+                $model->setAttrs($data);
+                if ($model->save()) {
+                    App::instance()->flash->set('success', 'Changes have been saved.');
+                    App::instance()->redirect(array('controller'=>'user', 'action'=>'edit', 'id'=>$id ));
+                    
+                } else {
+                    App::instance()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' is required');
+                }
+            }
+
+            $permissions = App::instance()->getAllPermissions();
+            
+            echo $this->render('edit', array(
+            	'model'=>$model,
+            	'permissions'=>$permissions,
+        	));
+            
+        } else {
+            throw new Exception("Profile with id '{$id}' is not exists.");
         }
 	}
   
@@ -101,10 +106,23 @@ class UserController extends Controller
 	 */
 	public function deleteAction($id)
 	{	
-        App::instance()->flash->set('success', 'User with id '. $id .' successfully removed.');
-            App::instance()->redirect(array(
-				'controller'=>'user',
-				'action'=>'index',
-			));
+        $model = App::instance()->models->findByAttrs('User', array('id' => $id));   
+        if ($model->username !== 'admin') {
+            if ($model->delete()) {
+                 App::instance()->flash->set('success', 'User '. $model->username .' successfully removed.');
+                 App::instance()->redirect(array(
+                    'controller'=>'user',
+                    'action'=>'index'
+                ));
+            } else {
+                var_dump($model->getErrors());
+            }
+        } else {
+            App::instance()->flash->set('error', 'User '. $model->username .' can not be removed.');
+                 App::instance()->redirect(array(
+                    'controller'=>'user',
+                    'action'=>'index'
+                ));
+        }
 	}
 }

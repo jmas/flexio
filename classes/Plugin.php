@@ -30,6 +30,14 @@ class Plugin
 	/**
 	 *
 	 */
+	public function permissions()
+	{
+		return array();
+	}
+
+	/**
+	 *
+	 */
 	public function register()
 	{
 		$methods = get_class_methods($this);
