@@ -60,7 +60,12 @@ class UserController extends Controller
             }
         }
         
-        echo $this->render('add', array('model'=>$model));
+        $permissions = App::instance()->getAllPermissions();
+        
+        echo $this->render('add', array(
+            'model'=>$model,
+            'permissions'=>$permissions,
+        ));
 	}
   
 	/**

@@ -1,0 +1,12 @@
+.parsley-error-list {
+  list-style:none;
+  padding:5px 0 0;
+  font-size:11px;
+  color:#a94442;
+}
+.has-error input {
+  background:#ffeaea;
+}
+.has-success input {
+  background:#E7FFE7;
+}
