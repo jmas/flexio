@@ -12,8 +12,8 @@ class UserController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! App::instance()->auth->isLoggedIn()) {
-			App::instance()->redirect(array(
+		if (! Flexio::app()->auth->isLoggedIn()) {
+			Flexio::app()->redirect(array(
 				'controller'=>'auth',
 				'action'=>'index',
 			));
@@ -29,7 +29,7 @@ class UserController extends Controller
 	 */
 	public function indexAction()
 	{
-		$models = App::instance()->models->findAll('User');
+		$models = Flexio::app()->models->findAll('User');
 		
 		echo $this->render('index', 
 			array(
@@ -44,23 +44,23 @@ class UserController extends Controller
 	public function addAction()
 	{
     
-    $model = App::instance()->models->create('User');
+    $model = Flexio::app()->models->create('User');
 
-        if (App::instance()->request->isPost()) {
+        if (Flexio::app()->request->isPost()) {
         
-            $data = App::instance()->request->getPost('data');
+            $data = Flexio::app()->request->getPost('data');
             $data['permissions'] = implode(',', $data['permissions']);
-            $model = App::instance()->models->create('User', $data);
+            $model = Flexio::app()->models->create('User', $data);
             
             if ($model->save()) {
-                App::instance()->flash->set('success', 'User added successfully.');
-                App::instance()->redirect(array('controller'=>'user', 'action'=>'index'));
+                Flexio::app()->flash->set('success', 'User added successfully.');
+                Flexio::app()->redirect(array('controller'=>'user', 'action'=>'index'));
             } else {
-                App::instance()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' field is required');
+                Flexio::app()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' field is required');
             }
         }
         
-        $permissions = App::instance()->getAllPermissions();
+        $permissions = Flexio::app()->getAllPermissions();
         
         echo $this->render('add', array(
             'model'=>$model,
@@ -73,23 +73,23 @@ class UserController extends Controller
 	 */
 	public function editAction($id=null)
 	{
-        if ($model = App::instance()->models->findByAttrs('User', array('id' => $id))) {
+        if ($model = Flexio::app()->models->findByAttrs('User', array('id' => $id))) {
         
-            if (App::instance()->request->isPost()) {
-                $data = App::instance()->request->getPost('data');
+            if (Flexio::app()->request->isPost()) {
+                $data = Flexio::app()->request->getPost('data');
                 $data['password'] = empty($data['password']) ? $model->password : $data['password'];
                 $data['permissions'] = implode(',', $data['permissions']);
                 $model->setAttrs($data);
                 if ($model->save()) {
-                    App::instance()->flash->set('success', 'Changes have been saved.');
-                    App::instance()->redirect(array('controller'=>'user', 'action'=>'edit', 'id'=>$id ));
+                    Flexio::app()->flash->set('success', 'Changes have been saved.');
+                    Flexio::app()->redirect(array('controller'=>'user', 'action'=>'edit', 'id'=>$id ));
                     
                 } else {
-                    App::instance()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' is required');
+                    Flexio::app()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' is required');
                 }
             }
 
-            $permissions = App::instance()->getAllPermissions();
+            $permissions = Flexio::app()->getAllPermissions();
             
             echo $this->render('edit', array(
             	'model'=>$model,
@@ -106,11 +106,11 @@ class UserController extends Controller
 	 */
 	public function deleteAction($id)
 	{	
-        $model = App::instance()->models->findByAttrs('User', array('id' => $id));   
+        $model = Flexio::app()->models->findByAttrs('User', array('id' => $id));   
         if ($model->username !== 'admin') {
             if ($model->delete()) {
-                 App::instance()->flash->set('success', 'User '. $model->username .' successfully removed.');
-                 App::instance()->redirect(array(
+                 Flexio::app()->flash->set('success', 'User '. $model->username .' successfully removed.');
+                 Flexio::app()->redirect(array(
                     'controller'=>'user',
                     'action'=>'index'
                 ));
@@ -118,8 +118,8 @@ class UserController extends Controller
                 var_dump($model->getErrors());
             }
         } else {
-            App::instance()->flash->set('error', 'User '. $model->username .' can not be removed.');
-                 App::instance()->redirect(array(
+            Flexio::app()->flash->set('error', 'User '. $model->username .' can not be removed.');
+                 Flexio::app()->redirect(array(
                     'controller'=>'user',
                     'action'=>'index'
                 ));

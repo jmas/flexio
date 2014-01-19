@@ -40,7 +40,7 @@ class Controller
 	 */
 	public function beforeExec($actionName, array $params=array())
 	{
-		App::instance()->observer->notify('controllerBeforeExec', $this, $actionName, $params);
+		Flexio::app()->observer->notify('controllerBeforeExec', $this, $actionName, $params);
 		return true;
 	}
 
@@ -49,7 +49,7 @@ class Controller
 	 */
 	public function afterExec($actionName, array $params=array())
 	{
-		App::instance()->observer->notify('controllerAfterExec', $this, $actionName, $params);
+		Flexio::app()->observer->notify('controllerAfterExec', $this, $actionName, $params);
 		return true;
 	}
 
@@ -85,7 +85,7 @@ class Controller
 		          . $this->getId() . DIRECTORY_SEPARATOR
 		          . $viewName . '.php';
 
-		$themeName = App::instance()->theme;
+		$themeName = Flexio::app()->theme;
 
 		if ($themeName!==null) {
 			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR
@@ -110,7 +110,7 @@ class Controller
 		$layoutPath = LAYOUTS_PATH . DIRECTORY_SEPARATOR
 		            . $this->layoutName . '.php';
 
-		$themeName = App::instance()->theme;
+		$themeName = Flexio::app()->theme;
 
 		if ($themeName!==null) {
 			$themeLayoutPath = THEMES_PATH . DIRECTORY_SEPARATOR

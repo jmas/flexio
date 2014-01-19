@@ -96,7 +96,7 @@ You can access this properties through <code>App</code> class.
 <b>Examples:</b>
 
 <pre>
-$mailer = App::instance()->mailer; // Instance of class 'Mailer'
+$mailer = Flexio::app()->mailer; // Instance of class 'Mailer'
 $mailer->setBody('Message');
 $mailer->setSubject('Test e-mail');
 $mailer->setTo('customemail@example.com');
@@ -105,22 +105,22 @@ $mailer->submit();
 
 In this example we see that we have <code>class</code> property that told <code>App</code> to use <code>Mailer</code> class. Method <code>getConfig()</code> will return instance of class <code>Mailer</code>.
 
-Note: When you trying to access config property through <code>App::instance()->someProperty</code> you automaticly calling <code>getConfig('someProperty')</code> method.
+Note: When you trying to access config property through <code>Flexio::app()->someProperty</code> you automaticly calling <code>getConfig('someProperty')</code> method.
 
 <pre>
-echo App::instance()->version; // 1.0
+echo Flexio::app()->version; // 1.0
 </pre>
 
 In this example we see that we have simple string value. Because we have't <code>class</code> property in our <code>config.php</code> file.
 
 <pre>
-echo App::instance()->roles[0]; // guest
+echo Flexio::app()->roles[0]; // guest
 </pre>
 
 Same as previouse example but now we have simple array as property <code>roles</code>.
 
 <pre>
-echo App::instance()->db; // Object
+echo Flexio::app()->db; // Object
 </pre>
 
 But some properties are already defined in <code>App</code> class. They are: <code>request</code>, <code>observer</code>, <code>loader</code>, <code>router</code>, <code>db</code>, <code>models</code>, <code>plugins</code>. And when we trying to access this properties as simple array - we will get error. This properties are objects.

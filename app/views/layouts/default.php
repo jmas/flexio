@@ -13,7 +13,7 @@
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
 
-    <link href="<?php echo App::instance()->getAssetUrl('css/app.css'); ?>" rel="stylesheet" />
+    <link href="<?php echo Flexio::app()->getAssetUrl('css/app.css'); ?>" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
     <?php if (! empty($this->css)): ?> 
@@ -44,14 +44,14 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="<?php echo App::instance()->createUrl(App::instance()->defaultRoute); ?>"><?php echo App::instance()->name; ?></a>
+	      <a class="navbar-brand" href="<?php echo Flexio::app()->createUrl(Flexio::app()->defaultRoute); ?>"><?php echo Flexio::app()->name; ?></a>
 	    </div>
 	    <div class="navbar-collapse collapse">
-			<?php echo App::instance()->nav->render(); ?>
+			<?php echo Flexio::app()->nav->render(); ?>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>App::instance()->auth->getId())); ?>"><?php echo App::instance()->auth->getUserName(); ?></a></li>
-				<li><a href="<?php echo App::instance()->createUrl(array('controller'=>'auth', 'action'=>'logout')); ?>">Logout</a></li>
+				<li><a href="<?php echo Flexio::app()->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>Flexio::app()->auth->getId())); ?>"><?php echo Flexio::app()->auth->getUserName(); ?></a></li>
+				<li><a href="<?php echo Flexio::app()->createUrl(array('controller'=>'auth', 'action'=>'logout')); ?>">Logout</a></li>
 			</ul>
 	    </div><!--/.nav-collapse -->
 	  </div>
@@ -60,8 +60,8 @@
 
     <div class="container">
 
-    	<?php $success=App::instance()->flash->get('success'); ?>
-    	<?php $error=App::instance()->flash->get('error'); ?>
+    	<?php $success=Flexio::app()->flash->get('success'); ?>
+    	<?php $error=Flexio::app()->flash->get('error'); ?>
 
     	<?php if ($success !== null): ?>
     	<div class="alert alert-success">
@@ -85,6 +85,6 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.2/parsley.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-    <script src="<?php echo App::instance()->getAssetUrl('js/app.js'); ?>"></script>
+    <script src="<?php echo Flexio::app()->getAssetUrl('js/app.js'); ?>"></script>
   </body>
 </html>

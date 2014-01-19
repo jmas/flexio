@@ -28,7 +28,7 @@ defined('PLUGINS_CONFIG_FILE_PATH') OR define('PLUGINS_CONFIG_FILE_PATH', APP_PA
 /**
  * @class App
  */
-class App
+class Flexio
 {
 	const STATUS_DEV = 'development';
 	const STATUS_PROD = 'production';
@@ -197,7 +197,7 @@ class App
 	/**
 	 *
 	 */
-	static public function instance()
+	static public function app()
 	{
 		if (! self::$instance) {
 			self::$instance = new self;

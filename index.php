@@ -4,8 +4,8 @@ date_default_timezone_set('UTC');
 
 // define('START_TIME', microtime());
 
-require_once('classes/App.php');
+require_once('classes/Flexio.php');
 
-App::instance()->run();
+Flexio::app()->run();
 
 // echo microtime() - START_TIME;

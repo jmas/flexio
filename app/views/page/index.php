@@ -11,16 +11,16 @@
 </form>
 
 <p>
-<a class="btn btn-primary" href="<?php echo App::instance()->createUrl(array('controller'=>'page','action'=>'create')); ?>">Create</a>
+<a class="btn btn-primary" href="<?php echo Flexio::app()->createUrl(array('controller'=>'page','action'=>'create')); ?>">Create</a>
 </p>
 
 <div class="list-group">
 	<?php foreach ($this->models as $model): ?>
 	<div class="list-group-item">
 	  <div class="pull-right">
-	    <a class="btn btn-danger" href="<?php echo App::instance()->createUrl(array('controller'=>'page','action'=>'delete','id'=>$model->id)); ?>">Delete</a>
+	    <a class="btn btn-danger" href="<?php echo Flexio::app()->createUrl(array('controller'=>'page','action'=>'delete','id'=>$model->id)); ?>">Delete</a>
 	  </div>
-	  <h4 class="list-group-item-heading"><a href="<?php echo App::instance()->createUrl(array('controller'=>'page','action'=>'edit','id'=>$model->id)); ?>"><?php echo $model->name; ?></a></h4>
+	  <h4 class="list-group-item-heading"><a href="<?php echo Flexio::app()->createUrl(array('controller'=>'page','action'=>'edit','id'=>$model->id)); ?>"><?php echo $model->name; ?></a></h4>
 	  <p class="list-group-item-text help-block small">
 	    Created 10 Jan 2014. Last modified by Alex. <a href="#">40 comments</a>.
 	  </p>

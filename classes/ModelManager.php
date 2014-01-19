@@ -142,7 +142,7 @@ class ModelManager
 	{
 		if ($this->db===null) {
 			$name=$this->dbConnectionName;
-			$this->db = App::instance()->{$name};
+			$this->db = Flexio::app()->{$name};
 		}
 
 		return $this->db;

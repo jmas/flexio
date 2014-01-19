@@ -16,16 +16,16 @@ class AuthController extends Controller
 
 		$this->setLayoutValue('isNavEnabled', false);
 
-		$request = App::instance()->request;
+		$request = Flexio::app()->request;
 
 		if ($request->isPost()) {
-			if (! App::instance()->auth->login($request->getPost('username'), $request->getPost('password'), $request->getPost('remember') ? true: false)) {
-				App::instance()->flash->set('error', 'Not logged.');
+			if (! Flexio::app()->auth->login($request->getPost('username'), $request->getPost('password'), $request->getPost('remember') ? true: false)) {
+				Flexio::app()->flash->set('error', 'Not logged.');
 			} else {
-				App::instance()->redirect(App::instance()->defaultRoute);
+				Flexio::app()->redirect(Flexio::app()->defaultRoute);
 			}
 
-			App::instance()->redirect(array(
+			Flexio::app()->redirect(array(
 				'controller'=>'auth',
 				'action'=>'index',
 			));	
@@ -39,9 +39,9 @@ class AuthController extends Controller
 	 */
 	public function logoutAction()
 	{
-		App::instance()->auth->logout();
+		Flexio::app()->auth->logout();
 
-		App::instance()->redirect(array(
+		Flexio::app()->redirect(array(
 			'controller'=>'auth',
 			'action'=>'index',
 		));

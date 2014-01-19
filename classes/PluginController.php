@@ -12,8 +12,8 @@ class PluginController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! App::instance()->auth->isLoggedIn()) {
-			App::instance()->redirect(array(
+		if (! Flexio::app()->auth->isLoggedIn()) {
+			Flexio::app()->redirect(array(
 				'controller'=>'auth',
 				'action'=>'index',
 			));
@@ -29,8 +29,8 @@ class PluginController extends Controller
 	 */
 	public function getPlugin()
 	{
-		$pluginName = App::instance()->getParam('plugin');
-		return App::instance()->plugins->getPlugin($pluginName);
+		$pluginName = Flexio::app()->getParam('plugin');
+		return Flexio::app()->plugins->getPlugin($pluginName);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class PluginController extends Controller
 				. $this->getId() . DIRECTORY_SEPARATOR
 				. $viewName . '.php';
 
-		$themeName = App::instance()->theme;
+		$themeName = Flexio::app()->theme;
 
 		if ($themeName!==null) {
 			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR

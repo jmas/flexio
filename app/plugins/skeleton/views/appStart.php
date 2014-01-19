@@ -1,1 +1,1 @@
-Application is started. <?php echo App::instance()->getBaseUrl(); ?>
+Application is started. <?php echo Flexio::app()->getBaseUrl(); ?>

@@ -33,12 +33,12 @@ class Nav
 				$result .= '<ul class="dropdown-menu">';
 
 				foreach ($item['items'] as $subItem) {
-					$result .= '<li><a href="' . App::instance()->createUrl($subItem['url']) . '">'.$subItem['name'].'</a></li>';
+					$result .= '<li><a href="' . Flexio::app()->createUrl($subItem['url']) . '">'.$subItem['name'].'</a></li>';
 				}
 
 				$result .= '</ul></li>';
 			} else {
-				$result .= '<li><a href="' . App::instance()->createUrl($item['url']) . '">'.$item['name'].'</a></li>';
+				$result .= '<li><a href="' . Flexio::app()->createUrl($item['url']) . '">'.$item['name'].'</a></li>';
 			}
 			
 		}

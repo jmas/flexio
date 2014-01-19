@@ -32,7 +32,7 @@ class Auth
     public function load()
     {
         if (isset($_SESSION[self::SESSION_KEY]) && isset($_SESSION[self::SESSION_KEY]['username'])) {
-            $user = App::instance()->models->findByAttrs('User', array(
+            $user = Flexio::app()->models->findByAttrs('User', array(
             	'username'=>$_SESSION[self::SESSION_KEY]['username'],
         	));
         } else if (isset($_COOKIE[self::COOKIE_KEY])) {
@@ -132,12 +132,12 @@ class Auth
     {
         $this->logout();
           
-        $user = App::instance()->models->findByAttrs('User', array(
+        $user = Flexio::app()->models->findByAttrs('User', array(
         	'username'=>$username,
     	));
         
         if (! $user instanceof User && self::ALLOW_LOGIN_WITH_EMAIL) {
-            $user = App::instace()->models->findByAttrs('User', array(
+            $user = Flexio::instace()->models->findByAttrs('User', array(
             	'email'=>$username,
         	));
         }
@@ -189,7 +189,7 @@ class Auth
         $params = $this->explodeCookie($cookie);
 
         if (isset($params['exp'], $params['id'], $params['digest'])) {
-        	$user = App::instance()->models->findById('User', $params['id']);
+        	$user = Flexio::app()->models->findById('User', $params['id']);
 
             if (! $user) {
                 return false;

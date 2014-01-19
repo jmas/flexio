@@ -47,16 +47,16 @@
         </div>
         <div class="col-md-4"> 
             <?php foreach($this->permissions as $permission): ?>
-                <div class="checkbox">
+                <label class="checkbox">
                     <input type="checkbox" name="data[permissions][]" value="<?php echo $permission; ?>" <?php echo ($this->model->hasPermission($permission) ? 'checked' : ''); ?> parsley-group="permissions" parsley-mincheck="1">
                     <?php echo $permission; ?>
-                </div>
+                </label>
             <?php endforeach; ?> 
         </div>
     </div>   
     <div class="form-group">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary">Create user</button> or <a href="<?php echo App::instance()->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
+            <button type="submit" class="btn btn-primary">Create user</button> or <a href="<?php echo Flexio::app()->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
         </div>
     </div>
 </form>

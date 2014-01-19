@@ -12,8 +12,8 @@ class SettingController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! App::instance()->auth->isLoggedIn()) {
-			App::instance()->redirect(array(
+		if (! Flexio::app()->auth->isLoggedIn()) {
+			Flexio::app()->redirect(array(
 				'controller'=>'auth',
 				'action'=>'index',
 			));

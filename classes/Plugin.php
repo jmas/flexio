@@ -47,14 +47,14 @@ class Plugin
 				$name = substr($method, 2);
 				$name[0] = strtolower($name[0]);
 				
-				App::instance()->observer->observe($name, array($this, $method));
+				Flexio::app()->observer->observe($name, array($this, $method));
 			}
 		}
 
 		$modelsPath = $this->getPath() . DIRECTORY_SEPARATOR . MODELS_FOLDER_NAME;
 
 		if (is_dir($modelsPath)) {
-			App::instance()->loader->addPath($modelsPath);
+			Flexio::app()->loader->addPath($modelsPath);
 		}
 
 		$this->moveAssets();
@@ -62,7 +62,7 @@ class Plugin
 		$navItems = $this->navItems();
 
 		if ($navItems !== null) {
-			App::instance()->nav->append($navItems);
+			Flexio::app()->nav->append($navItems);
 		}
 	}
 
@@ -79,7 +79,7 @@ class Plugin
 		}
 		
 		if (is_dir($outAssetsPath)) {
-			if (App::instance()->status === App::STATUS_PROD) {
+			if (Flexio::app()->status === Flexio::STATUS_PROD) {
 				return false;
 			} else {
 				Fs::remove($outAssetsPath);
@@ -97,7 +97,7 @@ class Plugin
 	 */
 	public function getAssetUrl($path)
 	{
-		return App::instance()->getBaseUrl() . '/' . ASSETS_FOLDER_NAME . '/' . $this->getId() . '/' . $path;
+		return Flexio::app()->getBaseUrl() . '/' . ASSETS_FOLDER_NAME . '/' . $this->getId() . '/' . $path;
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Plugin
 		$viewPath = $this->getPath() . DIRECTORY_SEPARATOR . VIEWS_FOLDER_NAME
 		          . DIRECTORY_SEPARATOR . $viewName . '.php';
 
-        $themeName = App::instance()->theme;
+        $themeName = Flexio::app()->theme;
 
 		if ($themeName!==null) {
 			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR
