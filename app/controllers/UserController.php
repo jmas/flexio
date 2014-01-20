@@ -62,7 +62,7 @@ class UserController extends Controller
         
         $permissions = Flexio::app()->getAllPermissions();
         
-        echo $this->render('add', array(
+        echo $this->render('form', array(
             'model'=>$model,
             'permissions'=>$permissions,
         ));
@@ -91,7 +91,7 @@ class UserController extends Controller
 
             $permissions = Flexio::app()->getAllPermissions();
             
-            echo $this->render('edit', array(
+            echo $this->render('form', array(
             	'model'=>$model,
             	'permissions'=>$permissions,
         	));

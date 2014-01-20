@@ -6,7 +6,7 @@ $('form').parsley( {
             if (isCheckbox) {
                 var $container = element.parent().find(".parsley-container");
                 if ($container.length === 0) {
-                    $container = $("<div class='parsley-container'></div>").insertAfter(element.parent('div:last-child'));
+                    $container = $("<div class='parsley-container'></div>").insertAfter(element.parent('label:last-child'));
                 }
                 return $container;
             }
