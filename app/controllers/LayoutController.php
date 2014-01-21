@@ -29,6 +29,9 @@ class LayoutController extends Controller
 	 */
 	public function indexAction()
 	{
-		echo $this->render('index');
+        $layouts = glob(LAYOUTS_PATH . DIRECTORY_SEPARATOR . '*.php');
+		echo $this->render('index', array(
+                'layouts'=>$layouts,
+            ));
 	}
 }
