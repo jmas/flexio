@@ -34,4 +34,15 @@ class LayoutController extends Controller
                 'layouts'=>$layouts,
             ));
 	}
+    	/**
+	 *
+	 */
+	public function addAction()
+	{
+        $model = Flexio::app()->models->findAll('User');
+        
+        echo $this->render('form', array(
+        'model'=>$model,
+        ));
+	}
 }
