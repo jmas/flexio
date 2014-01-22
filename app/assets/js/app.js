@@ -34,10 +34,11 @@ $('form').parsley( {
  
             var editor = ace.edit(editDiv[0]);
             //editor.renderer.setShowGutter(false);
+            editor.setPrintMarginColumn(-1);
             editor.getSession().setValue(textarea.val());
             editor.getSession().setMode("ace/mode/" + mode);
             editor.setTheme("ace/theme/dreamweaver");
-            
+
             // copy back to textarea on form submit...
             textarea.closest('form').submit(function () {
                 textarea.val(editor.getSession().getValue());
