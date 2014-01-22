@@ -45,4 +45,15 @@ class LayoutController extends Controller
         'model'=>$model,
         ));
 	}
+    public function editAction($name)
+	{    
+        if ($content = file_get_contents(LAYOUTS_PATH . DIRECTORY_SEPARATOR . $name . '.php')){
+            echo $this->render('form', array(
+                'name'=>$name,
+                'content'=>$content
+            ));
+        } else {
+            throw new Exception("File '{$name}' is not exists in layout dir.");
+        }
+	}
 }
