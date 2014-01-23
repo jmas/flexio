@@ -15,7 +15,7 @@
             <div class="col-md-3"></div>
             <div class="col-md-3"></div>
             <div class="col-md-3"></div>
-            <div class="col-md-2 text-center"><a href="" type="button" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a></div>
+            <div class="col-md-2 text-center"><a href="<?php echo Flexio::app()->createUrl(array('controller'=>'layout', 'action'=>'delete', 'name'=>$filename)); ?>" type="button" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a></div>
         </div>
     </div>
 <?php endforeach; ?>

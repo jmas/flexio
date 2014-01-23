@@ -40,7 +40,7 @@ $('form').parsley( {
             editor.setTheme("ace/theme/dreamweaver");
 
             // copy back to textarea on form submit...
-            textarea.closest('form').submit(function () {
+            textarea.closest('form').keyup(function () {
                 textarea.val(editor.getSession().getValue());
             })
  
