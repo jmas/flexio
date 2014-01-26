@@ -304,6 +304,16 @@ class Flexio
 	 */
 	public function createUrl($params)
 	{
+		if (! empty($params[0])) {
+			$params['controller'] = $params[0];
+			unset($params[0]);
+		}
+
+		if (! empty($params[1])) {
+			$params['action'] = $params[1];
+			unset($params[1]);
+		}
+
 		return $this->getBaseUrl() . ($this->urlMode === self::URL_MODE_QUERY ? '?' . $this->urlPathName . '=': '/') . $this->router->createPath($params, $this->urlMode === self::URL_MODE_QUERY);
 	}
 

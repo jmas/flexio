@@ -13,11 +13,6 @@ abstract class Model
 	/**
 	 *
 	 */
-	protected $data=array();
-	
-	/**
-	 *
-	 */
 	protected $errors=array();
 
 	/**
@@ -30,8 +25,8 @@ abstract class Model
 	 */
 	public function __construct($config=array())
 	{
-		if (isset($config['attrs'])) {
-			$this->setAttr($config['attrs']);
+		if (isset($config['attrs']) && is_array($config['attrs'])) {
+			$this->setAttrs($config['attrs']);
 		}
 
 		if (isset($config['db'])) {
@@ -50,7 +45,7 @@ abstract class Model
 			return $attr;
 		}
 
-		return $this->getData($key);
+		return null;
 	}
 
 	/**
@@ -64,41 +59,16 @@ abstract class Model
 	/**
 	 *
 	 */
-	public function setData($key, $value=null)
+	public function fields()
 	{
-		if (gettype($key)==='array') {
-			$this->data = $key;
-		}
-
-		$this->data[$key] = $value;
-	}
-
-	/**
-	 *
-	 */
-	public function getData($key=null, $defaultValue=null)
-	{
-		if ($key===null) {
-			return $this->data;
-		}
-
-		if (! empty($this->data[$key])) {
-			return $this->data[$key];
-		}
-
-		return $defaultValue;
+		return array();
 	}
 
 	/**
 	 *
 	 */
 	public function setAttr($key, $value=null)
-	{
-		if (gettype($key)==='array') {
-			$this->attrs = $key;
-			return;
-		}
-		
+	{	
 		$this->attrs[$key]=$value;
 	}
 
@@ -129,6 +99,14 @@ abstract class Model
 	/**
 	 *
 	 */
+	public function getAttrs()
+	{
+		return $this->attrs;
+	}
+
+	/**
+	 *
+	 */
 	public function isNew()
 	{
 		return $this->getAttr('id') === null ? true: false;
@@ -151,7 +129,7 @@ abstract class Model
 			}
 		}
 
-        $attrs = $this->getAttr();
+        $attrs = $this->getTableAttrs();
 
         if (empty($attrs)) {
         	return false;
@@ -171,7 +149,7 @@ abstract class Model
             $stmt = $this->db->prepare($sql);
             $return = $stmt->execute(array_values($attrs)) !== false;
 
-            $this->id = $this->db->lastInsertId(); 
+            $this->id = $this->db->lastInsertId();
              
             if (! $this->afterInsert()) {
         		return false;
@@ -324,5 +302,24 @@ abstract class Model
 	protected function getTableName()
 	{
 		return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', get_class($this)));
+	}
+
+	/**
+	 *
+	 */
+	protected function getTableAttrs()
+	{
+		$attrs = $this->getAttrs();
+		$fields = $this->fields();
+
+		$tableAttrs = array();
+
+		foreach ($fields as $fieldName) {
+			if (isset($attrs[$fieldName])) {
+				$tableAttrs[$fieldName]=$attrs[$fieldName];
+			}
+		}
+
+		return $tableAttrs;
 	}
 }

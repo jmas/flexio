@@ -54,8 +54,8 @@ class ModelManager
 	public function find($className, $args=array(), $values=array())
 	{
 		$record = $this->finder($className, $args, $values, true);
-
-         if (! empty($record)) {
+		
+        if (! empty($record)) {
         	return new $className(array(
         		'attrs'=>$record,
         		'db'=>$this->getDb(),

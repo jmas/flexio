@@ -9,6 +9,10 @@ class Controller
 	 *
 	 */
 	protected $layoutName='default';
+
+	/**
+	 *
+	 */
 	protected $layoutValues=array();
 
 	/**

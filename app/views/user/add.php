@@ -33,7 +33,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-4">
-            <label for="data[password]">Password</label>
+            <label for="data[myPassword]">Password</label>
             <small class="help-block">At least 3 characters.</small>
         </div>
         <div class="col-md-4">
