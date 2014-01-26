@@ -83,7 +83,10 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.2/parsley.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.2/parsley.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ext-emmet.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/mode-php.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <script src="<?php echo Flexio::app()->getAssetUrl('js/app.js'); ?>"></script>
   </body>

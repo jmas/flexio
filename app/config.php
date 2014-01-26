@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'status'=>Flexio::STATUS_DEV,
 	'name'=>'Flexio',
 	'theme'=>'null',
 	'db'=>array(

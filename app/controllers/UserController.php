@@ -54,7 +54,7 @@ class UserController extends Controller
         
         $permissions = Flexio::app()->getAllPermissions();
         
-        echo $this->render('add', array(
+        echo $this->render('form', array(
             'model'=>$model,
             'permissions'=>$permissions,
         ));
@@ -67,6 +67,7 @@ class UserController extends Controller
 	{
         $model = Flexio::app()->models->findById('User', $id);
 
+// <<<<<<< HEAD
         if ($model === null) {
             Flexio::app()->flash->set('error', 'Record with this id not found in DB.');
             Flexio::app()->redirect(array('user', 'index'));
@@ -74,6 +75,14 @@ class UserController extends Controller
 
         if (Flexio::app()->request->isPost()) {
             $data = Flexio::app()->request->getPost('data');
+// =======
+//             $permissions = Flexio::app()->getAllPermissions();
+            
+//             echo $this->render('form', array(
+//             	'model'=>$model,
+//             	'permissions'=>$permissions,
+//         	));
+// >>>>>>> 988ee959e6f5b17dcc772dccfbd08fb5f830f205
             
             $model->setAttrs($data);
 
@@ -87,7 +96,7 @@ class UserController extends Controller
 
         $permissions = Flexio::app()->getAllPermissions();
         
-        echo $this->render('edit', array(
+        echo $this->render('form', array(
         	'model'=>$model,
         	'permissions'=>$permissions,
     	));
