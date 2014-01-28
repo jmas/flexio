@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="http://getbootstrap.com/docs-assets/ico/favicon.png">
+    <link rel="shortcut icon" href="<?php echo $this->app->getAssetUrl('images/flexio.ico'); ?>">
 
     <title>Signin Template for Bootstrap</title>
 
