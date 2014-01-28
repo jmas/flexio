@@ -77,8 +77,9 @@ class User extends Model
 			$this->permissions = implode(',', $this->permissions);
 		}
 
-		if (! empty($this->passwordRetype)) {
+		if (! empty($this->passwordRetype)) { // password is modified
 			$this->hashPassword();
+			$this->passwordRetype = $this->password;
 		}
 
 		return parent::beforeSave();
