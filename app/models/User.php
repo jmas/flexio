@@ -85,7 +85,7 @@ class User extends Model
 
 		if (! empty($this->passwordRetype)) { // password is modified
 			$this->hashPassword();
-		} else {
+		} else { // password not modified. Make it null for skip saving to DB
 			$this->password = null;
 		}
 
