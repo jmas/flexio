@@ -29,16 +29,26 @@ class User extends Model
 	public function validators()
 	{
 		return array(
-			'username'=>function($str) { return !empty($str); },
-			'password'=>function($str) { return !empty($str); },
-			'myPassword'=>function($str) {
-				if (! empty($str)) {
-					return strstr($str) > 3;
+			'username'=>function($str) {
+				return !empty($str);
+			},
+			'password'=>function($str) {
+				if ($this->isNew()) {
+					return !empty($str);
+				} else if (! empty($this->password)) {
+					return strlen($str) > 3;
+				}
+			},
+			'passwordRetype'=>function($str) {
+				if ($this->isNew() || ! empty($this->password)) {
+					return strlen($str) > 3 && $this->password === $this->passwordRetype;
 				}
 
 				return true;
 			},
-			'email'=>function($str) { return filter_var($str, FILTER_VALIDATE_EMAIL); }
+			'email'=>function($str) {
+				return filter_var($str, FILTER_VALIDATE_EMAIL);
+			}
 		);
 	}
 

@@ -4,7 +4,7 @@
 
 <form class="form-horizontal" role="form" method="post" autocomplete="off" parsley-validate novalidate>
 
-    <div class="form-group">
+    <div class="form-group <?php echo in_array('name', $this->model->getErrors()) ? 'has-error': ''; ?>">
         <div class="col-md-4">
             <label for="data[name]">Name</label>
             <small class="help-block">Your name that users will see.</small>
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" name="data[name]" value="<?php echo $this->model->name; ?>" required>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group <?php echo in_array('email', $this->model->getErrors()) ? 'has-error': ''; ?>">
         <div class="col-md-4">
             <label for="data[email]">E-mail</label>
             <small class="help-block">Your e-mail address for receiving notifications.</small>
@@ -22,7 +22,7 @@
             <input type="email" class="form-control" name="data[email]" value="<?php echo $this->model->email; ?>" required>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group <?php echo in_array('username', $this->model->getErrors()) ? 'has-error': ''; ?>">
         <div class="col-md-4">
             <label for="data[username]">Username</label>
             <small class="help-block">Your username that you will use for login. At least 3 characters.</small>
@@ -31,7 +31,7 @@
             <input type="text" class="form-control" name="data[username]" value="<?php echo $this->model->username; ?>" parsley-minlength="3" required>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group <?php echo in_array('password', $this->model->getErrors()) ? 'has-error': ''; ?>">
         <div class="col-md-4">
             <label for="data[password]"><?php echo $this->model->isNew() ? 'Password' : 'New password'; ?></label>
             <small class="help-block">At least 3 characters.</small>
@@ -40,7 +40,16 @@
             <input type="password" class="form-control" name="data[password]" value="<?php echo $this->model->isNew() ? $this->model->password : ''; ?>" parsley-minlength="3" <?php echo $this->model->isNew() ? 'required' : '';?>>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group <?php echo in_array('passwordRetype', $this->model->getErrors()) ? 'has-error': ''; ?>">
+        <div class="col-md-4">
+            <label for="data[passwordRetype]">Password retype</label>
+            <small class="help-block">Please retype password.</small>
+        </div>
+        <div class="col-md-4">
+            <input type="password" class="form-control" name="data[passwordRetype]" parsley-minlength="3" <?php echo $this->model->isNew() ? 'required' : '';?>>
+        </div>
+    </div>
+    <div class="form-group <?php echo in_array('permissions', $this->model->getErrors()) ? 'has-error': ''; ?>">
         <div class="col-md-4">
             <label for="data[permission]">Permissions</label>
             <small class="help-block">Roles restrict user privileges and turn parts of the administrative interface on or off.</small>
