@@ -77,8 +77,7 @@ class User extends Model
 			$this->permissions = implode(',', $this->permissions);
 		}
 
-		if (isset($this->myPassword)) {
-			$this->password = $this->myPassword;
+		if (! empty($this->passwordRetype)) {
 			$this->hashPassword();
 		}
 
