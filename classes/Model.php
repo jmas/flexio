@@ -39,13 +39,15 @@ abstract class Model
 	 */
 	public function __get($key)
 	{
-		$attr = $this->getAttr($key);
+		return $this->getAttr($key);
+	}
 
-		if ($attr !== null) {
-			return $attr;
-		}
-
-		return null;
+	/**
+	 *
+	 */
+	public function __set($key, $value)
+	{
+		$this->setAttr($key, $value);
 	}
 
 	/**
@@ -133,16 +135,16 @@ abstract class Model
 	 */
 	public function save($isNeedValidate=true)
 	{
-		if (! $this->beforeSave()) {
-			return false;
-		}
-
 		if ($isNeedValidate) {
 			$this->validate();
 
 			if (! empty($this->errors)) {
 				return false;
 			}
+		}
+
+		if (! $this->beforeSave()) {
+			return false;
 		}
 
         $attrs = $this->getTableAttrs();
@@ -331,7 +333,7 @@ abstract class Model
 		$tableAttrs = array();
 
 		foreach ($fields as $fieldName) {
-			if (isset($attrs[$fieldName])) {
+			if (isset($attrs[$fieldName]) && $attrs[$fieldName] !== null) {
 				$tableAttrs[$fieldName]=$attrs[$fieldName];
 			}
 		}

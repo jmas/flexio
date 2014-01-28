@@ -30,18 +30,20 @@ class User extends Model
 	{
 		return array(
 			'username'=>function($str) {
-				return !empty($str);
+				return ! empty($str);
 			},
 			'password'=>function($str) {
 				if ($this->isNew()) {
-					return !empty($str);
-				} else if (! empty($this->password)) {
+					return ! empty($str);
+				} else if (! empty($str)) {
 					return strlen($str) > 3;
 				}
+
+				return true;
 			},
 			'passwordRetype'=>function($str) {
 				if ($this->isNew() || ! empty($this->password)) {
-					return strlen($str) > 3 && $this->password === $this->passwordRetype;
+					return strlen($str) > 3 && $this->password === $str;
 				}
 
 				return true;
@@ -57,6 +59,10 @@ class User extends Model
 	 */
 	public function getPermissions()
 	{
+		if (is_array($this->permissions)) {
+			return $this->permissions;
+		}
+
 		return explode(',', $this->permissions);
 	}
 
@@ -79,7 +85,8 @@ class User extends Model
 
 		if (! empty($this->passwordRetype)) { // password is modified
 			$this->hashPassword();
-			$this->passwordRetype = $this->password;
+		} else {
+			$this->password = null;
 		}
 
 		return parent::beforeSave();
