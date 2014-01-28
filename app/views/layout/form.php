@@ -9,6 +9,6 @@
         <textarea class="form-control" name="data[content]" data-editor="php" style="height:0;padding:0;" required parsley-error-message="Add some content"><?php echo $this->content; ?></textarea>
     </div>
     <div class="form-group col-md-2" style="line-height:34px">
-        <button type="submit" class="btn btn-primary">Save</button> or <a href="<?php echo Flexio::app()->createUrl(array('controller'=>'layout', 'action'=>'index')); ?>">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save</button> or <a href="<?php echo $this->app->createUrl(array('controller'=>'layout', 'action'=>'index')); ?>">Cancel</a>
     </div>
 </form>

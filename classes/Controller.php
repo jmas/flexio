@@ -82,6 +82,8 @@ class Controller
 		$viewPath = $this->getViewPath($viewName);
 		$layoutPath = $this->getLayoutPath();
 
+		$values['app'] = $this->app;
+
 		$view = new View(array(
 			'path'=>$viewPath,
 			'values'=>$values,
@@ -91,6 +93,7 @@ class Controller
 			'path'=>$layoutPath,
 			'values'=>Arr::merge($this->layoutValues, array(
 				'content'=>$view->render(),
+				'app'=>$this->app,
 			)),
 		));
 

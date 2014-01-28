@@ -65,7 +65,7 @@
     </div>   
     <div class="form-group">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary"><?php echo $this->model->isNew() ? 'Create user' : 'Save changes'; ?></button> or <a href="<?php echo Flexio::app()->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
+            <button type="submit" class="btn btn-primary"><?php echo $this->model->isNew() ? 'Create user' : 'Save changes'; ?></button> or <a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
         </div>
     </div>
 </form>
