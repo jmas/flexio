@@ -379,7 +379,9 @@ class Flexio
 		$this->loader->register();
 		$this->moveAssets();
 		$this->auth->load();
-		$this->plugins->registerInstalled();
+		$this->plugins->registerInstalled(array(
+			'app'=>$this,
+		));
 
 		$this->observer->notify('appStart');
 
@@ -417,7 +419,9 @@ class Flexio
 			throw new Exception("Controller class '{$controllerClassName}' not found.");
 		}
 
-		$this->controller = new $controllerClassName;
+		$this->controller = new $controllerClassName(array(
+			'app'=>$this,
+		));
 		$this->controller->exec($actionName, Arr::merge($_GET, $this->params));
 
 		$this->observer->notify('appEnd');

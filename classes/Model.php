@@ -99,9 +99,25 @@ abstract class Model
 	/**
 	 *
 	 */
-	public function getAttrs()
+	public function getAttrs(array $keys=null)
 	{
-		return $this->attrs;
+		$attrs = $this->attrs;
+
+		if ($keys !== null) {
+			$result = array();
+
+			foreach ($keys as $key) {
+				if (isset($attrs[$key])) {
+					$result[$key] = $attrs[$key];
+				} else {
+					$result[$key] = null;
+				}
+			}
+
+			return $result;
+		}
+
+		return $attrs;
 	}
 
 	/**

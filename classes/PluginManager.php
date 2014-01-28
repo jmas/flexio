@@ -43,17 +43,17 @@ class PluginManager
 	/**
 	 *
 	 */
-	public function registerInstalled()
+	public function registerInstalled(array $config=array())
 	{
 		foreach ($this->installed as $pluginName) {
-			$this->registered[$pluginName] = $this->registerPlugin($pluginName);
+			$this->registered[$pluginName] = $this->registerPlugin($pluginName, $config);
 		}
 	}
 
 	/**
 	 *
 	 */
-	public function registerPlugin($pluginName)
+	public function registerPlugin($pluginName, array $config=array())
 	{
 		$className = ucfirst($pluginName) . 'Plugin';
 
@@ -69,7 +69,7 @@ class PluginManager
 			throw new Exception("Plugin class '{$className}' not exists.");
 		}
 
-		$instance = new $className;
+		$instance = new $className($config);
 		$instance->register();
 
 		return $instance;

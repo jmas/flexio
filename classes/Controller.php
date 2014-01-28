@@ -18,6 +18,23 @@ class Controller
 	/**
 	 *
 	 */
+	protected $app;
+
+	/**
+	 *
+	 */
+	public function __construct($config=array())
+    {
+        foreach ($config as $key=>$value) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
+    }
+
+	/**
+	 *
+	 */
 	public function exec($actionName, array $params=array())
 	{
 		if (! $this->beforeExec($actionName, $params)) {
@@ -44,7 +61,7 @@ class Controller
 	 */
 	public function beforeExec($actionName, array $params=array())
 	{
-		Flexio::app()->observer->notify('controllerBeforeExec', $this, $actionName, $params);
+		$this->app->observer->notify('controllerBeforeExec', $this, $actionName, $params);
 		return true;
 	}
 
@@ -53,7 +70,7 @@ class Controller
 	 */
 	public function afterExec($actionName, array $params=array())
 	{
-		Flexio::app()->observer->notify('controllerAfterExec', $this, $actionName, $params);
+		$this->app->observer->notify('controllerAfterExec', $this, $actionName, $params);
 		return true;
 	}
 
@@ -89,7 +106,7 @@ class Controller
 		          . $this->getId() . DIRECTORY_SEPARATOR
 		          . $viewName . '.php';
 
-		$themeName = Flexio::app()->theme;
+		$themeName = $this->app->theme;
 
 		if ($themeName!==null) {
 			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR
@@ -114,7 +131,7 @@ class Controller
 		$layoutPath = LAYOUTS_PATH . DIRECTORY_SEPARATOR
 		            . $this->layoutName . '.php';
 
-		$themeName = Flexio::app()->theme;
+		$themeName = $this->app->theme;
 
 		if ($themeName!==null) {
 			$themeLayoutPath = THEMES_PATH . DIRECTORY_SEPARATOR

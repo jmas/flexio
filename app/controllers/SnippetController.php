@@ -12,8 +12,8 @@ class SnippetController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! Flexio::app()->auth->isLoggedIn()) {
-			Flexio::app()->redirect(array(
+		if (! $this->app->auth->isLoggedIn()) {
+			$this->app->redirect(array(
 				'controller'=>'auth',
 				'action'=>'index',
 			));

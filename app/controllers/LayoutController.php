@@ -12,8 +12,8 @@ class LayoutController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! Flexio::app()->auth->isLoggedIn()) {
-			Flexio::app()->redirect(array(
+		if (! $this->app->auth->isLoggedIn()) {
+			$this->app->redirect(array(
 				'controller'=>'auth',
 				'action'=>'index',
 			));
@@ -43,13 +43,13 @@ class LayoutController extends Controller
 
         $model = new Layout;
         
-        if (Flexio::app()->request->isPost()) {
+        if ($this->app->request->isPost()) {
         
             if ($model->save()) {
-                Flexio::app()->flash->set('success', 'Layout added successfully.');
-                Flexio::app()->redirect(array('controller'=>'layout', 'action'=>'index'));
+                $this->app->flash->set('success', 'Layout added successfully.');
+                $this->app->redirect(array('controller'=>'layout', 'action'=>'index'));
             } else {
-                Flexio::app()->flash->set('error', 'Adding layout error. ' . implode(', ', $model->getErrors()));
+                $this->app->flash->set('error', 'Adding layout error. ' . implode(', ', $model->getErrors()));
             }
         }
         
@@ -70,12 +70,12 @@ class LayoutController extends Controller
             throw new Exception("File '{$name}' is not exists in layout dir.");
         } 
         
-        if (Flexio::app()->request->isPost()) {
+        if ($this->app->request->isPost()) {
             if ($model->update($name)) {
-                Flexio::app()->flash->set('success', 'Layout updated successfully.');
-                Flexio::app()->redirect(array('controller'=>'layout', 'action'=>'index'));
+                $this->app->flash->set('success', 'Layout updated successfully.');
+                $this->app->redirect(array('controller'=>'layout', 'action'=>'index'));
             } else {
-                Flexio::app()->flash->set('error', 'Layout updated error. ' . implode(', ', $model->getErrors()));
+                $this->app->flash->set('error', 'Layout updated error. ' . implode(', ', $model->getErrors()));
             }
             
         }
@@ -95,10 +95,10 @@ class LayoutController extends Controller
         $model = new Layout;
         
         if ($model->delete($name)) {
-            Flexio::app()->flash->set('success', 'Layout deleted successfully.');
-            Flexio::app()->redirect(array('controller'=>'layout', 'action'=>'index'));
+            $this->app->flash->set('success', 'Layout deleted successfully.');
+            $this->app->redirect(array('controller'=>'layout', 'action'=>'index'));
         } else {
-            Flexio::app()->flash->set('error', 'Layout delete error. ' . implode(', ', $model->getErrors()));
+            $this->app->flash->set('error', 'Layout delete error. ' . implode(', ', $model->getErrors()));
         }
        
 	}

@@ -12,8 +12,8 @@ class PageController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! Flexio::app()->auth->isLoggedIn()) {
-			Flexio::app()->redirect(array(
+		if (! $this->app->auth->isLoggedIn()) {
+			$this->app->redirect(array(
 				'controller'=>'auth',
 				'action'=>'index',
 			));
@@ -29,7 +29,7 @@ class PageController extends Controller
 	 */
 	public function indexAction($path=null)
 	{
-		$models = Flexio::app()->models->findAll('Page');
+		$models = $this->app->models->findAll('Page');
 
 		echo $this->render('index', array(
 			'models'=>$models,
