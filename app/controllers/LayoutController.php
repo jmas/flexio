@@ -29,9 +29,10 @@ class LayoutController extends Controller
 	 */
 	public function indexAction()
 	{
-        $model = new Layout;
+        
+        $models = $this->app->models->findAll('Layout');
 		echo $this->render('index', array(
-                'layouts'=>$model->getLayouts(),
+                'models'=>$models,
             ));
 	}
     
@@ -40,20 +41,22 @@ class LayoutController extends Controller
 	 */
 	public function addAction()
 	{
-
-        $model = new Layout;
+        $model = $this->app->models->create('Layout');
         
         if ($this->app->request->isPost()) {
-        
+            $data = $this->app->request->getPost('data');
+            $model->setAttrs($data);
+            var_dump($data);
+            var_dump($model);
             if ($model->save()) {
-                $this->app->flash->set('success', 'Layout added successfully.');
-                $this->app->redirect(array('controller'=>'layout', 'action'=>'index'));
+                $this->app->flash->set('success', 'Saved successfully.');
+                $this->app->redirect(array('layout','index'));
             } else {
-                $this->app->flash->set('error', 'Adding layout error. ' . implode(', ', $model->getErrors()));
+                $this->app->flash->set('error', 'Not saved. Fields have errors.');
             }
         }
-        
-        echo $this->render('form', array(
+
+         echo $this->render('form', array(
             'model'=>$model,
         ));
         
@@ -62,43 +65,52 @@ class LayoutController extends Controller
     /**
 	 *
 	 */
-    public function editAction($name)
+    public function editAction($id)
 	{   
-        $model = new Layout;
-        
-        if (!$content = $model->getLayout($name)) {
-            throw new Exception("File '{$name}' is not exists in layout dir.");
-        } 
-        
-        if ($this->app->request->isPost()) {
-            if ($model->update($name)) {
-                $this->app->flash->set('success', 'Layout updated successfully.');
-                $this->app->redirect(array('controller'=>'layout', 'action'=>'index'));
-            } else {
-                $this->app->flash->set('error', 'Layout updated error. ' . implode(', ', $model->getErrors()));
-            }
-            
+        $model = $this->app->models->findById('Layout', $id);
+
+        if ($model === null) {
+            $this->app->flash->set('error', 'Record with this id not found in DB.');
+            $this->app->redirect(array('user', 'index'));
         }
-        
+
+        if ($this->app->request->isPost()) {
+            $data = $this->app->request->getPost('data');
+            
+            $model->setAttrs($data);
+
+            if ($model->save()) {
+                $this->app->flash->set('success', 'Saved successfully.');
+                $this->app->redirect(array('layout', 'edit', 'id'=>$id));
+            } else {
+                $this->app->flash->set('error', 'Not saved. Fields have errors.');
+            } 
+        }
+
         echo $this->render('form', array(
-            'name'=>$name,
-            'content'=>$content
-         ));
+        	'model'=>$model
+    	));
 	}
     
     
     /**
 	 *
 	 */
-    public function deleteAction($name)
+    public function deleteAction($id)
 	{   
-        $model = new Layout;
-        
-        if ($model->delete($name)) {
-            $this->app->flash->set('success', 'Layout deleted successfully.');
-            $this->app->redirect(array('controller'=>'layout', 'action'=>'index'));
+        $model = $this->app->models->findById('Layout', $id);
+
+        if ($model === null) {
+            $this->app->flash->set('error', 'Record with this id not found in DB.');
+            $this->app->redirect(array('layout', 'index'));
+        }
+
+        if ($model->delete()) {
+            $this->app->flash->set('success', 'Removed successfully.');
+            $this->app->redirect(array('layout', 'index'));
         } else {
-            $this->app->flash->set('error', 'Layout delete error. ' . implode(', ', $model->getErrors()));
+            $this->app->flash->set('error', 'Not removed.');
+            $this->app->redirect(array('layout', 'index'));
         }
        
 	}

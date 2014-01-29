@@ -26,7 +26,7 @@ $('form').parsley( {
             var editDiv = $('<div>', {
                 position: 'absolute',
                 width: '100%',
-                height: '600px',
+                height: $(window).height() - $('.page-header').outerHeight(true) - $('.navbar').outerHeight(true) - 20,
                 'class': textarea.attr('class')
             }).insertBefore(textarea);
  
@@ -35,6 +35,7 @@ $('form').parsley( {
             var editor = ace.edit(editDiv[0]);
             //editor.renderer.setShowGutter(false);
             editor.setPrintMarginColumn(-1);
+            editor.getSession().setUseWorker(false);
             editor.getSession().setValue(textarea.val());
             editor.getSession().setMode("ace/mode/" + mode);
             editor.setTheme("ace/theme/dreamweaver");
