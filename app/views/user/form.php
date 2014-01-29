@@ -46,7 +46,7 @@
             <small class="help-block">Please retype password.</small>
         </div>
         <div class="col-md-4">
-            <input type="password" class="form-control" name="data[passwordRetype]" parsley-minlength="3" <?php echo $this->model->isNew() ? 'required' : '';?>>
+            <input type="password" class="form-control" name="data[passwordRetype]" value="<?php echo $this->model->isNew() ? $this->model->passwordRetype : ''; ?>" parsley-minlength="3" <?php echo $this->model->isNew() ? 'required' : '';?>>
         </div>
     </div>
     <div class="form-group <?php echo in_array('permissions', $this->model->getErrors()) ? 'has-error': ''; ?>">

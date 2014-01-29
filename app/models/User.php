@@ -30,7 +30,21 @@ class User extends Model
 	{
 		return array(
 			'username'=>function($str) {
-				return ! empty($str);
+				if (empty($str)) {
+					return false;
+				}
+
+				if ($this->isNew()) {
+					$model = Flexio::app()->models->findByAttrs('User', array(
+						'username'=>$this->username,
+					));
+
+					if ($model !== null) {
+						return false;
+					}
+				}
+
+				return true;
 			},
 			'password'=>function($str) {
 				if ($this->isNew()) {
@@ -49,7 +63,21 @@ class User extends Model
 				return true;
 			},
 			'email'=>function($str) {
-				return filter_var($str, FILTER_VALIDATE_EMAIL);
+				if (! filter_var($str, FILTER_VALIDATE_EMAIL)) {
+					return false;
+				}
+
+				if ($this->isNew()) {
+					$model = Flexio::app()->models->findByAttrs('User', array(
+						'email'=>$this->email,
+					));
+
+					if ($model !== null) {
+						return false;
+					}
+				}
+
+				return true;
 			}
 		);
 	}
