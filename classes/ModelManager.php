@@ -110,7 +110,9 @@ class ModelManager
 	 */
 	public function findById($className, $id)
 	{
-		return $this->find($className, 'id=:id', array(':id'=>$id));
+		$table = $this->tableByClass($className);
+
+		return $this->find($className, $table . '.id=:id', array(':id'=>$id));
 	}
 
 	/**
@@ -222,7 +224,7 @@ class ModelManager
 		}
 
 		$sql = 'SELECT ' . implode(',', $select) . ' FROM '. implode(' LEFT JOIN ', $from) . ' '.$suffix;
-
+		
         $stmt = $this->getDb()->prepare($sql);
         $stmt->execute($values);
 
