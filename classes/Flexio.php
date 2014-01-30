@@ -92,6 +92,10 @@ class Flexio
 			'class'=>'ModelManager',
 			'dbConnectionName'=>'db',
 		),
+		'pages'=>array(
+			'class'=>'PageManager',
+			'dbConnectionName'=>'db',
+		),
 		'plugins'=>array(
 			'class'=>'PluginManager',
 		),

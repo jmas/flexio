@@ -39,10 +39,12 @@ class ModelManager
 		$records = $this->finder($className, $args, $values);
 
         foreach ($records as $record) {
-        	$return[] = new $className(array(
-        		'attrs'=>$record,
-        		'db'=>$this->getDb(),
-    		));
+        	$return[] = $this->create($className, $record);
+      //   	new $className(array(
+      //   		'attrs'=>$record,
+      //   		'db'=>$this->getDb(),
+      //   		'manager'=>$this,
+    		// ));
         }
 
         return $return;
@@ -56,10 +58,12 @@ class ModelManager
 		$record = $this->finder($className, $args, $values, true);
 		
         if (! empty($record)) {
-        	return new $className(array(
-        		'attrs'=>$record,
-        		'db'=>$this->getDb(),
-    		));
+        	return $this->create($className, $record);
+      //   	return new $className(array(
+      //   		'attrs'=>$record,
+      //   		'db'=>$this->getDb(),
+      //   		'manager'=>$this,
+    		// ));
         }
 
         return null;
@@ -132,6 +136,7 @@ class ModelManager
 		return new $className(array(
 			'attrs'=>$attrs,
 			'db'=>$this->getDb(),
+			'manager'=>$this,
 		));
 	}
 

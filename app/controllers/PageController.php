@@ -29,7 +29,7 @@ class PageController extends Controller
 	 */
 	public function indexAction($path=null)
 	{
-		$models = $this->app->models->findAll('Page');
+		$models = $this->app->pages->findAll();
 
 		echo $this->render('index', array(
 			'models'=>$models,

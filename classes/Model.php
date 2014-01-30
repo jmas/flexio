@@ -23,6 +23,11 @@ abstract class Model
 	/**
 	 *
 	 */
+	protected $manager;
+
+	/**
+	 *
+	 */
 	public function __construct($config=array())
 	{
 		if (isset($config['attrs']) && is_array($config['attrs'])) {

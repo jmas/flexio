@@ -11,7 +11,7 @@
     <title>Signin Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="<?php echo $this->app->getAssetUrl('css/app.css'); ?>" rel="stylesheet" />
 
@@ -87,7 +87,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ext-emmet.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/mode-php.js"></script>
-    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="<?php echo $this->app->getAssetUrl('js/app.js'); ?>"></script>
   </body>
 </html>
