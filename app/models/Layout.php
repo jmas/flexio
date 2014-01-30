@@ -37,6 +37,7 @@ class Layout extends Model
 			'content_type',
 		);
 	}
+	
 	public function validators()
 	{
 		return array(

@@ -139,9 +139,9 @@ class ModelManager
 
 		if ($join !== null && is_array($join)) {
 			foreach ($join as $joinName=>$joinItem) {
-				$className = $joinItem['className'];
+				$joinClassName = $joinItem['className'];
 
-				$columns = $className::fields();
+				$columns = $joinClassName::fields();
 
 				$joinAttrs = array();
 
@@ -152,7 +152,7 @@ class ModelManager
 					}
 				}
 
-				$attrs[$joinName] = $this->create($className, $joinAttrs);
+				$attrs[$joinName] = $this->create($joinClassName, $joinAttrs);
 			}
 		}
 
@@ -224,7 +224,7 @@ class ModelManager
 		}
 
 		$sql = 'SELECT ' . implode(',', $select) . ' FROM '. implode(' LEFT JOIN ', $from) . ' '.$suffix;
-		
+
         $stmt = $this->getDb()->prepare($sql);
         $stmt->execute($values);
 

@@ -78,7 +78,7 @@ class LayoutController extends Controller
             $data = $this->app->request->getPost('data');
             
             $model->setAttrs($data);
-
+            
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
                 $this->app->redirect(array('layout', 'edit', 'id'=>$id));
