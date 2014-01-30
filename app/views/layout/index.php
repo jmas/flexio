@@ -3,7 +3,7 @@
 </div>
 
 <p>
-    <a href="<?php echo $this->app->createUrl(array('layout', 'add')); ?>" class="btn btn-primary">Create new layout</a>
+    <a href="<?php echo $this->app->createUrl(array('layout', 'add')); ?>" class="btn btn-primary">Create layout</a>
 </p>
 
 <div class="list-group">
