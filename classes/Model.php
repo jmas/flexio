@@ -28,6 +28,16 @@ abstract class Model
 	/**
 	 *
 	 */
+	protected $select='*';
+
+	/**
+	 *
+	 */
+	public static function join() { return null; }
+
+	/**
+	 *
+	 */
 	public function __construct($config=array())
 	{
 		if (isset($config['attrs']) && is_array($config['attrs'])) {
@@ -66,7 +76,7 @@ abstract class Model
 	/**
 	 *
 	 */
-	public function fields()
+	public static function fields()
 	{
 		return array();
 	}
@@ -75,7 +85,7 @@ abstract class Model
 	 *
 	 */
 	public function setAttr($key, $value=null)
-	{	
+	{
 		$this->attrs[$key]=$value;
 	}
 

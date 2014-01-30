@@ -8,7 +8,7 @@ class User extends Model
 	/**
 	 *
 	 */
-	public function fields()
+	public static function fields()
 	{
 		return array(
 			'id',

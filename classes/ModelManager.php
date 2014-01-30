@@ -133,6 +133,27 @@ class ModelManager
 	 */
 	public function create($className, $attrs=array())
 	{
+		$join = $className::join();
+
+		if ($join !== null && is_array($join)) {
+			foreach ($join as $joinName=>$joinItem) {
+				$className = $joinItem['className'];
+
+				$columns = $className::fields();
+
+				$joinAttrs = array();
+
+				foreach ($columns as $columnName) {
+					if (isset($attrs[$joinName . '_' . $columnName])) {
+						$joinAttrs[$columnName] = $attrs[$joinName . '_' . $columnName];
+						unset($attrs[$joinName . '_' . $columnName]);
+					}
+				}
+
+				$attrs[$joinName] = $this->create($className, $joinAttrs);
+			}
+		}
+
 		return new $className(array(
 			'attrs'=>$attrs,
 			'db'=>$this->getDb(),
@@ -170,7 +191,37 @@ class ModelManager
 
 		$suffix = $this->buildQuerySuffix($args);
 
-		$sql = 'SELECT * FROM '.$this->tableByClass($className).' '.$suffix;
+		$baseTable = $this->tableByClass($className);
+
+		$select = array($baseTable . '.*');
+		$from = array($this->tableByClass($className).' AS ' . $baseTable);
+
+		$join = $className::join();
+
+		if ($join !== null && is_array($join)) {
+			foreach ($join as $joinName=>$joinItem) {
+				$className = $joinItem['className'];
+				$on = $joinItem['on'];
+
+				$columns = $className::fields();
+				$selectColumns = array();
+
+				$table = $this->tableByClass($className);
+				$onItems = array();
+
+				foreach ($columns as $c) {
+					$select[] = $joinName . '.' . $c . ' AS ' . $joinName . '_' . $c;
+				}
+
+				foreach ($on as $k=>$v) {
+					$onItems[] = $baseTable . '.' . $k . '=' . $joinName . '.' . $v;
+				}
+
+				$from[] = $table . ' AS ' . $joinName . ' ON ' . implode(',', $onItems);
+			}
+		}
+
+		$sql = 'SELECT ' . implode(',', $select) . ' FROM '. implode(' LEFT JOIN ', $from) . ' '.$suffix;
 
         $stmt = $this->getDb()->prepare($sql);
         $stmt->execute($values);

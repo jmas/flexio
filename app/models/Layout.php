@@ -5,7 +5,25 @@
  */
 class Layout extends Model
 {
-	public function fields()
+	public static function join()
+	{
+		return array(
+			'createdBy'=>array(
+				'className'=>'User',
+				'on'=>array(
+					'create_user_id'=>'id',
+				),
+			),
+			'updatedBy'=>array(
+				'className'=>'User',
+				'on'=>array(
+					'update_user_id'=>'id',
+				),
+			),
+		);
+	}
+
+	public static function fields()
 	{
 		return array(
 			'id',
@@ -41,8 +59,7 @@ class Layout extends Model
         
         $this->update_date = date('Y-m-d H:i:s');
         $this->update_user_id = Flexio::app()->auth->getId();
-        var_dump($this);
+        
 		return parent::beforeSave(); 
 	}
-    
 }
