@@ -11,8 +11,7 @@
     <div class="list-group">
             <div class="list-group-item list-group-item-info">
                 <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-3">Username / Login</div>
+                    <div class="col-md-4">Username / Login</div>
                     <div class="col-md-3">Permissions</div>
                     <div class="col-md-4">E-mail</div>
                     <div class="col-md-1"></div>
@@ -21,10 +20,8 @@
         <?php foreach ($this->models as $model): ?>
             <div class="list-group-item">
                 <div class="row">
-                    <div class="col-md-1">
+                    <div class="col-md-4">
                         <img src="<?php echo $model->getGravatarUrl(); ?>" alt="" class="img-rounded" />
-                    </div>
-                    <div class="col-md-3">
                         <b><a href="<?php echo $this->app->createUrl(array('user','edit','id'=>$model->id)); ?>"><?php echo htmlspecialchars($model->name); ?></a> </b>
                         <?php echo htmlspecialchars($model->username); ?>
                     </div>
