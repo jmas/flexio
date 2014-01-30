@@ -133,6 +133,6 @@ class User extends Model
 	 */
 	public function getGravatarUrl()
 	{
-		return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=40&d=mm&r=g';
+		return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=22&d=mm&r=g';
 	}
 }
