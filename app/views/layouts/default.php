@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="<?php echo $this->app->getAssetUrl('images/flexio.ico'); ?>">
 
-    <title>Signin Template for Bootstrap</title>
+    <title><?php echo htmlspecialchars($this->app->name); ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
@@ -44,13 +44,13 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="<?php echo $this->app->createUrl($this->app->defaultRoute); ?>"><?php echo $this->app->name; ?></a>
+	      <a class="navbar-brand" href="<?php echo $this->app->createUrl($this->app->defaultRoute); ?>"><?php echo htmlspecialchars($this->app->name); ?></a>
 	    </div>
 	    <div class="navbar-collapse collapse">
 			<?php echo $this->app->nav->render(); ?>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>$this->app->auth->getId())); ?>"><?php echo $this->app->auth->getUserName(); ?></a></li>
+				<li><a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>$this->app->auth->getId())); ?>"><?php echo htmlspecialchars($this->app->auth->getRecord()->name); ?></a></li>
 				<li><a href="<?php echo $this->app->createUrl(array('controller'=>'auth', 'action'=>'logout')); ?>">Logout</a></li>
 			</ul>
 	    </div><!--/.nav-collapse -->
