@@ -10,7 +10,7 @@
             <small class="help-block">Your name that users will see.</small>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" name="data[name]" value="<?php echo $this->model->name; ?>" required>
+            <input type="text" class="form-control" name="data[name]" value="<?php echo htmlspecialchars($this->model->name); ?>" required>
         </div>
     </div>
     <div class="form-group <?php echo in_array('email', $this->model->getErrors()) ? 'has-error': ''; ?>">
@@ -19,7 +19,7 @@
             <small class="help-block">Your e-mail address for receiving notifications.</small>
         </div>
         <div class="col-md-4">
-            <input type="email" class="form-control" name="data[email]" value="<?php echo $this->model->email; ?>" required>
+            <input type="email" class="form-control" name="data[email]" value="<?php echo htmlspecialchars($this->model->email); ?>" required>
         </div>
     </div>
     <div class="form-group <?php echo in_array('username', $this->model->getErrors()) ? 'has-error': ''; ?>">
@@ -28,7 +28,7 @@
             <small class="help-block">Your username that you will use for login. At least 3 characters.</small>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" name="data[username]" value="<?php echo $this->model->username; ?>" parsley-minlength="3" required>
+            <input type="text" class="form-control" name="data[username]" value="<?php echo htmlspecialchars($this->model->username); ?>" parsley-minlength="3" required>
         </div>
     </div>
     <div class="form-group <?php echo in_array('password', $this->model->getErrors()) ? 'has-error': ''; ?>">
@@ -37,7 +37,7 @@
             <small class="help-block">At least 3 characters.</small>
         </div>
         <div class="col-md-4">
-            <input type="password" class="form-control" name="data[password]" value="<?php echo $this->model->isNew() ? $this->model->password : ''; ?>" parsley-minlength="3" <?php echo $this->model->isNew() ? 'required' : '';?>>
+            <input type="password" class="form-control" name="data[password]" value="<?php echo $this->model->isNew() ? htmlspecialchars($this->model->password) : ''; ?>" parsley-minlength="3" <?php echo $this->model->isNew() ? 'required' : '';?>>
         </div>
     </div>
     <div class="form-group <?php echo in_array('passwordRetype', $this->model->getErrors()) ? 'has-error': ''; ?>">
@@ -46,7 +46,7 @@
             <small class="help-block">Please retype password.</small>
         </div>
         <div class="col-md-4">
-            <input type="password" class="form-control" name="data[passwordRetype]" value="<?php echo $this->model->isNew() ? $this->model->passwordRetype : ''; ?>" parsley-minlength="3" <?php echo $this->model->isNew() ? 'required' : '';?>>
+            <input type="password" class="form-control" name="data[passwordRetype]" value="<?php echo $this->model->isNew() ? htmlspecialchars($this->model->passwordRetype) : ''; ?>" parsley-minlength="3" <?php echo $this->model->isNew() ? 'required' : '';?>>
         </div>
     </div>
     <div class="form-group <?php echo in_array('permissions', $this->model->getErrors()) ? 'has-error': ''; ?>">
