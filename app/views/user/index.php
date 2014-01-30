@@ -9,7 +9,7 @@
 <div class="list-group">
         <div class="list-group-item list-group-item-info">
             <div class="row">
-                <div class="col-md-4">Username / Login</div>
+                <div class="col-md-4">Name / Username</div>
                 <div class="col-md-3">Permissions</div>
                 <div class="col-md-4">E-mail</div>
                 <div class="col-md-1"></div>

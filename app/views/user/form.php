@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h3><?php echo $this->model->isNew() ? 'Create user' : 'Edit user'; ?></h3>
+    <h3><?php echo ($this->model->isNew() ? 'Create user' : 'Edit user'); ?></h3>
 </div>
 
 <form class="form-horizontal" role="form" method="post" autocomplete="off" parsley-validate novalidate>
@@ -65,7 +65,7 @@
     </div>   
     <div class="form-group">
         <div class="col-md-3">
-            <button type="submit" class="btn btn-primary"><?php echo $this->model->isNew() ? 'Create user' : 'Save changes'; ?></button> or <a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
+            <input type="submit" class="btn btn-primary" value="<?php echo ($this->model->isNew() ? 'Create': 'Save'); ?>" /> or <a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
         </div>
     </div>
 </form>

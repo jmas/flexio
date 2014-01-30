@@ -9,7 +9,7 @@
 <div class="list-group">
     <div class="list-group-item list-group-item-info">
         <div class="row">
-            <div class="col-md-4">Layout name</div>
+            <div class="col-md-4">Name</div>
             <div class="col-md-3">Created</div>
             <div class="col-md-3">Updated</div>
             <div class="col-md-2"></div>

@@ -50,7 +50,7 @@
 			<?php echo $this->app->nav->render(); ?>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>$this->app->auth->getId())); ?>"><?php echo htmlspecialchars($this->app->auth->getRecord()->name); ?></a></li>
+				<li><a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>$this->app->auth->getId())); ?>"><img src="<?php echo $this->app->auth->getRecord()->getGravatarUrl(); ?>" alt="" class="img-rounded" /> <?php echo htmlspecialchars($this->app->auth->getRecord()->name); ?></a></li>
 				<li><a href="<?php echo $this->app->createUrl(array('controller'=>'auth', 'action'=>'logout')); ?>">Logout</a></li>
 			</ul>
 	    </div><!--/.nav-collapse -->
