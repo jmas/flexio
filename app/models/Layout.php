@@ -5,31 +5,44 @@
  */
 class Layout extends Model
 {
-	public function getLayouts()
+	public function fields()
 	{
-		return $layouts = glob(LAYOUTS_PATH . DIRECTORY_SEPARATOR . '*.php');
+		return array(
+			'id',
+			'name',
+			'content',
+			'content_html',
+			'create_date',
+			'update_date',
+			'create_user_id',
+			'update_user_id',
+			'content_type',
+		);
+	}
+	public function validators()
+	{
+		return array(
+			'name'=>function($str) {
+				return ! empty($str);
+			},
+            'content_html'=>function($str) {
+				return ! empty($str);
+			}
+		);
 	}
     
-    public function getLayout($name)
+    public function beforeSave()
 	{
-        return file_get_contents(LAYOUTS_PATH . DIRECTORY_SEPARATOR . $name . '.php');
+
+ 		if ($this->isNew()) { 
+			$this->create_date = date('Y-m-d H:i:s');
+			$this->create_user_id = Flexio::app()->auth->getId();
+		} 
+        
+        $this->update_date = date('Y-m-d H:i:s');
+        $this->update_user_id = Flexio::app()->auth->getId();
+        var_dump($this);
+		return parent::beforeSave(); 
 	}
-    
-    public function save()
-	{
-        $data = Flexio::app()->request->getPost('data');
-        return file_put_contents(LAYOUTS_PATH . DIRECTORY_SEPARATOR . $data['name'] . '.php', $data['content']);
-	}
-    public function update($name)
-    {
-		$data = Flexio::app()->request->getPost('data');
-        if($data['name'] !== $name) { $this->delete($name); }
-        return file_put_contents(LAYOUTS_PATH . DIRECTORY_SEPARATOR . $data['name'] . '.php', $data['content']);
-    }
-    
-    public function delete($name)
-    {
-        return unlink(LAYOUTS_PATH . DIRECTORY_SEPARATOR . $name . '.php');
-    }
     
 }
