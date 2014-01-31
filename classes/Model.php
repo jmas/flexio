@@ -28,11 +28,6 @@ abstract class Model
 	/**
 	 *
 	 */
-	protected $select='*';
-
-	/**
-	 *
-	 */
 	public static function join() { return null; }
 
 	/**
