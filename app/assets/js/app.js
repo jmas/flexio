@@ -26,7 +26,7 @@ $('form').parsley( {
             var editDiv = $('<div>', {
                 position: 'absolute',
                 width: '100%',
-                height: $(window).height() - $('.page-header').outerHeight(true) - $('.navbar').outerHeight(true) - 20,
+                height: $(window).height() - $('.page-header').outerHeight(true) - $('.navbar').outerHeight(true) - 60,
                 'class': textarea.attr('class')
             }).insertBefore(textarea);
  

@@ -29,6 +29,89 @@ class SnippetController extends Controller
 	 */
 	public function indexAction()
 	{
-		echo $this->render('index');
+        
+        $models = $this->app->models->findAll('Snippet');
+		echo $this->render('index', array(
+                'models'=>$models,
+            ));
+	}
+    
+    /**
+	 *
+	 */
+	public function addAction()
+	{
+        $model = $this->app->models->create('Snippet');
+        
+        if ($this->app->request->isPost()) {
+            $data = $this->app->request->getPost('data');
+            
+            $model->setAttrs($data);
+            
+            if ($model->save()) {
+                $this->app->flash->set('success', 'Saved successfully.');
+                $this->app->redirect(array('snippet','index'));
+            } else {
+                $this->app->flash->set('error', 'Not saved. Fields have errors.');
+            }
+        }
+
+         echo $this->render('form', array(
+            'model'=>$model,
+        ));
+        
+	}
+    
+    /**
+	 *
+	 */
+    public function editAction($id)
+	{   
+        $model = $this->app->models->findById('Snippet', $id);
+
+        if ($model === null) {
+            $this->app->flash->set('error', 'Record with this id not found in DB.');
+            $this->app->redirect(array('user', 'index'));
+        }
+
+        if ($this->app->request->isPost()) {
+            $data = $this->app->request->getPost('data');
+            
+            $model->setAttrs($data);
+            
+            if ($model->save()) {
+                $this->app->flash->set('success', 'Saved successfully.');
+                $this->app->redirect(array('snippet', 'edit', 'id'=>$id));
+            } else {
+                $this->app->flash->set('error', 'Not saved. Fields have errors.');
+            } 
+        }
+
+        echo $this->render('form', array(
+        	'model'=>$model
+    	));
+	}
+    
+    
+    /**
+	 *
+	 */
+    public function deleteAction($id)
+	{   
+        $model = $this->app->models->findById('Snippet', $id);
+
+        if ($model === null) {
+            $this->app->flash->set('error', 'Record with this id not found in DB.');
+            $this->app->redirect(array('snippet', 'index'));
+        }
+
+        if ($model->delete()) {
+            $this->app->flash->set('success', 'Removed successfully.');
+            $this->app->redirect(array('snippet', 'index'));
+        } else {
+            $this->app->flash->set('error', 'Not removed.');
+            $this->app->redirect(array('snippet', 'index'));
+        }
+       
 	}
 }

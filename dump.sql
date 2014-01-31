@@ -37,7 +37,31 @@ CREATE TABLE IF NOT EXISTS `layout` (
 --
 
 INSERT INTO `layout` (`id`, `name`, `content`, `content_html`, `create_date`, `update_date`, `create_user_id`, `update_user_id`, `content_type`) VALUES
-(1, 'default', '', '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8">\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="">\n    <meta name="author" content="">\n    <link rel="shortcut icon" href="http://getbootstrap.com/docs-assets/ico/favicon.png">\n\n    <title>Signin Template for Bootstrap</title>\n\n    <!-- Bootstrap core CSS -->\n    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">\n\n    <link href="<?php echo Flexio::app()->getAssetUrl(''css/app.css''); ?>" rel="stylesheet" />\n\n    <!-- Custom styles for this template -->\n    <?php if (! empty($this->css)): ?> \n    <?php foreach ($this->css as $css): ?>\n    <link href="<?php echo $css; ?>" rel="stylesheet" />\n	<?php endforeach; ?>\n	<?php endif; ?>\n    \n    <!-- Just for debugging purposes. Don''t actually copy this line! -->\n    <!--[if lt IE 9]><script src="http://getbootstrap.com/docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->\n\n    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->\n    <!--[if lt IE 9]>\n      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>\n      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>\n    <![endif]-->\n  </head>\n\n  <body>\n\n  	<?php if ($this->isNavEnabled === true): ?>\n  	<div class="navbar navbar-default navbar-static-top" role="navigation">\n	  <div class="container">\n	    <div class="navbar-header">\n	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">\n	        <span class="sr-only">Toggle navigation</span>\n	        <span class="icon-bar"></span>\n	        <span class="icon-bar"></span>\n	        <span class="icon-bar"></span>\n	      </button>\n	      <a class="navbar-brand" href="<?php echo Flexio::app()->createUrl(Flexio::app()->defaultRoute); ?>"><?php echo Flexio::app()->name; ?></a>\n	    </div>\n	    <div class="navbar-collapse collapse">\n			<?php echo Flexio::app()->nav->render(); ?>\n\n			<ul class="nav navbar-nav navbar-right">\n				<li><a href="<?php echo Flexio::app()->createUrl(array(''controller''=>''user'', ''action''=>''edit'', ''id''=>Flexio::app()->auth->getId())); ?>"><?php echo Flexio::app()->auth->getUserName(); ?></a></li>\n				<li><a href="<?php echo Flexio::app()->createUrl(array(''controller''=>''auth'', ''action''=>''logout'')); ?>">Logout</a></li>\n			</ul>\n	    </div><!--/.nav-collapse -->\n	  </div>\n	</div>\n	<?php endif; ?>\n\n    <div class="container">\n\n    	<?php $success=Flexio::app()->flash->get(''success''); ?>\n    	<?php $error=Flexio::app()->flash->get(''error''); ?>\n\n    	<?php if ($success !== null): ?>\n    	<div class="alert alert-success">\n			<?php echo $success; ?>\n		</div>\n    	<?php endif; ?>\n\n    	<?php if ($error !== null): ?>\n    	<div class="alert alert-danger">\n			<?php echo $error; ?>\n		</div>\n    	<?php endif; ?>\n\n		<?php echo $this->content; ?>\n\n    </div> <!-- /container -->\n\n    <!-- Bootstrap core JavaScript\n    ================================================== -->\n    <!-- Placed at the end of the document so the pages load faster -->\n    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>\n    <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.2/parsley.min.js"></script>\n    <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js"></script>\n    <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ext-emmet.js"></script>\n    <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/mode-php.js"></script>\n    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>\n    <script src="<?php echo Flexio::app()->getAssetUrl(''js/app.js''); ?>"></script>\n  </body>\n</html>', '2014-01-28 22:30:39', '2014-01-28 00:00:00', 1, 1, '');
+(1, 'sample-layout', '<?php echo ''sample-layout''; ?>', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, '');
+
+--
+-- Table structure for table `snippet`
+--
+
+CREATE TABLE IF NOT EXISTS `snippet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `content_html` text NOT NULL,
+  `create_date` datetime NOT NULL,
+  `update_date` datetime NOT NULL,
+  `create_user_id` int(11) NOT NULL,
+  `update_user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `snippet`
+--
+
+INSERT INTO `snippet` (`id`, `name`, `content`, `content_html`, `create_date`, `update_date`, `create_user_id`, `update_user_id`) VALUES
+(1, 'sample-snippet', '<?php echo ''sample-snippet''; ?>', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1);
+
 
 --
 -- Table structure for table `page`

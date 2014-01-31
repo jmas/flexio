@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @class Layout
+ * @class Snippet
  */
-class Layout extends Model
+class Snippet extends Model
 {
 	public static function join()
 	{
@@ -34,7 +34,6 @@ class Layout extends Model
 			'update_date',
 			'create_user_id',
 			'update_user_id',
-			'content_type',
 		);
 	}
 	

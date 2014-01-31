@@ -45,9 +45,9 @@ class LayoutController extends Controller
         
         if ($this->app->request->isPost()) {
             $data = $this->app->request->getPost('data');
+            
             $model->setAttrs($data);
-            var_dump($data);
-            var_dump($model);
+            
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
                 $this->app->redirect(array('layout','index'));
