@@ -2,6 +2,12 @@
     <h3><?php echo ($this->model->isNew() ? 'Create snippet' : 'Edit snippet'); ?></h3>
 </div>
 
+<?php if ($this->model->haveErrors()): ?>
+    <div class="alert alert-danger">
+        <?php echo $this->model->getErrorsFormatted(); ?>
+    </div>
+<?php endif; ?>
+
 <form role="form" method="post" autocomplete="off" parsley-validate novalidate>
     <div class="col-md-9">
         <div class="form-group" style="line-height:34px"> 

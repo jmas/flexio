@@ -41,11 +41,19 @@ class Layout extends Model
 	public function validators()
 	{
 		return array(
-			'name'=>function($str) {
-				return ! empty($str);
+			'name'=>function($key, $model) {
+				$value = $model->getAttr($key);
+
+				if (empty($value)) {
+					$model->addError($key, 'Field is required.');
+				}
 			},
-            'content'=>function($str) {
-				return ! empty($str);
+            'content'=>function($key, $model) {
+				$value = $model->getAttr($key);
+
+				if (empty($value)) {
+					$model->addError($key, 'Field is required.');
+				}
 			}
 		);
 	}

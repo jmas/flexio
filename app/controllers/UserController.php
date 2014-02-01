@@ -47,8 +47,6 @@ class UserController extends Controller
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
                 $this->app->redirect(array('user','index'));
-            } else {
-                $this->app->flash->set('error', 'Not saved. Fields have errors.');
             }
         }
         
@@ -80,8 +78,6 @@ class UserController extends Controller
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
                 $this->app->redirect(array('user','edit','id'=>$id));
-            } else {
-                $this->app->flash->set('error', 'Not saved. Fields have errors.');
             }
         }
 

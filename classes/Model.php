@@ -252,11 +252,11 @@ abstract class Model
 
 			foreach ($keys as $key) {
 				$key = trim($key);
-				$isValid = call_user_func_array($validator, array($this->getAttr($key)));
+				$isValid = call_user_func_array($validator, array($key, $this));
 
-				if (! $isValid) {
-					$this->addError($key);
-				}
+				// if (! $isValid) {
+				// 	$this->addError($key);
+				// }
 			}
 		}
 
@@ -266,9 +266,21 @@ abstract class Model
 	/**
 	 *
 	 */
-	public function addError($key)
+	public function addError($field, $message)
 	{
-		$this->errors[] = $key;
+		if (! isset($this->errors[$field])) {
+			$this->errors[$field] = array();
+		}
+
+		$this->errors[$field][] = $message;
+	}
+
+	/**
+	 *
+	 */
+	public function haveErrors()
+	{
+		return ! empty($this->errors);
 	}
 
 	/**
@@ -277,6 +289,26 @@ abstract class Model
 	public function getErrors()
 	{
 		return $this->errors;
+	}
+
+	/**
+	 *
+	 */
+	public function getErrorsFormatted($template='<div class="errors">{ERRORS}</div>', $itemTemplate='<div class="error"><span class="value">{ERROR}</span></div>')
+	{
+		if (empty($this->errors)) {
+			return null;
+		}
+
+		$items = array();
+
+		foreach ($this->errors as $key=>$errors) {
+			foreach ($errors as $error) {
+				$items[] = str_replace('{ERROR}', $error, str_replace('{KEY}', $key, $itemTemplate));
+			}
+		}
+
+		return str_replace('{ERRORS}', implode('', $items), $template);
 	}
 
 	/**

@@ -29,55 +29,57 @@ class User extends Model
 	public function validators()
 	{
 		return array(
-			'username'=>function($str) {
-				if (empty($str)) {
-					return false;
+			'username'=>function($key, $model) {
+				$value = $model->getAttr($key);
+
+				if (empty($value)) {
+					$model->addError($key, 'Field is required.');
 				}
 
-				if ($this->isNew()) {
-					$model = Flexio::app()->models->findByAttrs('User', array(
-						'username'=>$this->username,
+				if ($model->isNew()) {
+					$model = $this->manager->findByAttrs('User', array(
+						'username'=>$model->username,
 					));
 
 					if ($model !== null) {
-						return false;
+						$model->addError($key, 'This username already taken.');
 					}
 				}
-
-				return true;
 			},
-			'password'=>function($str) {
-				if ($this->isNew()) {
-					return ! empty($str);
-				} else if (! empty($str)) {
-					return strlen($str) > 3;
+			'password'=>function($key, $model) {
+				$value = $model->getAttr($key);
+
+				if ($model->isNew() && empty($value)) {
+					$model->addError($key, 'Field is required.');
 				}
 
-				return true;
+				if (! empty($value) && strlen($value) < 3) {
+					$model->addError($key, 'Password should contain more than 3 chars.');
+				}
 			},
-			'passwordRetype'=>function($str) {
-				if ($this->isNew() || ! empty($this->password)) {
-					return strlen($str) > 3 && $this->password === $str;
+			'passwordRetype'=>function($key, $model) {
+				$value = $model->getAttr($key);
+
+				if (! empty($model->password) && $model->password !== $value) {
+					$this->addError($key, 'Password retyped not correctly.');
+				}
+			},
+			'email'=>function($key, $model) {
+				$value = $model->getAttr($key);
+
+				if (! filter_var($value, FILTER_VALIDATE_EMAIL)) {
+					$this->addError($key, 'Field contain not correctly e-mail address.');
 				}
 
-				return true;
-			},
-			'email'=>function($str) {
-				if (! filter_var($str, FILTER_VALIDATE_EMAIL)) {
-					return false;
-				}
-
-				if ($this->isNew()) {
-					$model = Flexio::app()->models->findByAttrs('User', array(
-						'email'=>$this->email,
+				if ($model->isNew()) {
+					$userModel = $model->manager->findByAttrs('User', array(
+						'email'=>$model->email,
 					));
 
-					if ($model !== null) {
-						return false;
+					if ($userModel !== null) {
+						$this->addError($key, 'This e-mail already taked.');
 					}
 				}
-
-				return true;
 			}
 		);
 	}

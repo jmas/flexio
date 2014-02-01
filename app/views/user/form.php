@@ -2,6 +2,12 @@
     <h3><?php echo ($this->model->isNew() ? 'Create user' : 'Edit user'); ?></h3>
 </div>
 
+<?php if ($this->model->haveErrors()): ?>
+    <div class="alert alert-danger">
+        <?php echo $this->model->getErrorsFormatted(); ?>
+    </div>
+<?php endif; ?>
+
 <form class="form-horizontal" role="form" method="post" autocomplete="off" parsley-validate novalidate>
 
     <div class="form-group <?php echo in_array('name', $this->model->getErrors()) ? 'has-error': ''; ?>">

@@ -51,8 +51,6 @@ class SnippetController extends Controller
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
                 $this->app->redirect(array('snippet','index'));
-            } else {
-                $this->app->flash->set('error', 'Not saved. Fields have errors.');
             }
         }
 
@@ -82,9 +80,7 @@ class SnippetController extends Controller
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
                 $this->app->redirect(array('snippet', 'edit', 'id'=>$id));
-            } else {
-                $this->app->flash->set('error', 'Not saved. Fields have errors.');
-            } 
+            }
         }
 
         echo $this->render('form', array(
