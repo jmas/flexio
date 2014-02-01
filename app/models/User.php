@@ -37,7 +37,7 @@ class User extends Model
 				}
 
 				if ($model->isNew()) {
-					$model = $this->manager->findByAttrs('User', array(
+					$model = $model->manager->findByAttrs('User', array(
 						'username'=>$model->username,
 					));
 
@@ -61,14 +61,14 @@ class User extends Model
 				$value = $model->getAttr($key);
 
 				if (! empty($model->password) && $model->password !== $value) {
-					$this->addError($key, 'Password retyped not correctly.');
+					$model->addError($key, 'Password retyped not correctly.');
 				}
 			},
 			'email'=>function($key, $model) {
 				$value = $model->getAttr($key);
 
 				if (! filter_var($value, FILTER_VALIDATE_EMAIL)) {
-					$this->addError($key, 'Field contain not correctly e-mail address.');
+					$model->addError($key, 'Field contain not correctly e-mail address.');
 				}
 
 				if ($model->isNew()) {
@@ -77,7 +77,7 @@ class User extends Model
 					));
 
 					if ($userModel !== null) {
-						$this->addError($key, 'This e-mail already taked.');
+						$model->addError($key, 'This e-mail already taked.');
 					}
 				}
 			}
