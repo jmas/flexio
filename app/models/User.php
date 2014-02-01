@@ -42,7 +42,7 @@ class User extends Model
 					));
 
 					if ($userModel !== null) {
-						$model->addError($key, 'This username already taken.');
+						$model->addError($key, 'This username already taked.');
 					}
 				}
 			},
