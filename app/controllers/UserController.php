@@ -102,7 +102,7 @@ class UserController extends Controller
         }
 
         if ($model->username === 'admin') {
-            $this->app->flash->set('error', 'Not removed. User with username \'admin\' can\'t be removed.');
+            $this->app->flash->set('error', "Not removed. User with username 'admin' can't be removed.");
             $this->app->redirect(array('user','index'));
         }
 

@@ -125,6 +125,18 @@ class User extends Model
 	/**
 	 *
 	 */
+	public function beforeDelete()
+	{
+		if ($this->username === 'admin') {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 *
+	 */
 	public function hashPassword()
 	{
 		$this->password = sha1($this->password);
