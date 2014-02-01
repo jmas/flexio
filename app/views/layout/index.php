@@ -6,8 +6,8 @@
     <a href="<?php echo $this->app->createUrl(array('layout', 'add')); ?>" class="btn btn-primary">Create layout</a>
 </p>
 
+<?php if (count($this->models) > 0): ?>
 <div class="list-group">
-    <?php if ($this->models): ?>
     <div class="list-group-item list-group-item-info">
         <div class="row">
             <div class="col-md-4">Name</div>
@@ -16,10 +16,7 @@
             <div class="col-md-2"></div>
         </div>
     </div>
-    <?php else: ?>
-    <p class="text-center">The list is empty.</p>
-    <?php endif; ?>
-<?php foreach ($this->models as $model): ?>
+    <?php foreach ($this->models as $model): ?>
     <div class="list-group-item">
         <div class="row">
             <div class="col-md-4"><b><a href="<?php echo $this->app->createUrl(array('layout', 'edit', 'id'=>$model->id)); ?>"><?php echo htmlspecialchars($model->name); ?></a></b></div>
@@ -28,5 +25,8 @@
             <div class="col-md-2 text-center"><a href="<?php echo $this->app->createUrl(array('layout', 'delete', 'id'=>$model->id)); ?>" type="button" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')">Delete</a></div>
         </div>
     </div>
-<?php endforeach; ?>
+    <?php endforeach; ?>
 </div>
+<?php else: ?>
+<p class="text-muted">The list is empty.</p>
+<?php endif; ?>
