@@ -43,9 +43,11 @@ class SettingController extends Controller
         
             if ($data = $this->app->request->getQuery('install')) {
                 $this->app->plugins->install($data);
+                $this->app->redirect(array('setting','plugin'));
             }
             else if ($data = $this->app->request->getQuery('uninstall')) {
                 $this->app->plugins->uninstall($data);
+                $this->app->redirect(array('setting','plugin'));
             }
         }
         
