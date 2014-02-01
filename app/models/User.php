@@ -42,7 +42,7 @@ class User extends Model
 					));
 
 					if ($userModel !== null) {
-						$model->addError($key, 'This username already taken.');
+						$model->addError($key, 'This username already taked.');
 					}
 				}
 			},
@@ -120,6 +120,18 @@ class User extends Model
 		}
 
 		return parent::beforeSave();
+	}
+
+	/**
+	 *
+	 */
+	public function beforeDelete()
+	{
+		if ($this->username === 'admin') {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
