@@ -7,6 +7,7 @@
 </p>
 
 <div class="list-group">
+    <?php if ($this->models): ?>
     <div class="list-group-item list-group-item-info">
         <div class="row">
             <div class="col-md-4">Name</div>
@@ -15,6 +16,9 @@
             <div class="col-md-2"></div>
         </div>
     </div>
+    <?php else: ?>
+    <p class="text-center">The list is empty.</p>
+    <?php endif; ?>
 <?php foreach ($this->models as $model): ?>
     <div class="list-group-item">
         <div class="row">
