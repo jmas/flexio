@@ -37,11 +37,11 @@ class User extends Model
 				}
 
 				if ($model->isNew()) {
-					$model = $model->manager->findByAttrs('User', array(
+					$userModel = $model->manager->findByAttrs('User', array(
 						'username'=>$model->username,
 					));
 
-					if ($model !== null) {
+					if ($userModel !== null) {
 						$model->addError($key, 'This username already taken.');
 					}
 				}

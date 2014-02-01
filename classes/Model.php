@@ -42,6 +42,10 @@ abstract class Model
 		if (isset($config['db'])) {
 			$this->db = $config['db'];
 		}
+
+		if (isset($config['manager'])) {
+			$this->manager = $config['manager'];
+		}
 	}
 
 	/**
