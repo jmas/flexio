@@ -37,7 +37,21 @@ class SettingController extends Controller
 	 */
 	public function pluginAction()
 	{
-		echo $this->render('plugin');
+        $plugins = glob(PLUGINS_PATH . DIRECTORY_SEPARATOR . '*');
+
+        if ($this->app->request->isGet()) {
+        
+            if ($data = $this->app->request->getQuery('install')) {
+                $this->app->plugins->install($data);
+            }
+            else if ($data = $this->app->request->getQuery('uninstall')) {
+                $this->app->plugins->uninstall($data);
+            }
+        }
+        
+        echo $this->render('plugin', array(
+            'plugins'=>$plugins
+        ));
 	}
 
 	/**
