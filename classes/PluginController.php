@@ -3,7 +3,7 @@
 /**
  * @class PluginController
  */
-class PluginController extends Controller
+class PluginController extends AppController
 {
 	/**
 	 *
