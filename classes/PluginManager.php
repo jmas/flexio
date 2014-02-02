@@ -23,6 +23,11 @@ class PluginManager
 	/**
 	 *
 	 */
+	protected $app;
+
+	/**
+	 *
+	 */
 	public function __construct($config=array())
 	{
 		foreach ($config as $key=>$value) {
@@ -68,6 +73,8 @@ class PluginManager
 		if (! class_exists($className)) {
 			throw new Exception("Plugin class '{$className}' not exists.");
 		}
+		
+		$config['app'] = $this->app;
 
 		$instance = new $className($config);
 		$instance->register();

@@ -252,6 +252,8 @@ class Flexio
 			if (gettype($this->config[$key])==='array' && ! empty($this->config[$key]['class'])) {
 				$className = $this->config[$key]['class'];
 				unset($this->config[$key]['class']);
+				$this->config[$key]['app'] = $this;
+				
 				$instance = new $className($this->config[$key]);
 				$this->config[$key] = $instance;
 			}
