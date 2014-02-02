@@ -142,7 +142,7 @@ class Auth
         	));
         }
         
-        if ($user instanceof User && $user->password == sha1($password)) {
+        if ($user instanceof User && $user->verifyPassword($password)) {
             $user->lastLogin = date('Y-m-d H:i:s');
             $user->save();
             

@@ -1,7 +1,7 @@
 <?php return array (
   'installed' => 
   array (
-    0 => 'skeleton',
-    1 => 'activity',
+    0 => 'activity',
+    1 => 'skeleton',
   ),
 );

@@ -1,5 +1,12 @@
 <?php
 
+// This class required password_compat lib.
+if (! function_exists('password_hash')) {
+	require_once(VENDORS_PATH . DIRECTORY_SEPARATOR
+		. 'password_compat' . DIRECTORY_SEPARATOR
+		. 'lib' . DIRECTORY_SEPARATOR . 'password.php');
+}
+
 /**
  * @class User
  */
@@ -114,7 +121,7 @@ class User extends Model
 		}
 
 		if (! empty($this->passwordRetype)) { // password is modified
-			$this->hashPassword();
+			$this->hashPassword($this->password);
 		} else { // password not modified. Make it null for skip saving to DB
 			$this->password = null;
 		}
@@ -137,9 +144,19 @@ class User extends Model
 	/**
 	 *
 	 */
-	public function hashPassword()
+	public function hashPassword($password)
 	{
-		$this->password = sha1($this->password);
+		$this->password = password_hash($password, PASSWORD_DEFAULT); //sha1($this->password);
+		
+		return $this->password;
+	}
+
+	/**
+	 *
+	 */
+	public function verifyPassword($password)
+	{
+		return password_verify($password, $this->password);
 	}
 
 	/**

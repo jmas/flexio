@@ -38,22 +38,38 @@ class SettingController extends Controller
 	public function pluginAction()
 	{
         $plugins = $this->app->plugins->findAll();
-
-        if ($this->app->request->isGet()) {
-        
-            if ($data = $this->app->request->getQuery('install')) {
-                $this->app->plugins->install($data);
-                $this->app->redirect(array('setting','plugin'));
-            }
-            else if ($data = $this->app->request->getQuery('uninstall')) {
-                $this->app->plugins->uninstall($data);
-                $this->app->redirect(array('setting','plugin'));
-            }
-        }
         
         echo $this->render('plugin', array(
             'plugins'=>$plugins
         ));
+	}
+
+	/**
+	 *
+	 */
+	public function installAction($pluginName)
+	{
+        if ($this->app->plugins->install($pluginName)) {
+	        $this->app->flash->set('success', 'Installed successfully.');
+	    } else {
+	    	$this->app->flash->set('error', 'Installation is failed.');
+	    }
+
+        $this->app->redirect(array('setting','plugin'));
+	}
+
+	/**
+	 *
+	 */
+	public function uninstallAction($pluginName)
+	{
+		if ($this->app->plugins->uninstall($pluginName)) {
+	        $this->app->flash->set('success', 'Uninstalled successfully.');
+	    } else {
+	    	$this->app->flash->set('error', 'Uninstallation is failed.');
+	    }
+
+        $this->app->redirect(array('setting','plugin'));
 	}
 
 	/**

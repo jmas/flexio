@@ -131,10 +131,16 @@ class PluginManager
 		$config = require($configPath);
 
 		$config['installed'] = $installed;
-
+		
 		$content = '<?php return ' . var_export($config, true) . ';';
 
-		return file_put_contents($configPath, $content) !== false;
+		$result = file_put_contents($configPath, $content) !== false ? true: false;
+
+		if ($result === true) {
+			$this->installed = $installed;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -190,7 +196,13 @@ class PluginManager
 
 		$content = '<?php return ' . var_export($config, true) . ';';
 
-		return file_put_contents($configPath, $content) !== false;
+		$result = file_put_contents($configPath, $content) !== false ? true: false;
+
+		if ($result === true) {
+			$this->installed = $installed;
+		}
+
+		return $result;
 	}
 
 	/**

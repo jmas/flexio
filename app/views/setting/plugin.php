@@ -24,7 +24,7 @@
             <div class="col-md-2"></div>
             <div class="col-md-2"><?php echo $plugin->getVersion(); ?></div>
             <div class="col-md-2"></div>
-            <div class="col-md-2"><a href="<?php echo $this->app->createUrl(array('setting', 'plugin', $this->app->plugins->isInstalled($plugin->getName()) ?  'uninstall' : 'install'=>$plugin->getName())); ?>" type="button" class="btn btn-danger btn-xs"><?php echo $this->app->plugins->isInstalled($plugin->getName()) ?  'Uninstall' : 'Install'; ?></a></div>
+            <div class="col-md-2"><a href="<?php echo $this->app->createUrl(array('setting', $this->app->plugins->isInstalled($plugin->getName()) ?  'uninstall' : 'install', 'pluginName'=>$plugin->getName())); ?>" type="button" class="btn <?php echo $this->app->plugins->isInstalled($plugin->getName()) ? 'btn-danger': 'btn-success'; ?> btn-xs"><?php echo $this->app->plugins->isInstalled($plugin->getName()) ?  'Uninstall' : 'Install'; ?></a></div>
         </div>
     </div>
     <?php endforeach; ?>
