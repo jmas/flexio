@@ -20,11 +20,11 @@
     <?php foreach ($this->plugins as $plugin): ?>
     <div class="list-group-item">
         <div class="row">
-            <div class="col-md-4"><?php echo basename($plugin); ?></div>
+            <div class="col-md-4"><?php echo $plugin->getName(); ?></div>
             <div class="col-md-2"></div>
+            <div class="col-md-2"><?php echo $plugin->getVersion(); ?></div>
             <div class="col-md-2"></div>
-            <div class="col-md-2"></div>
-            <div class="col-md-2"><a href="<?php echo $this->app->createUrl(array('setting', 'plugin', $this->app->plugins->isInstalled(basename($plugin)) ?  'uninstall' : 'install'=>basename($plugin) )); ?>" type="button" class="btn btn-danger btn-xs"><?php echo $this->app->plugins->isInstalled(basename($plugin)) ?  'Uninstall' : 'Install'; ?></a></div>
+            <div class="col-md-2"><a href="<?php echo $this->app->createUrl(array('setting', 'plugin', $this->app->plugins->isInstalled($plugin->getName()) ?  'uninstall' : 'install'=>$plugin->getName())); ?>" type="button" class="btn btn-danger btn-xs"><?php echo $this->app->plugins->isInstalled($plugin->getName()) ?  'Uninstall' : 'Install'; ?></a></div>
         </div>
     </div>
     <?php endforeach; ?>

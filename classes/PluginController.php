@@ -30,7 +30,7 @@ class PluginController extends Controller
 	public function getPlugin()
 	{
 		$pluginName = $this->app->getParam('plugin');
-		return $this->app->plugins->getPlugin($pluginName);
+		return $this->app->plugins->get($pluginName);
 	}
 
 	/**

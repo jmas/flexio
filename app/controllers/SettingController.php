@@ -37,7 +37,7 @@ class SettingController extends Controller
 	 */
 	public function pluginAction()
 	{
-        $plugins = glob(PLUGINS_PATH . DIRECTORY_SEPARATOR . '*');
+        $plugins = $this->app->plugins->findAll();
 
         if ($this->app->request->isGet()) {
         

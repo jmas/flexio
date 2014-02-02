@@ -42,7 +42,7 @@ class PluginManager
 	 */
 	public function __get($key)
 	{
-		return $this->getPlugin($key);
+		return $this->get($key);
 	}
 
 	/**
@@ -60,23 +60,7 @@ class PluginManager
 	 */
 	public function registerPlugin($pluginName, array $config=array())
 	{
-		$className = ucfirst($pluginName) . 'Plugin';
-
-		$pluginPath = PLUGINS_PATH . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . ucfirst($pluginName) . 'Plugin.php';
-
-		if (! file_exists($pluginPath)) {
-			throw new Exception("Plugin file '{$pluginPath}' not found.");
-		}
-
-		require_once($pluginPath);
-
-		if (! class_exists($className)) {
-			throw new Exception("Plugin class '{$className}' not exists.");
-		}
-		
-		$config['app'] = $this->app;
-
-		$instance = new $className($config);
+		$instance = $this->get($pluginName);
 		$instance->register();
 
 		return $instance;
@@ -93,13 +77,31 @@ class PluginManager
 	/**
 	 *
 	 */
-	public function getPlugin($pluginName)
+	public function get($pluginName)
 	{
 		if (isset($this->registered[$pluginName])) {
 			return $this->registered[$pluginName];
 		}
 
-		return null;
+		$className = ucfirst($pluginName) . 'Plugin';
+
+		$pluginPath = PLUGINS_PATH . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . ucfirst($pluginName) . 'Plugin.php';
+
+		if (! file_exists($pluginPath)) {
+			throw new Exception("Plugin file '{$pluginPath}' not found.");
+		}
+
+		require_once($pluginPath);
+
+		if (! class_exists($className)) {
+			throw new Exception("Plugin class '{$className}' not exists.");
+		}
+
+		$config['app'] = $this->app;
+
+		$instance = new $className($config);
+
+		return $instance;
 	}
 
 	/**
@@ -162,7 +164,7 @@ class PluginManager
 			return true;
 		}
 
-		$plugin = $this->getPlugin($pluginName);
+		$plugin = $this->get($pluginName);
 
 		if (! $plugin->beforeUninstall()) {
 			return false;
@@ -189,5 +191,27 @@ class PluginManager
 		$content = '<?php return ' . var_export($config, true) . ';';
 
 		return file_put_contents($configPath, $content) !== false;
+	}
+
+	/**
+	 *
+	 */
+	public function findAll()
+	{
+		$plugins = glob(PLUGINS_PATH . DIRECTORY_SEPARATOR . '*');
+
+		$items = array();
+
+		foreach ($plugins as $path) {
+			if (! is_dir($path)) {
+				continue;
+			}
+
+			$name = basename($path);
+
+			$items[] = $this->get($name);
+		}
+
+		return $items;
 	}
 }

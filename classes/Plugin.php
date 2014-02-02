@@ -12,7 +12,7 @@ class Plugin
 
 	/**
 	 *
-	 */
+	 *
 	protected $version;
 
 	/**
@@ -30,6 +30,22 @@ class Plugin
 				$this->{$key} = $value;
 			}
 		}
+	}
+
+	/**
+	 *
+	 */
+	public function getName()
+	{
+		return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', basename(get_class($this), 'Plugin')));
+	}
+
+	/**
+	 *
+	 */
+	public function getVersion()
+	{
+		return $this->version;
 	}
 
 	/**
