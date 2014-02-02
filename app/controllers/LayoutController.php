@@ -29,11 +29,11 @@ class LayoutController extends AppController
 	 */
 	public function indexAction()
 	{
-        
         $models = $this->app->models->findAll('Layout');
-		echo $this->render('index', array(
-                'models'=>$models,
-            ));
+		
+        echo $this->render('index', array(
+            'models'=>$models,
+        ));
 	}
     
     /**
@@ -43,6 +43,8 @@ class LayoutController extends AppController
 	{
         $model = $this->app->models->create('Layout');
         
+        $this->addEditorAssets();
+
         if ($this->app->request->isPost()) {
             $data = $this->app->request->getPost('data');
             
@@ -54,7 +56,7 @@ class LayoutController extends AppController
             }
         }
 
-         echo $this->render('form', array(
+        echo $this->render('form', array(
             'model'=>$model,
         ));
         
@@ -66,6 +68,8 @@ class LayoutController extends AppController
     public function editAction($id)
 	{   
         $model = $this->app->models->findById('Layout', $id);
+
+        $this->addEditorAssets();
 
         if ($model === null) {
             $this->app->flash->set('error', 'Record with this id not found in DB.');
@@ -108,6 +112,5 @@ class LayoutController extends AppController
             $this->app->flash->set('error', 'Not removed.');
             $this->app->redirect(array('layout', 'index'));
         }
-       
 	}
 }

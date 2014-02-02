@@ -42,6 +42,8 @@ class SnippetController extends AppController
 	public function addAction()
 	{
         $model = $this->app->models->create('Snippet');
+
+        $this->addEditorAssets();
         
         if ($this->app->request->isPost()) {
             $data = $this->app->request->getPost('data');
@@ -66,6 +68,8 @@ class SnippetController extends AppController
     public function editAction($id)
 	{   
         $model = $this->app->models->findById('Snippet', $id);
+
+        $this->addEditorAssets();
 
         if ($model === null) {
             $this->app->flash->set('error', 'Record with this id not found in DB.');
