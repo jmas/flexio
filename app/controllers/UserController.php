@@ -3,7 +3,7 @@
 /**
  *
  */
-class UserController extends Controller
+class UserController extends AppController
 {
 	/**
 	 *

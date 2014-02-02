@@ -3,7 +3,7 @@
 /**
  *
  */
-class SnippetController extends Controller
+class SnippetController extends AppController
 {
 	/**
 	 *

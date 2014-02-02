@@ -3,7 +3,7 @@
 /**
  *
  */
-class SettingController extends Controller
+class SettingController extends AppController
 {
 	/**
 	 *

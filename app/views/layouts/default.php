@@ -11,16 +11,15 @@
     <title><?php echo htmlspecialchars($this->app->name); ?></title>
 
     <!-- Bootstrap core CSS -->
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <?php /* <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"> */ ?>
 
-    <link href="<?php echo $this->app->getAssetUrl('css/app.css'); ?>" rel="stylesheet" />
+    <?php /* <link href="<?php echo $this->app->getAssetUrl('css/app.css'); ?>" rel="stylesheet" /> */ ?>
 
     <!-- Custom styles for this template -->
-    <?php if (! empty($this->css)): ?> 
-    <?php foreach ($this->css as $css): ?>
-    <link href="<?php echo $css; ?>" rel="stylesheet" />
-	<?php endforeach; ?>
-	<?php endif; ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_CSS, AssetManager::POS_HEAD); ?>
+
+    <!-- Custom js for this template -->
+    <?php echo $this->app->assets->render(AssetManager::TYPE_JS, AssetManager::POS_HEAD); ?>
     
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="http://getbootstrap.com/docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -82,12 +81,14 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <?php /* <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.2/parsley.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ext-emmet.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/mode-php.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="<?php echo $this->app->getAssetUrl('js/app.js'); ?>"></script>
+    <script src="<?php echo $this->app->getAssetUrl('js/app.js'); ?>"></script> */ ?>
+
+    <?php echo $this->app->assets->render(AssetManager::TYPE_JS, AssetManager::POS_BODY_BOTTOM); ?>
   </body>
 </html>

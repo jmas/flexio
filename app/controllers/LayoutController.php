@@ -3,7 +3,7 @@
 /**
  *
  */
-class LayoutController extends Controller
+class LayoutController extends AppController
 {
 	/**
 	 *

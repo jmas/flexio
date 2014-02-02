@@ -3,7 +3,7 @@
 /**
  *
  */
-class AuthController extends Controller
+class AuthController extends AppController
 {
 	/**
 	 *

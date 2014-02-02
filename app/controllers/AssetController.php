@@ -3,7 +3,7 @@
 /**
  *
  */
-class AssetController extends Controller
+class AssetController extends AppController
 {
 	/**
 	 *

@@ -106,6 +106,9 @@ class Flexio
 		'flash'=>array(
 			'class'=>'Flash',
 		),
+		'assets'=>array(
+			'class'=>'AssetManager',
+		),
 		'nav'=>array(
 			'class'=>'Nav',
 			'items'=>array(

@@ -3,7 +3,7 @@
 /**
  *
  */
-class PageController extends Controller
+class PageController extends AppController
 {
 	/**
 	 *
