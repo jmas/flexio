@@ -7,6 +7,8 @@ class AssetManager
 	 */
 	const TYPE_CSS=1;
 	const TYPE_JS=2;
+	const TYPE_CSS_PLAIN=3;
+	const TYPE_JS_PLAIN=4;
 
 	/**
 	 *
@@ -19,8 +21,10 @@ class AssetManager
 	 *
 	 */
 	protected $itemTemplates = array(
-		self::TYPE_CSS => '<link href="{URL}" rel="stylesheet" />',
-		self::TYPE_JS => '<script src="{URL}"></script>',
+		self::TYPE_CSS => '<link href="{ITEM}" rel="stylesheet" />',
+		self::TYPE_JS => '<script src="{ITEM}" type="text/javascript"></script>',
+		self::TYPE_CSS_PLAIN => '<style type="text/css">{ITEM}</style>',
+		self::TYPE_JS_PLAIN => '<script type="text/javascript">{ITEM}</script>',
 	);
 
 	/**
@@ -31,7 +35,7 @@ class AssetManager
 	/**
 	 *
 	 */
-	public function add($url, $type=self::TYPE_CSS, $pos=self::POS_HEAD)
+	public function add($item, $type=self::TYPE_CSS, $pos=self::POS_HEAD)
 	{
 		if (! isset($this->assets[$type])) {
 			$this->assets[$type] = array();
@@ -41,7 +45,7 @@ class AssetManager
 			$this->assets[$type][$pos] = array();
 		}
 
-		$this->assets[$type][$pos][] = $url;
+		$this->assets[$type][$pos][] = $item;
 	}
 
 	/**
@@ -52,11 +56,11 @@ class AssetManager
 		$result = array();
 
 		if (isset($this->assets[$type]) && isset($this->assets[$type][$pos])) {
-			foreach ($this->assets[$type][$pos] as $url) {
-				$result[] = str_replace('{URL}',  $url, $this->itemTemplates[$type]);
+			foreach ($this->assets[$type][$pos] as $item) {
+				$result[] = str_replace('{ITEM}',  $item, $this->itemTemplates[$type]);
 			}
 		}
-		
-		return implode('', $result);
+
+		return implode("\n", $result);
 	}
 }
