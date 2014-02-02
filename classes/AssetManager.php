@@ -45,7 +45,45 @@ class AssetManager
 			$this->assets[$type][$pos] = array();
 		}
 
-		$this->assets[$type][$pos][] = $item;
+		if (is_array($item)) {
+			foreach ($item as $value) {
+				$this->assets[$type][$pos][] = $value;
+			}
+		} else {
+			$this->assets[$type][$pos][] = $item;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function addJs($url, $pos=self::POS_HEAD)
+	{
+		$this->add($url, self::TYPE_JS, $pos);
+	}
+
+	/**
+	 *
+	 */
+	public function addCss($url, $pos=self::POS_HEAD)
+	{
+		$this->add($url, self::TYPE_CSS, $pos);
+	}
+
+	/**
+	 *
+	 */
+	public function addPlainCss($content, $pos=self::POS_HEAD)
+	{
+		$this->add($content, self::TYPE_CSS_PLAIN, $pos);
+	}
+
+	/**
+	 *
+	 */
+	public function addPlainJs($content, $pos=self::POS_HEAD)
+	{
+		$this->add($content, self::TYPE_JS_PLAIN, $pos);
 	}
 
 	/**
