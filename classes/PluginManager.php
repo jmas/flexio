@@ -226,4 +226,22 @@ class PluginManager
 
 		return $items;
 	}
+    
+    /**
+	 *
+	 */
+	public function findAllFromGit()
+	{
+        $base = "https://api.github.com/repos/jmas/flexio-plugins/contents";
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $base);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
+
+        $content = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($content, true);
+
+	}
 }

@@ -43,6 +43,36 @@ class SettingController extends AppController
             'plugins'=>$plugins
         ));
 	}
+    /**
+	 *
+	 */
+	public function addPluginAction()
+	{
+        $localPlugins = $this->app->plugins->findAll();
+        $gitPlugins = $this->app->plugins->findAllFromGit();
+        
+        foreach ($gitPlugins as $key => $gitPlugin) {
+            if (strpos($gitPlugin['name'], '-flexio-plugin') !== false) { 
+            
+                $pluginName = strtolower(basename($gitPlugin['name'], '-flexio-plugin'));
+                
+                foreach ($localPlugins as $localPlugin) {
+                
+                    if (strtolower($localPlugin->getName()) !== $pluginName) {
+                        
+                        $plugins[$key]['name'] = $pluginName;
+                        $plugins[$key]['html_url'] = $gitPlugin['html_url'];
+                        
+                    }
+                
+                } 
+            }
+        }
+        
+        echo $this->render('git-plugin', array(
+            'plugins'=>$plugins
+        ));
+	}
 
 	/**
 	 *
