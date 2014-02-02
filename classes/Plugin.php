@@ -12,8 +12,13 @@ class Plugin
 
 	/**
 	 *
-	 *
+	 */
 	protected $version;
+
+	/**
+	 *
+	 */
+	protected $repoUrl;
 
 	/**
 	 *
@@ -38,6 +43,14 @@ class Plugin
 	public function getName()
 	{
 		return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', basename(get_class($this), 'Plugin')));
+	}
+
+	/**
+	 *
+	 */
+	public function getRepoUrl()
+	{
+		return $this->repoUrl;
 	}
 
 	/**

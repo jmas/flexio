@@ -18,6 +18,11 @@ class SkeletonPlugin extends Plugin
 	/**
 	 *
 	 */
+	protected $repoUrl = 'https://github.com/jmas/skeleton-flexio-plugin.git';
+
+	/**
+	 *
+	 */
 	public function permissions()
 	{
 		return array('skeleton-editor', 'skeleton-administrator', 'skeleton-developer');
