@@ -25,6 +25,17 @@ class PluginManager
 	 */
 	protected $app;
 
+
+	/**
+	 *
+	 */
+	protected $remoteGithubUser = 'jmas';
+
+	/**
+	 *
+	 */
+	protected $remoteGithubRepo = 'flexio-plugins';
+
 	/**
 	 *
 	 */
@@ -230,18 +241,34 @@ class PluginManager
     /**
 	 *
 	 */
-	public function findAllFromGit()
+	public function findAllRemote()
 	{
-        $base = "https://api.github.com/repos/jmas/flexio-plugins/contents";
+        $apiContentsUrl = 'https://api.github.com/repos/' . $this->remoteGithubUser . '/' . $this->remoteGithubRepo . '/contents';
+
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $base);
+
+        curl_setopt($curl, CURLOPT_URL, $apiContentsUrl);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
 
         $content = curl_exec($curl);
         curl_close($curl);
-        return json_decode($content, true);
 
+        $data = json_decode($content, true);
+
+        $items = array();
+
+        foreach ($data as $item) {
+        	if (strstr($item['name'], '-flexio-plugin')) {
+        		$items[] = array(
+        			'name'=>basename($item['name'], '-flexio-plugin'),
+        			'sha'=>$item['sha'],
+        			'url'=>$item['url'],
+    			);
+        	}
+        }
+        
+        return $items;
 	}
 }

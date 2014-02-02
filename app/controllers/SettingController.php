@@ -48,30 +48,40 @@ class SettingController extends AppController
 	 */
 	public function addPluginAction()
 	{
-        $localPlugins = $this->app->plugins->findAll();
-        $gitPlugins = $this->app->plugins->findAllFromGit();
+        // $localPlugins = $this->app->plugins->findAll();
+        // $gitPlugins = $this->app->plugins->findAllRemote();
         
-        foreach ($gitPlugins as $key => $gitPlugin) {
-            if (strpos($gitPlugin['name'], '-flexio-plugin') !== false) { 
+        // foreach ($gitPlugins as $key => $gitPlugin) {
+        //     if (strpos($gitPlugin['name'], '-flexio-plugin') !== false) { 
             
-                $pluginName = strtolower(basename($gitPlugin['name'], '-flexio-plugin'));
+        //         $pluginName = strtolower(basename($gitPlugin['name'], '-flexio-plugin'));
                 
-                foreach ($localPlugins as $localPlugin) {
+        //         foreach ($localPlugins as $localPlugin) {
                 
-                    if (strtolower($localPlugin->getName()) !== $pluginName) {
+        //             if (strtolower($localPlugin->getName()) !== $pluginName) {
                         
-                        $plugins[$key]['name'] = $pluginName;
-                        $plugins[$key]['html_url'] = $gitPlugin['html_url'];
+        //                 $plugins[$key]['name'] = $pluginName;
+        //                 $plugins[$key]['html_url'] = $gitPlugin['html_url'];
                         
-                    }
+        //             }
                 
-                } 
-            }
-        }
+        //         } 
+        //     }
+        // }
+
+        $plugins = $this->app->plugins->findAllRemote();
         
-        echo $this->render('git-plugin', array(
-            'plugins'=>$plugins
+        echo $this->render('addPlugin', array(
+            'plugins'=>$plugins,
         ));
+	}
+
+	/**
+	 *
+	 */
+	public function downloadPluginAction($remoteUrl)
+	{
+
 	}
 
 	/**

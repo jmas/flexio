@@ -3,7 +3,7 @@
 </div>
 
 <p>
-    <a href="<?php echo $this->app->createUrl(array('setting', 'plugin')); ?>" class="btn btn-primary">Add plugin</a>
+    <a href="<?php echo $this->app->createUrl(array('setting', 'addPlugin')); ?>" class="btn btn-primary">Add plugin</a>
 </p>
 
 <?php if (count($this->plugins) > 0): ?>
