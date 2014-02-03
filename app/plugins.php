@@ -1,6 +1,6 @@
 <?php return array (
   'installed' => 
   array (
-    1 => 'skeleton',
+    0 => 'skeleton',
   ),
 );

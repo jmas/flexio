@@ -47,8 +47,6 @@ class PluginsController extends AppController
 	 */
 	public function downloadAction($name)
 	{
-		$url = $this->app->plugins->getRemoteZipUrlByName($name);
-
 		if ($this->app->plugins->download($name)) {
 			$this->app->flash->set('success', 'Downloaded successfully.');
 		} else {
