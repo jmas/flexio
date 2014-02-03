@@ -179,7 +179,7 @@ class Controller
 			$params['action'] = $params[0];
 			unset($params[0]);
 		}
-		
+
 		return $this->app->createUrl($params);
 	}
 
@@ -188,6 +188,14 @@ class Controller
 	 */
 	public function redirect($params)
 	{
-		return $this->app->redirect($this->createUrl($params));
+		if (is_array($params)) {
+			$url = $this->createUrl($params);
+		} else if (is_string($params)) {
+			$url = $params;
+		} else {
+			throw new Exception("Argument 'params' should be array or string.");
+		}
+
+		return $this->app->redirect($url);
 	}
 }

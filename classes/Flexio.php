@@ -329,9 +329,15 @@ class Flexio
 	/**
 	 *
 	 */
-	public function redirect(array $params=array())
+	public function redirect($params)
 	{
-		$url =$this->createUrl($params);
+		if (is_array($params)) {
+			$url = $this->createUrl($params);
+		} else if (is_string($params)) {
+			$url = $params;
+		} else {
+			throw new Exception("Argument 'params' should be array or string.");
+		}
 
 		header('Location: ' . $url);
 

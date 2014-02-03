@@ -45,7 +45,7 @@ class PluginsController extends AppController
 	/**
 	 *
 	 */
-	public function downloadAction()
+	public function downloadAction($remoteUrl)
 	{
 		$data = $this->app->plugins->findRemote($remoteUrl);
         // var_dump($data);
