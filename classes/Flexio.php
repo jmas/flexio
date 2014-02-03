@@ -76,7 +76,7 @@ class Flexio
 			),
 			'routes'=>array(
 				// '<controller:page|user|layout|snippet|auth|asset>',
-				'<controller:page|user|layout|snippet|auth|asset|setting>/<action:\w+>',
+				'<controller:page|user|layout|snippet|auth|asset|setting|plugins>/<action:\w+>',
 				'plugin/<plugin:\w+>/<controller:\w+>',
 				'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',
 				'<path:.+>',
