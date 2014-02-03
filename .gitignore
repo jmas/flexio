@@ -1,3 +1,5 @@
 assets/*
 
 !.gitignore
+
+app/plugins/*
