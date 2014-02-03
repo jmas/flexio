@@ -25,10 +25,7 @@ class AuthController extends AppController
 				$this->app->redirect($this->app->defaultRoute);
 			}
 
-			$this->app->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));	
+			$this->redirect(array('index'));	
 		}
 
 		echo $this->render('index');
@@ -41,9 +38,6 @@ class AuthController extends AppController
 	{
 		$this->app->auth->logout();
 
-		$this->app->redirect(array(
-			'controller'=>'auth',
-			'action'=>'index',
-		));
+		$this->redirect(array('index'));
 	}
 }

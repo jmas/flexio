@@ -20,7 +20,7 @@
             <input type="text" class="form-control" name="data[name]" placeholder="" required parsley-error-message="Add name for snippet" value="<?php echo htmlspecialchars($this->model->name); ?>">
         </div>
         <div class="form-group" style="line-height:34px">
-            <input type="submit" class="btn btn-primary" value="<?php echo ($this->model->isNew() ? 'Create': 'Save'); ?>" /> or <a href="<?php echo $this->app->createUrl(array('snippet', 'index')); ?>">Cancel</a>
+            <input type="submit" class="btn btn-primary" value="<?php echo ($this->model->isNew() ? 'Create': 'Save'); ?>" /> or <a href="<?php echo $this->controller->createUrl(array('index')); ?>">Cancel</a>
         </div>
     </div>
 </form>

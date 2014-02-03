@@ -13,10 +13,7 @@ class SnippetController extends AppController
 		parent::beforeExec($actionName, $params);
 
 		if (! $this->app->auth->isLoggedIn()) {
-			$this->app->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));
+			$this->app->redirect(array('auth', 'index'));
 		}
 
 		$this->setLayoutValue('isNavEnabled', true);
@@ -29,11 +26,11 @@ class SnippetController extends AppController
 	 */
 	public function indexAction()
 	{
-        
         $models = $this->app->models->findAll('Snippet');
+
 		echo $this->render('index', array(
-                'models'=>$models,
-            ));
+            'models'=>$models,
+        ));
 	}
     
     /**
@@ -52,14 +49,13 @@ class SnippetController extends AppController
             
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
-                $this->app->redirect(array('snippet','index'));
+                $this->redirect(array('index'));
             }
         }
 
-         echo $this->render('form', array(
+        echo $this->render('form', array(
             'model'=>$model,
         ));
-        
 	}
     
     /**
@@ -73,7 +69,7 @@ class SnippetController extends AppController
 
         if ($model === null) {
             $this->app->flash->set('error', 'Record with this id not found in DB.');
-            $this->app->redirect(array('user', 'index'));
+            $this->redirect(array('index'));
         }
 
         if ($this->app->request->isPost()) {
@@ -83,7 +79,7 @@ class SnippetController extends AppController
             
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
-                $this->app->redirect(array('snippet', 'edit', 'id'=>$id));
+                $this->redirect(array('edit', 'id'=>$id));
             }
         }
 
@@ -102,16 +98,15 @@ class SnippetController extends AppController
 
         if ($model === null) {
             $this->app->flash->set('error', 'Record with this id not found in DB.');
-            $this->app->redirect(array('snippet', 'index'));
+            $this->redirect(array('index'));
         }
 
         if ($model->delete()) {
             $this->app->flash->set('success', 'Removed successfully.');
-            $this->app->redirect(array('snippet', 'index'));
+            $this->redirect(array('index'));
         } else {
             $this->app->flash->set('error', 'Not removed.');
-            $this->app->redirect(array('snippet', 'index'));
+            $this->redirect(array('index'));
         }
-       
 	}
 }

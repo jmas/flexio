@@ -10,10 +10,7 @@ class PluginsController extends AppController
 		parent::beforeExec($actionName, $params);
 
 		if (! $this->app->auth->isLoggedIn()) {
-			$this->app->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));
+			$this->redirect(array('index'));
 		}
 
 		$this->setLayoutValue('isNavEnabled', true);
@@ -74,7 +71,7 @@ class PluginsController extends AppController
         unlink(realpath($filename)); 
 
         $this->app->flash->set('success', 'Downloaded successfully.');
-        $this->redirect(array('plugins','index'));
+        $this->redirect(array('index'));
 	}
 
 	/**

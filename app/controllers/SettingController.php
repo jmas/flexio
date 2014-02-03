@@ -13,10 +13,7 @@ class SettingController extends AppController
 		parent::beforeExec($actionName, $params);
 
 		if (! $this->app->auth->isLoggedIn()) {
-			$this->app->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));
+			$this->app->redirect(array('auth', 'index'));
 		}
 
 		$this->setLayoutValue('isNavEnabled', true);

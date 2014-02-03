@@ -71,7 +71,7 @@
     </div>   
     <div class="form-group">
         <div class="col-md-3">
-            <input type="submit" class="btn btn-primary" value="<?php echo ($this->model->isNew() ? 'Create': 'Save'); ?>" /> or <a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'index')); ?>">Cancel</a>
+            <input type="submit" class="btn btn-primary" value="<?php echo ($this->model->isNew() ? 'Create': 'Save'); ?>" /> or <a href="<?php echo $this->controller->createUrl(array('index')); ?>">Cancel</a>
         </div>
     </div>
 </form>

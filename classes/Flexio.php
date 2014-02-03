@@ -75,12 +75,11 @@ class Flexio
 				'action'=>'index',
 			),
 			'routes'=>array(
-				// '<controller:(page|user|layout|snippet)>/<action:\w+>',
-				// 'plugin/<plugin:\w+>/<controller:\w+>',
-				// 'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',
-				// '<path:.+>',
-				// '<controller:\w+>/<action:\w+>/<id:\d+>',
-				// '<controller:\w+>/<action:\w+>',
+				// '<controller:page|user|layout|snippet|auth|asset>',
+				'<controller:page|user|layout|snippet|auth|asset|setting>/<action:\w+>',
+				'plugin/<plugin:\w+>/<controller:\w+>',
+				'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',
+				'<path:.+>',
 			),
 		),
 		'db'=>array(

@@ -13,10 +13,7 @@ class LayoutController extends AppController
 		parent::beforeExec($actionName, $params);
 
 		if (! $this->app->auth->isLoggedIn()) {
-			$this->app->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));
+			$this->app->redirect(array('auth', 'index'));
 		}
 
 		$this->setLayoutValue('isNavEnabled', true);
@@ -52,7 +49,7 @@ class LayoutController extends AppController
             
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
-                $this->app->redirect(array('layout','index'));
+                $this->redirect(array('index'));
             }
         }
 
@@ -73,7 +70,7 @@ class LayoutController extends AppController
 
         if ($model === null) {
             $this->app->flash->set('error', 'Record with this id not found in DB.');
-            $this->app->redirect(array('user', 'index'));
+            $this->redirect(array('index'));
         }
 
         if ($this->app->request->isPost()) {
@@ -83,7 +80,7 @@ class LayoutController extends AppController
             
             if ($model->save()) {
                 $this->app->flash->set('success', 'Saved successfully.');
-                $this->app->redirect(array('layout', 'edit', 'id'=>$id));
+                $this->redirect(array('edit', 'id'=>$id));
             }
         }
 
@@ -102,15 +99,15 @@ class LayoutController extends AppController
 
         if ($model === null) {
             $this->app->flash->set('error', 'Record with this id not found in DB.');
-            $this->app->redirect(array('layout', 'index'));
+            $this->redirect(array('index'));
         }
 
         if ($model->delete()) {
             $this->app->flash->set('success', 'Removed successfully.');
-            $this->app->redirect(array('layout', 'index'));
+            $this->redirect(array('index'));
         } else {
             $this->app->flash->set('error', 'Not removed.');
-            $this->app->redirect(array('layout', 'index'));
+            $this->redirect(array('index'));
         }
 	}
 }
