@@ -38,9 +38,9 @@ class PluginController extends AppController
 	 */
 	public function render($viewName, array $values=array())
 	{
-		return parent::render($viewName, array(
+		return parent::render($viewName, Arr::merge($values, array(
 			'plugin'=>$this->getPlugin(),
-		));
+		)));
 	}
 
 	/**

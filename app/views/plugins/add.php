@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h3>Plugins from Git</h3>
+    <h3>Add plugin</h3>
 </div>
 
 <?php if (count($this->plugins) > 0): ?>
@@ -14,7 +14,7 @@
     <div class="list-group-item">
         <div class="row">
             <div class="col-md-11"><?php echo $plugin['name']; ?></div>
-            <div class="col-md-1"><a href="#" type="button" class="btn btn-default btn-xs">Download</a></div>
+            <div class="col-md-1"><a href="<?php echo $this->controller->createUrl(array('download', 'remoteUrl'=>$plugin['url'])); ?>" type="button" class="btn btn-primary btn-xs">Add</a></div>
         </div>
     </div>
     <?php endforeach; ?>

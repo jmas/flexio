@@ -83,6 +83,7 @@ class Controller
 		$layoutPath = $this->getLayoutPath();
 
 		$values['app'] = $this->app;
+		$values['controller'] = $this;
 
 		$view = new View(array(
 			'path'=>$viewPath,
@@ -94,6 +95,7 @@ class Controller
 			'values'=>Arr::merge($this->layoutValues, array(
 				'content'=>$view->render(),
 				'app'=>$this->app,
+				'controller'=>$this,
 			)),
 		));
 
@@ -165,5 +167,27 @@ class Controller
 	public function getId()
 	{
 		return lcfirst(basename(get_class($this), 'Controller'));
+	}
+
+	/**
+	 *
+	 */
+	public function createUrl($params)
+	{
+		if (isset($params[0]) && ! isset($params[1])) {
+			$params['controller'] = $this->getId();
+			$params['action'] = $params[0];
+			unset($params[0]);
+		}
+		
+		return $this->app->createUrl($params);
+	}
+
+	/**
+	 *
+	 */
+	public function redirect($params)
+	{
+		return $this->app->redirect($this->createUrl($params));
 	}
 }

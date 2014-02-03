@@ -151,17 +151,17 @@ class Flexio
 					),
 				),
 				array(
-					'name'=>'Users',
-					'url'=>array(
-						'controller'=>'user',
-						'action'=>'index',
-					),
-				),
-				array(
-					'name'=>'Settings',
+					'name'=>'System',
 					'items'=>array(
 						array(
-							'name'=>'General',
+							'name'=>'Users',
+							'url'=>array(
+								'controller'=>'user',
+								'action'=>'index',
+							),
+						),
+						array(
+							'name'=>'Settings',
 							'url'=>array(
 								'controller'=>'setting',
 								'action'=>'index',
@@ -170,8 +170,8 @@ class Flexio
 						array(
 							'name'=>'Plugins',
 							'url'=>array(
-								'controller'=>'setting',
-								'action'=>'plugin',
+								'controller'=>'plugins',
+								'action'=>'index',
 							),
 						),
 						array(

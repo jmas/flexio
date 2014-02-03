@@ -221,6 +221,22 @@ class PluginManager
 	 */
 	public function findAll()
 	{
+		$plugins = $this->findAllNames();
+
+		$items = array();
+
+		foreach ($plugins as $name) {
+			$items[] = $this->get($name);
+		}
+
+		return $items;
+	}
+
+	/**
+	 *
+	 */
+	public function findAllNames()
+	{
 		$plugins = glob(PLUGINS_PATH . DIRECTORY_SEPARATOR . '*');
 
 		$items = array();
@@ -232,7 +248,7 @@ class PluginManager
 
 			$name = basename($path);
 
-			$items[] = $this->get($name);
+			$items[] = $name;
 		}
 
 		return $items;
@@ -241,8 +257,10 @@ class PluginManager
     /**
 	 *
 	 */
-	public function findAllRemote()
+	public function findAllRemote($isLocalExcepted=true)
 	{
+		$localPlugins = $this->findAllNames();
+
         $apiContentsUrl = 'https://api.github.com/repos/' . $this->remoteGithubUser . '/' . $this->remoteGithubRepo . '/contents';
 
         $curl = curl_init();
@@ -262,9 +280,14 @@ class PluginManager
         
         foreach ($data as $item) {
         	if (strstr($item['name'], '-flexio-plugin')) {
-                var_dump($item);
+        		$name = basename($item['name'], '-flexio-plugin');
+
+        		if ($isLocalExcepted && in_array($name, $localPlugins)) {
+        			continue;
+        		}
+
         		$items[] = array(
-        			'name'=>basename($item['name'], '-flexio-plugin'),
+        			'name'=>$name,
         			'sha'=>$item['sha'],
         			'url'=>$item['url'],
     			);
@@ -274,9 +297,11 @@ class PluginManager
         return $items;
 	}
     
+	/**
+	 *
+	 */
     public function findRemote($apiContentsUrl)
 	{
-
         $curl = curl_init();
 
         $options = array(
