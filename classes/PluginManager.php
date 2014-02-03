@@ -316,7 +316,7 @@ class PluginManager
         curl_close($curl);
 
         $data = json_decode($content, true);
-        var_dump($data);
+
         //https://codeload.github.com/jmas/skeleton-flexio-plugin/zip/master
         $item = array(
             'name' => basename($data['name'], '-flexio-plugin'),
@@ -326,5 +326,74 @@ class PluginManager
         );
 
         return $item;
+	}
+
+	/**
+	 *
+	 */
+	public function getRemoteZipUrlByName($name)
+	{
+		$apiUrl = 'https://api.github.com/repos/' . $this->remoteGithubUser . '/' . $this->remoteGithubRepo . '/contents/' . $name . '-flexio-plugin?ref=master';
+
+		$curl = curl_init();
+        $options = array( 
+            CURLOPT_URL     => $apiUrl,
+            CURLOPT_RETURNTRANSFER =>  1,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_USERAGENT      => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+         );
+        curl_setopt_array($curl, $options);
+        $content = curl_exec($curl);
+        curl_close($curl);
+
+        $data = json_decode($content, true);
+
+        if (! isset($data['submodule_git_url'])) {
+        	throw new Exception("Plugin with name '{$name}' not exists.");
+        }
+
+        $pluginRepoUrl = $data['submodule_git_url'];
+
+        $pluginRepoUrl = preg_replace('/\.git$/', '', $data['submodule_git_url']);
+
+        // https://github.com/jmas/activity-flexio-plugin.git
+        // https://github.com/jmas/activity-flexio-plugin/archive/master.zip
+
+        $url = $pluginRepoUrl . '/archive/master.zip';
+
+        return $url;
+	}
+
+	/**
+	 *
+	 */
+	public function download($name)
+	{
+		$url = $this->getRemoteZipUrlByName($name);
+
+		$curl = curl_init();
+        $options = array( 
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER =>  1,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_USERAGENT      => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+         );
+        curl_setopt_array($curl, $options);
+        $content = curl_exec($curl);
+        curl_close($curl);
+
+        $targetFilePath = PLUGINS_PATH . DIRECTORY_SEPARATOR . $name . '-plugin-temp.zip';
+
+        file_put_contents($targetFilePath, $content);
+
+        $this->app->archiver->unpack($targetFilePath, PLUGINS_PATH . DIRECTORY_SEPARATOR);
+
+        rename(PLUGINS_PATH . DIRECTORY_SEPARATOR . $name . '-flexio-plugin-master', PLUGINS_PATH . DIRECTORY_SEPARATOR . $name);
+        
+        unlink(realpath($targetFilePath));
+
+        return true;
 	}
 }

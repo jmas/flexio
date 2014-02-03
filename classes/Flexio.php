@@ -184,6 +184,9 @@ class Flexio
 				),
 			),
 		),
+		'archiver'=>array(
+			'class'=>'Archiver',
+		),
 	);
 
 	/**

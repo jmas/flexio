@@ -14,7 +14,7 @@
     <div class="list-group-item">
         <div class="row">
             <div class="col-md-11"><?php echo $plugin['name']; ?></div>
-            <div class="col-md-1"><a href="<?php echo $this->controller->createUrl(array('download', 'remoteUrl'=>$plugin['url'])); ?>" type="button" class="btn btn-primary btn-xs">Add</a></div>
+            <div class="col-md-1"><a href="<?php echo $this->controller->createUrl(array('download', 'name'=>$plugin['name'])); ?>" type="button" class="btn btn-primary btn-xs">Add</a></div>
         </div>
     </div>
     <?php endforeach; ?>
