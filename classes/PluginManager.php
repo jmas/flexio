@@ -388,7 +388,9 @@ class PluginManager
 
         file_put_contents($targetFilePath, $content);
 
-        $this->app->archiver->unpack($targetFilePath, PLUGINS_PATH . DIRECTORY_SEPARATOR);
+        if (! $this->app->archiver->unpack($targetFilePath, PLUGINS_PATH . DIRECTORY_SEPARATOR)) {
+        	return false;
+        }
 
         rename(PLUGINS_PATH . DIRECTORY_SEPARATOR . $name . '-flexio-plugin-master', PLUGINS_PATH . DIRECTORY_SEPARATOR . $name);
         

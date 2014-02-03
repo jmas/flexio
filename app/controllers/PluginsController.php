@@ -52,9 +52,9 @@ class PluginsController extends AppController
 		if ($this->app->plugins->download($name)) {
 			$this->app->flash->set('success', 'Downloaded successfully.');
 		} else {
-			$this->app->flash->set('success', 'Download is failed.');
+			$this->app->flash->set('error', 'Download is failed.');
 		}
-		
+
         $this->redirect(array('index'));
 	}
 
