@@ -246,21 +246,23 @@ class PluginManager
         $apiContentsUrl = 'https://api.github.com/repos/' . $this->remoteGithubUser . '/' . $this->remoteGithubRepo . '/contents';
 
         $curl = curl_init();
-
-        curl_setopt($curl, CURLOPT_URL, $apiContentsUrl);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
-
+        $options = array(
+            CURLOPT_URL            => $apiContentsUrl,
+            CURLOPT_RETURNTRANSFER =>  1,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_USERAGENT      => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+        );
+        curl_setopt_array($curl, $options);
         $content = curl_exec($curl);
         curl_close($curl);
 
         $data = json_decode($content, true);
 
         $items = array();
-
+        
         foreach ($data as $item) {
         	if (strstr($item['name'], '-flexio-plugin')) {
+                var_dump($item);
         		$items[] = array(
         			'name'=>basename($item['name'], '-flexio-plugin'),
         			'sha'=>$item['sha'],
@@ -270,5 +272,34 @@ class PluginManager
         }
         
         return $items;
+	}
+    
+    public function findRemote($apiContentsUrl)
+	{
+
+        $curl = curl_init();
+
+        $options = array(
+            CURLOPT_URL            => $apiContentsUrl,
+            CURLOPT_RETURNTRANSFER =>  1,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_USERAGENT      => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+        );
+        curl_setopt_array($curl, $options);
+
+        $content = curl_exec($curl);
+        curl_close($curl);
+
+        $data = json_decode($content, true);
+        var_dump($data);
+        //https://codeload.github.com/jmas/skeleton-flexio-plugin/zip/master
+        $item = array(
+            'name' => basename($data['name'], '-flexio-plugin'),
+            'sha' => $data['sha'],
+            'url' => str_replace('.git', '/archive/master.zip', $data['submodule_git_url']),
+            
+        );
+
+        return $item;
 	}
 }
