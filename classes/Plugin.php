@@ -42,7 +42,7 @@ class Plugin
 	 */
 	public function getName()
 	{
-		return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', basename(get_class($this), 'Plugin')));
+		return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', basename(get_class($this), 'Plugin')));
 	}
 
 	/**
