@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.35, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: flexio
 -- ------------------------------------------------------
--- Server version	5.5.34-0ubuntu0.13.10.1
+-- Server version	5.5.35-0ubuntu0.13.10.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,37 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `layout`
+--
+
+DROP TABLE IF EXISTS `layout`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `layout` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `content_html` text NOT NULL,
+  `create_date` datetime NOT NULL,
+  `update_date` datetime NOT NULL,
+  `create_user_id` int(11) NOT NULL,
+  `update_user_id` int(11) NOT NULL,
+  `content_type` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `layout`
+--
+
+LOCK TABLES `layout` WRITE;
+/*!40000 ALTER TABLE `layout` DISABLE KEYS */;
+INSERT INTO `layout` VALUES (1,'sample-layout','<?php echo \'sample-layout\'; ?>','','0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,'');
+/*!40000 ALTER TABLE `layout` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `page`
@@ -96,6 +127,36 @@ INSERT INTO `plugin` VALUES (1,'PageContent','{\"name\":\"value\"}',1,'/'),(2,'P
 UNLOCK TABLES;
 
 --
+-- Table structure for table `snippet`
+--
+
+DROP TABLE IF EXISTS `snippet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `snippet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `content_html` text NOT NULL,
+  `create_date` datetime NOT NULL,
+  `update_date` datetime NOT NULL,
+  `create_user_id` int(11) NOT NULL,
+  `update_user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `snippet`
+--
+
+LOCK TABLES `snippet` WRITE;
+/*!40000 ALTER TABLE `snippet` DISABLE KEYS */;
+INSERT INTO `snippet` VALUES (1,'My snippet','Snippet content','','2014-02-01 14:11:06','2014-02-01 14:11:06',1,1);
+/*!40000 ALTER TABLE `snippet` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -113,7 +174,7 @@ CREATE TABLE `user` (
   `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +183,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','d033e22ae348aeb5660fc2140aec35850c4da997','administrator,developer,editor','2014-01-08 18:11:08','2014-01-08 18:11:08',NULL,'Administrator','flexio@mailinator.com');
+INSERT INTO `user` VALUES (1,'admin','$2y$10$K.uACi9QPDIHYRDbTXn9UeJXzojP1Fnb8L7HuFmkNIZBBm28weCrC','editor,developer,administrator','2014-01-08 18:11:08','2014-01-08 18:11:08',NULL,'Administrator','flexio@mailinator.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -135,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-01-08 18:11:43
+-- Dump completed on 2014-02-02 21:06:05

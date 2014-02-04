@@ -3,7 +3,7 @@
 /**
  * @class PluginController
  */
-class PluginController extends Controller
+class PluginController extends AppController
 {
 	/**
 	 *
@@ -12,8 +12,8 @@ class PluginController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! Flexio::app()->auth->isLoggedIn()) {
-			Flexio::app()->redirect(array(
+		if (! $this->app->auth->isLoggedIn()) {
+			$this->app->redirect(array(
 				'controller'=>'auth',
 				'action'=>'index',
 			));
@@ -29,8 +29,8 @@ class PluginController extends Controller
 	 */
 	public function getPlugin()
 	{
-		$pluginName = Flexio::app()->getParam('plugin');
-		return Flexio::app()->plugins->getPlugin($pluginName);
+		$pluginName = $this->app->getParam('plugin');
+		return $this->app->plugins->get($pluginName);
 	}
 
 	/**
@@ -38,9 +38,9 @@ class PluginController extends Controller
 	 */
 	public function render($viewName, array $values=array())
 	{
-		return parent::render($viewName, array(
+		return parent::render($viewName, Arr::merge($values, array(
 			'plugin'=>$this->getPlugin(),
-		));
+		)));
 	}
 
 	/**
@@ -53,7 +53,7 @@ class PluginController extends Controller
 				. $this->getId() . DIRECTORY_SEPARATOR
 				. $viewName . '.php';
 
-		$themeName = Flexio::app()->theme;
+		$themeName = $this->app->theme;
 
 		if ($themeName!==null) {
 			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR

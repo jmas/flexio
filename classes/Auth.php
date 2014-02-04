@@ -131,18 +131,18 @@ class Auth
     public function login($username, $password, $setCookie=false)
     {
         $this->logout();
-          
+        
         $user = Flexio::app()->models->findByAttrs('User', array(
         	'username'=>$username,
     	));
         
         if (! $user instanceof User && self::ALLOW_LOGIN_WITH_EMAIL) {
-            $user = Flexio::instace()->models->findByAttrs('User', array(
+            $user = Flexio::app()->models->findByAttrs('User', array(
             	'email'=>$username,
         	));
         }
-
-        if ($user instanceof User && $user->password == sha1($password)) {
+        
+        if ($user instanceof User && $user->verifyPassword($password)) {
             $user->lastLogin = date('Y-m-d H:i:s');
             $user->save();
             

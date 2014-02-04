@@ -22,6 +22,7 @@ defined('VIEWS_PATH') OR define('VIEWS_PATH', APP_PATH . DIRECTORY_SEPARATOR . V
 defined('PLUGINS_PATH') OR define('PLUGINS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'plugins');
 defined('LAYOUTS_PATH') OR define('LAYOUTS_PATH', VIEWS_PATH . DIRECTORY_SEPARATOR . LAYOUTS_FOLDER_NAME);
 defined('THEMES_PATH') OR define('THEMES_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'themes');
+defined('VENDORS_PATH') OR define('VENDORS_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'vendors');
 
 defined('PLUGINS_CONFIG_FILE_PATH') OR define('PLUGINS_CONFIG_FILE_PATH', APP_PATH . DIRECTORY_SEPARATOR . PLUGINS_CONFIG_FILE_NAME);
 
@@ -74,12 +75,11 @@ class Flexio
 				'action'=>'index',
 			),
 			'routes'=>array(
-				// '<controller:(page|user|layout|snippet)>/<action:\w+>',
-				// 'plugin/<plugin:\w+>/<controller:\w+>',
-				// 'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',
-				// '<path:.+>',
-				// '<controller:\w+>/<action:\w+>/<id:\d+>',
-				// '<controller:\w+>/<action:\w+>',
+				// '<controller:page|user|layout|snippet|auth|asset>',
+				'<controller:page|user|layout|snippet|auth|asset|setting|plugins>/<action:\w+>',
+				'plugin/<plugin:\w+>/<controller:\w+>',
+				'plugin/<plugin:\w+>/<controller:\w+>/<action:\w+>',
+				'<path:.+>',
 			),
 		),
 		'db'=>array(
@@ -92,6 +92,10 @@ class Flexio
 			'class'=>'ModelManager',
 			'dbConnectionName'=>'db',
 		),
+		'pages'=>array(
+			'class'=>'PageManager',
+			'dbConnectionName'=>'db',
+		),
 		'plugins'=>array(
 			'class'=>'PluginManager',
 		),
@@ -100,6 +104,9 @@ class Flexio
 		),
 		'flash'=>array(
 			'class'=>'Flash',
+		),
+		'assets'=>array(
+			'class'=>'AssetManager',
 		),
 		'nav'=>array(
 			'class'=>'Nav',
@@ -143,17 +150,17 @@ class Flexio
 					),
 				),
 				array(
-					'name'=>'Users',
-					'url'=>array(
-						'controller'=>'user',
-						'action'=>'index',
-					),
-				),
-				array(
-					'name'=>'Settings',
+					'name'=>'System',
 					'items'=>array(
 						array(
-							'name'=>'General',
+							'name'=>'Users',
+							'url'=>array(
+								'controller'=>'user',
+								'action'=>'index',
+							),
+						),
+						array(
+							'name'=>'Settings',
 							'url'=>array(
 								'controller'=>'setting',
 								'action'=>'index',
@@ -162,8 +169,8 @@ class Flexio
 						array(
 							'name'=>'Plugins',
 							'url'=>array(
-								'controller'=>'setting',
-								'action'=>'plugin',
+								'controller'=>'plugins',
+								'action'=>'index',
 							),
 						),
 						array(
@@ -176,6 +183,9 @@ class Flexio
 					),
 				),
 			),
+		),
+		'archiver'=>array(
+			'class'=>'Archiver',
 		),
 	);
 
@@ -248,6 +258,8 @@ class Flexio
 			if (gettype($this->config[$key])==='array' && ! empty($this->config[$key]['class'])) {
 				$className = $this->config[$key]['class'];
 				unset($this->config[$key]['class']);
+				$this->config[$key]['app'] = $this;
+				
 				$instance = new $className($this->config[$key]);
 				$this->config[$key] = $instance;
 			}
@@ -304,15 +316,31 @@ class Flexio
 	 */
 	public function createUrl($params)
 	{
+		if (! empty($params[0])) {
+			$params['controller'] = $params[0];
+			unset($params[0]);
+		}
+
+		if (! empty($params[1])) {
+			$params['action'] = $params[1];
+			unset($params[1]);
+		}
+
 		return $this->getBaseUrl() . ($this->urlMode === self::URL_MODE_QUERY ? '?' . $this->urlPathName . '=': '/') . $this->router->createPath($params, $this->urlMode === self::URL_MODE_QUERY);
 	}
 
 	/**
 	 *
 	 */
-	public function redirect(array $params=array())
+	public function redirect($params)
 	{
-		$url =$this->createUrl($params);
+		if (is_array($params)) {
+			$url = $this->createUrl($params);
+		} else if (is_string($params)) {
+			$url = $params;
+		} else {
+			throw new Exception("Argument 'params' should be array or string.");
+		}
 
 		header('Location: ' . $url);
 
@@ -369,7 +397,9 @@ class Flexio
 		$this->loader->register();
 		$this->moveAssets();
 		$this->auth->load();
-		$this->plugins->registerInstalled();
+		$this->plugins->registerInstalled(array(
+			'app'=>$this,
+		));
 
 		$this->observer->notify('appStart');
 
@@ -407,7 +437,9 @@ class Flexio
 			throw new Exception("Controller class '{$controllerClassName}' not found.");
 		}
 
-		$this->controller = new $controllerClassName;
+		$this->controller = new $controllerClassName(array(
+			'app'=>$this,
+		));
 		$this->controller->exec($actionName, Arr::merge($_GET, $this->params));
 
 		$this->observer->notify('appEnd');

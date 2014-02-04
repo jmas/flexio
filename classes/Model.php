@@ -13,11 +13,6 @@ abstract class Model
 	/**
 	 *
 	 */
-	protected $data=array();
-	
-	/**
-	 *
-	 */
 	protected $errors=array();
 
 	/**
@@ -28,14 +23,28 @@ abstract class Model
 	/**
 	 *
 	 */
+	protected $manager;
+
+	/**
+	 *
+	 */
+	public static function join() { return null; }
+
+	/**
+	 *
+	 */
 	public function __construct($config=array())
 	{
-		if (isset($config['attrs'])) {
-			$this->setAttr($config['attrs']);
+		if (isset($config['attrs']) && is_array($config['attrs'])) {
+			$this->setAttrs($config['attrs']);
 		}
 
 		if (isset($config['db'])) {
 			$this->db = $config['db'];
+		}
+
+		if (isset($config['manager'])) {
+			$this->manager = $config['manager'];
 		}
 	}
 
@@ -44,13 +53,15 @@ abstract class Model
 	 */
 	public function __get($key)
 	{
-		$attr = $this->getAttr($key);
+		return $this->getAttr($key);
+	}
 
-		if ($attr !== null) {
-			return $attr;
-		}
-
-		return $this->getData($key);
+	/**
+	 *
+	 */
+	public function __set($key, $value)
+	{
+		$this->setAttr($key, $value);
 	}
 
 	/**
@@ -64,29 +75,9 @@ abstract class Model
 	/**
 	 *
 	 */
-	public function setData($key, $value=null)
+	public static function fields()
 	{
-		if (gettype($key)==='array') {
-			$this->data = $key;
-		}
-
-		$this->data[$key] = $value;
-	}
-
-	/**
-	 *
-	 */
-	public function getData($key=null, $defaultValue=null)
-	{
-		if ($key===null) {
-			return $this->data;
-		}
-
-		if (! empty($this->data[$key])) {
-			return $this->data[$key];
-		}
-
-		return $defaultValue;
+		return array();
 	}
 
 	/**
@@ -94,11 +85,6 @@ abstract class Model
 	 */
 	public function setAttr($key, $value=null)
 	{
-		if (gettype($key)==='array') {
-			$this->attrs = $key;
-			return;
-		}
-		
 		$this->attrs[$key]=$value;
 	}
 
@@ -129,6 +115,30 @@ abstract class Model
 	/**
 	 *
 	 */
+	public function getAttrs(array $keys=null)
+	{
+		$attrs = $this->attrs;
+
+		if ($keys !== null) {
+			$result = array();
+
+			foreach ($keys as $key) {
+				if (isset($attrs[$key])) {
+					$result[$key] = $attrs[$key];
+				} else {
+					$result[$key] = null;
+				}
+			}
+
+			return $result;
+		}
+
+		return $attrs;
+	}
+
+	/**
+	 *
+	 */
 	public function isNew()
 	{
 		return $this->getAttr('id') === null ? true: false;
@@ -139,10 +149,6 @@ abstract class Model
 	 */
 	public function save($isNeedValidate=true)
 	{
-		if (! $this->beforeSave()) {
-			return false;
-		}
-
 		if ($isNeedValidate) {
 			$this->validate();
 
@@ -151,7 +157,11 @@ abstract class Model
 			}
 		}
 
-        $attrs = $this->getAttr();
+		if (! $this->beforeSave()) {
+			return false;
+		}
+
+        $attrs = $this->getTableAttrs();
 
         if (empty($attrs)) {
         	return false;
@@ -171,7 +181,7 @@ abstract class Model
             $stmt = $this->db->prepare($sql);
             $return = $stmt->execute(array_values($attrs)) !== false;
 
-            $this->id = $this->db->lastInsertId(); 
+            $this->id = $this->db->lastInsertId();
              
             if (! $this->afterInsert()) {
         		return false;
@@ -246,11 +256,11 @@ abstract class Model
 
 			foreach ($keys as $key) {
 				$key = trim($key);
-				$isValid = call_user_func_array($validator, array($this->getAttr($key)));
+				$isValid = call_user_func_array($validator, array($key, $this));
 
-				if (! $isValid) {
-					$this->addError($key);
-				}
+				// if (! $isValid) {
+				// 	$this->addError($key);
+				// }
 			}
 		}
 
@@ -260,9 +270,21 @@ abstract class Model
 	/**
 	 *
 	 */
-	public function addError($key)
+	public function addError($field, $message)
 	{
-		$this->errors[] = $key;
+		if (! isset($this->errors[$field])) {
+			$this->errors[$field] = array();
+		}
+
+		$this->errors[$field][] = $message;
+	}
+
+	/**
+	 *
+	 */
+	public function haveErrors()
+	{
+		return ! empty($this->errors);
 	}
 
 	/**
@@ -271,6 +293,26 @@ abstract class Model
 	public function getErrors()
 	{
 		return $this->errors;
+	}
+
+	/**
+	 *
+	 */
+	public function getErrorsFormatted($template='<div class="errors">{ERRORS}</div>', $itemTemplate='<div class="error"><span class="value">{ERROR}</span></div>')
+	{
+		if (empty($this->errors)) {
+			return null;
+		}
+
+		$items = array();
+
+		foreach ($this->errors as $key=>$errors) {
+			foreach ($errors as $error) {
+				$items[] = str_replace('{ERROR}', $error, str_replace('{KEY}', $key, $itemTemplate));
+			}
+		}
+
+		return str_replace('{ERRORS}', implode('', $items), $template);
 	}
 
 	/**
@@ -324,5 +366,24 @@ abstract class Model
 	protected function getTableName()
 	{
 		return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', get_class($this)));
+	}
+
+	/**
+	 *
+	 */
+	protected function getTableAttrs()
+	{
+		$attrs = $this->getAttrs();
+		$fields = $this->fields();
+
+		$tableAttrs = array();
+
+		foreach ($fields as $fieldName) {
+			if (isset($attrs[$fieldName]) && $attrs[$fieldName] !== null) {
+				$tableAttrs[$fieldName]=$attrs[$fieldName];
+			}
+		}
+
+		return $tableAttrs;
 	}
 }

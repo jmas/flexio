@@ -3,7 +3,7 @@
 /**
  *
  */
-class SettingController extends Controller
+class SettingController extends AppController
 {
 	/**
 	 *
@@ -12,11 +12,8 @@ class SettingController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! Flexio::app()->auth->isLoggedIn()) {
-			Flexio::app()->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));
+		if (! $this->app->auth->isLoggedIn()) {
+			$this->app->redirect(array('auth', 'index'));
 		}
 
 		$this->setLayoutValue('isNavEnabled', true);
@@ -30,14 +27,6 @@ class SettingController extends Controller
 	public function indexAction()
 	{
 		echo $this->render('index');
-	}
-
-	/**
-	 *
-	 */
-	public function pluginAction()
-	{
-		echo $this->render('plugin');
 	}
 
 	/**

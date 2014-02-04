@@ -9,7 +9,28 @@ class Controller
 	 *
 	 */
 	protected $layoutName='default';
+
+	/**
+	 *
+	 */
 	protected $layoutValues=array();
+
+	/**
+	 *
+	 */
+	protected $app;
+
+	/**
+	 *
+	 */
+	public function __construct($config=array())
+    {
+        foreach ($config as $key=>$value) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
+    }
 
 	/**
 	 *
@@ -40,7 +61,7 @@ class Controller
 	 */
 	public function beforeExec($actionName, array $params=array())
 	{
-		Flexio::app()->observer->notify('controllerBeforeExec', $this, $actionName, $params);
+		$this->app->observer->notify('controllerBeforeExec', $this, $actionName, $params);
 		return true;
 	}
 
@@ -49,7 +70,7 @@ class Controller
 	 */
 	public function afterExec($actionName, array $params=array())
 	{
-		Flexio::app()->observer->notify('controllerAfterExec', $this, $actionName, $params);
+		$this->app->observer->notify('controllerAfterExec', $this, $actionName, $params);
 		return true;
 	}
 
@@ -61,6 +82,9 @@ class Controller
 		$viewPath = $this->getViewPath($viewName);
 		$layoutPath = $this->getLayoutPath();
 
+		$values['app'] = $this->app;
+		$values['controller'] = $this;
+
 		$view = new View(array(
 			'path'=>$viewPath,
 			'values'=>$values,
@@ -70,6 +94,8 @@ class Controller
 			'path'=>$layoutPath,
 			'values'=>Arr::merge($this->layoutValues, array(
 				'content'=>$view->render(),
+				'app'=>$this->app,
+				'controller'=>$this,
 			)),
 		));
 
@@ -85,7 +111,7 @@ class Controller
 		          . $this->getId() . DIRECTORY_SEPARATOR
 		          . $viewName . '.php';
 
-		$themeName = Flexio::app()->theme;
+		$themeName = $this->app->theme;
 
 		if ($themeName!==null) {
 			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR
@@ -110,7 +136,7 @@ class Controller
 		$layoutPath = LAYOUTS_PATH . DIRECTORY_SEPARATOR
 		            . $this->layoutName . '.php';
 
-		$themeName = Flexio::app()->theme;
+		$themeName = $this->app->theme;
 
 		if ($themeName!==null) {
 			$themeLayoutPath = THEMES_PATH . DIRECTORY_SEPARATOR
@@ -141,5 +167,35 @@ class Controller
 	public function getId()
 	{
 		return lcfirst(basename(get_class($this), 'Controller'));
+	}
+
+	/**
+	 *
+	 */
+	public function createUrl($params)
+	{
+		if (isset($params[0]) && ! isset($params[1])) {
+			$params['controller'] = $this->getId();
+			$params['action'] = $params[0];
+			unset($params[0]);
+		}
+
+		return $this->app->createUrl($params);
+	}
+
+	/**
+	 *
+	 */
+	public function redirect($params)
+	{
+		if (is_array($params)) {
+			$url = $this->createUrl($params);
+		} else if (is_string($params)) {
+			$url = $params;
+		} else {
+			throw new Exception("Argument 'params' should be array or string.");
+		}
+
+		return $this->app->redirect($url);
 	}
 }

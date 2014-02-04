@@ -3,7 +3,7 @@
 /**
  *
  */
-class AssetController extends Controller
+class AssetController extends AppController
 {
 	/**
 	 *
@@ -12,11 +12,8 @@ class AssetController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! Flexio::app()->auth->isLoggedIn()) {
-			Flexio::app()->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));
+		if (! $this->app->auth->isLoggedIn()) {
+			$this->app->redirect(array('auth', 'index'));
 		}
 
 		$this->setLayoutValue('isNavEnabled', true);

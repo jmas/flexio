@@ -18,6 +18,16 @@ class Plugin
 	/**
 	 *
 	 */
+	protected $repoUrl;
+
+	/**
+	 *
+	 */
+	protected $app;
+
+	/**
+	 *
+	 */
 	public function __construct($config=array())
 	{
 		foreach ($config as $key=>$value) {
@@ -25,6 +35,30 @@ class Plugin
 				$this->{$key} = $value;
 			}
 		}
+	}
+
+	/**
+	 *
+	 */
+	public function getName()
+	{
+		return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', basename(get_class($this), 'Plugin')));
+	}
+
+	/**
+	 *
+	 */
+	public function getRepoUrl()
+	{
+		return $this->repoUrl;
+	}
+
+	/**
+	 *
+	 */
+	public function getVersion()
+	{
+		return $this->version;
 	}
 
 	/**
@@ -47,14 +81,14 @@ class Plugin
 				$name = substr($method, 2);
 				$name[0] = strtolower($name[0]);
 				
-				Flexio::app()->observer->observe($name, array($this, $method));
+				$this->app->observer->observe($name, array($this, $method));
 			}
 		}
 
 		$modelsPath = $this->getPath() . DIRECTORY_SEPARATOR . MODELS_FOLDER_NAME;
 
 		if (is_dir($modelsPath)) {
-			Flexio::app()->loader->addPath($modelsPath);
+			$this->app->loader->addPath($modelsPath);
 		}
 
 		$this->moveAssets();
@@ -62,7 +96,7 @@ class Plugin
 		$navItems = $this->navItems();
 
 		if ($navItems !== null) {
-			Flexio::app()->nav->append($navItems);
+			$this->app->nav->append($navItems);
 		}
 	}
 
@@ -79,7 +113,7 @@ class Plugin
 		}
 		
 		if (is_dir($outAssetsPath)) {
-			if (Flexio::app()->status === Flexio::STATUS_PROD) {
+			if ($this->app->status === Flexio::STATUS_PROD) {
 				return false;
 			} else {
 				Fs::remove($outAssetsPath);
@@ -97,7 +131,7 @@ class Plugin
 	 */
 	public function getAssetUrl($path)
 	{
-		return Flexio::app()->getBaseUrl() . '/' . ASSETS_FOLDER_NAME . '/' . $this->getId() . '/' . $path;
+		return $this->app->getBaseUrl() . '/' . ASSETS_FOLDER_NAME . '/' . $this->getId() . '/' . $path;
 	}
 
 	/**
@@ -139,7 +173,7 @@ class Plugin
 		$viewPath = $this->getPath() . DIRECTORY_SEPARATOR . VIEWS_FOLDER_NAME
 		          . DIRECTORY_SEPARATOR . $viewName . '.php';
 
-        $themeName = Flexio::app()->theme;
+        $themeName = $this->app->theme;
 
 		if ($themeName!==null) {
 			$themeViewPath = THEMES_PATH . DIRECTORY_SEPARATOR

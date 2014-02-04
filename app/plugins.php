@@ -1,7 +1,6 @@
 <?php return array (
   'installed' => 
   array (
-  	'activity',
-  	'skeleton'
+    0 => 'switcher',
   ),
 );

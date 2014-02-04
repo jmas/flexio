@@ -78,13 +78,13 @@ class Archiver
             $destination = realpath(dirname($sourcePath)) . DIRECTORY_SEPARATOR;
         }
 
-        if (is_dir($destination)) {
-            if ($isNeedOwerwrite) {
-                Fs::remove($destination);
-            } else {
-                return false;
-            }
-        }
+        // if (is_dir($destination)) {
+            // if ($isNeedOwerwrite) {
+                // Fs::remove($destination);
+            // } else {
+                // return false;
+            // }
+        // }
 
         if (! is_dir($destination)) {
             Fs::mkdir($destination);

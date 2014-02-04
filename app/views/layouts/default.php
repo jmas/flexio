@@ -6,21 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="http://getbootstrap.com/docs-assets/ico/favicon.png">
 
-    <title>Signin Template for Bootstrap</title>
+    <link rel="shortcut icon" href="<?php echo $this->app->getAssetUrl('images/flexio.ico'); ?>">
 
-    <!-- Bootstrap core CSS -->
-    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
+    <title><?php echo htmlspecialchars($this->app->name); ?></title>
 
-    <link href="<?php echo Flexio::app()->getAssetUrl('css/app.css'); ?>" rel="stylesheet" />
-
-    <!-- Custom styles for this template -->
-    <?php if (! empty($this->css)): ?> 
-    <?php foreach ($this->css as $css): ?>
-    <link href="<?php echo $css; ?>" rel="stylesheet" />
-	<?php endforeach; ?>
-	<?php endif; ?>
+    <!-- CSS/JS HEAD insertion point -->
+    <?php echo $this->app->assets->render(AssetManager::TYPE_CSS, AssetManager::POS_HEAD); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_JS, AssetManager::POS_HEAD); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_CSS_PLAIN, AssetManager::POS_HEAD); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_JS_PLAIN, AssetManager::POS_HEAD); ?>
     
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="http://getbootstrap.com/docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -34,6 +29,12 @@
 
   <body>
 
+    <!-- CSS/JS BODY TOP insertion point -->
+    <?php echo $this->app->assets->render(AssetManager::TYPE_CSS, AssetManager::POS_BODY_TOP); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_JS, AssetManager::POS_BODY_TOP); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_CSS_PLAIN, AssetManager::POS_BODY_TOP); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_JS_PLAIN, AssetManager::POS_BODY_TOP); ?>
+
   	<?php if ($this->isNavEnabled === true): ?>
   	<div class="navbar navbar-default navbar-static-top" role="navigation">
 	  <div class="container">
@@ -44,14 +45,14 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="<?php echo Flexio::app()->createUrl(Flexio::app()->defaultRoute); ?>"><?php echo Flexio::app()->name; ?></a>
+	      <a class="navbar-brand" href="<?php echo $this->app->createUrl($this->app->defaultRoute); ?>"><?php echo htmlspecialchars($this->app->name); ?></a>
 	    </div>
 	    <div class="navbar-collapse collapse">
-			<?php echo Flexio::app()->nav->render(); ?>
+			<?php echo $this->app->nav->render(); ?>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<?php echo Flexio::app()->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>Flexio::app()->auth->getId())); ?>"><?php echo Flexio::app()->auth->getUserName(); ?></a></li>
-				<li><a href="<?php echo Flexio::app()->createUrl(array('controller'=>'auth', 'action'=>'logout')); ?>">Logout</a></li>
+				<li><a href="<?php echo $this->app->createUrl(array('controller'=>'user', 'action'=>'edit', 'id'=>$this->app->auth->getId())); ?>"><img src="<?php echo $this->app->auth->getRecord()->getGravatarUrl(); ?>" alt="" class="img-rounded" /> <?php echo htmlspecialchars($this->app->auth->getRecord()->name); ?></a></li>
+				<li><a href="<?php echo $this->app->createUrl(array('controller'=>'auth', 'action'=>'logout')); ?>">Logout</a></li>
 			</ul>
 	    </div><!--/.nav-collapse -->
 	  </div>
@@ -60,8 +61,8 @@
 
     <div class="container">
 
-    	<?php $success=Flexio::app()->flash->get('success'); ?>
-    	<?php $error=Flexio::app()->flash->get('error'); ?>
+    	<?php $success=$this->app->flash->get('success'); ?>
+    	<?php $error=$this->app->flash->get('error'); ?>
 
     	<?php if ($success !== null): ?>
     	<div class="alert alert-success">
@@ -79,12 +80,10 @@
 
     </div> <!-- /container -->
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.2/parsley.min.js"></script>
-    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-    <script src="<?php echo Flexio::app()->getAssetUrl('js/app.js'); ?>"></script>
+    <!-- CSS/JS BOTTOM insertion point -->
+    <?php echo $this->app->assets->render(AssetManager::TYPE_CSS, AssetManager::POS_BODY_BOTTOM); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_JS, AssetManager::POS_BODY_BOTTOM); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_CSS_PLAIN, AssetManager::POS_BODY_BOTTOM); ?>
+    <?php echo $this->app->assets->render(AssetManager::TYPE_JS_PLAIN, AssetManager::POS_BODY_BOTTOM); ?>
   </body>
 </html>

@@ -3,7 +3,7 @@
 /**
  *
  */
-class PageController extends Controller
+class PageController extends AppController
 {
 	/**
 	 *
@@ -12,11 +12,8 @@ class PageController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! Flexio::app()->auth->isLoggedIn()) {
-			Flexio::app()->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));
+		if (! $this->app->auth->isLoggedIn()) {
+			$this->app->redirect(array('auth', 'index'));
 		}
 
 		$this->setLayoutValue('isNavEnabled', true);
@@ -29,7 +26,7 @@ class PageController extends Controller
 	 */
 	public function indexAction($path=null)
 	{
-		$models = Flexio::app()->models->findAll('Page');
+		$models = $this->app->pages->findAll();
 
 		echo $this->render('index', array(
 			'models'=>$models,

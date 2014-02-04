@@ -3,7 +3,7 @@
 /**
  *
  */
-class UserController extends Controller
+class UserController extends AppController
 {
 	/**
 	 *
@@ -12,11 +12,8 @@ class UserController extends Controller
 	{
 		parent::beforeExec($actionName, $params);
 
-		if (! Flexio::app()->auth->isLoggedIn()) {
-			Flexio::app()->redirect(array(
-				'controller'=>'auth',
-				'action'=>'index',
-			));
+		if (! $this->app->auth->isLoggedIn()) {
+			$this->app->redirect(array('auth', 'index'));
 		}
 
 		$this->setLayoutValue('isNavEnabled', true);
@@ -29,13 +26,11 @@ class UserController extends Controller
 	 */
 	public function indexAction()
 	{
-		$models = Flexio::app()->models->findAll('User');
+		$models = $this->app->models->findAll('User');
 		
-		echo $this->render('index', 
-			array(
-				'models' => $models
-			) 
-		);
+		echo $this->render('index', array(
+            'models'=>$models,
+		));
 	}
   
 	/**
@@ -43,26 +38,21 @@ class UserController extends Controller
 	 */
 	public function addAction()
 	{
-    
-    $model = Flexio::app()->models->create('User');
+        $model = $this->app->models->create('User');
 
-        if (Flexio::app()->request->isPost()) {
-        
-            $data = Flexio::app()->request->getPost('data');
-            $data['permissions'] = implode(',', $data['permissions']);
-            $model = Flexio::app()->models->create('User', $data);
-            
+        if ($this->app->request->isPost()) {
+            $data = $this->app->request->getPost('data');
+            $model->setAttrs($data);
+
             if ($model->save()) {
-                Flexio::app()->flash->set('success', 'User added successfully.');
-                Flexio::app()->redirect(array('controller'=>'user', 'action'=>'index'));
-            } else {
-                Flexio::app()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' field is required');
+                $this->app->flash->set('success', 'Saved successfully.');
+                $this->redirect(array('index'));
             }
         }
         
-        $permissions = Flexio::app()->getAllPermissions();
+        $permissions = $this->app->getAllPermissions();
         
-        echo $this->render('add', array(
+        echo $this->render('form', array(
             'model'=>$model,
             'permissions'=>$permissions,
         ));
@@ -71,34 +61,32 @@ class UserController extends Controller
 	/**
 	 *
 	 */
-	public function editAction($id=null)
+	public function editAction($id)
 	{
-        if ($model = Flexio::app()->models->findByAttrs('User', array('id' => $id))) {
-        
-            if (Flexio::app()->request->isPost()) {
-                $data = Flexio::app()->request->getPost('data');
-                $data['password'] = empty($data['password']) ? $model->password : $data['password'];
-                $data['permissions'] = implode(',', $data['permissions']);
-                $model->setAttrs($data);
-                if ($model->save()) {
-                    Flexio::app()->flash->set('success', 'Changes have been saved.');
-                    Flexio::app()->redirect(array('controller'=>'user', 'action'=>'edit', 'id'=>$id ));
-                    
-                } else {
-                    Flexio::app()->flash->set('error', 'Error... '.implode(', ', $model->getErrors()).' is required');
-                }
-            }
+        $model = $this->app->models->findById('User', $id);
 
-            $permissions = Flexio::app()->getAllPermissions();
-            
-            echo $this->render('edit', array(
-            	'model'=>$model,
-            	'permissions'=>$permissions,
-        	));
-            
-        } else {
-            throw new Exception("Profile with id '{$id}' is not exists.");
+        if ($model === null) {
+            $this->app->flash->set('error', 'Record with this id not found in DB.');
+            $this->redirect(array('index'));
         }
+
+        if ($this->app->request->isPost()) {
+            $data = $this->app->request->getPost('data');
+            
+            $model->setAttrs($data);
+
+            if ($model->save()) {
+                $this->app->flash->set('success', 'Saved successfully.');
+                $this->redirect(array('edit','id'=>$id));
+            }
+        }
+
+        $permissions = $this->app->getAllPermissions();
+        
+        echo $this->render('form', array(
+        	'model'=>$model,
+        	'permissions'=>$permissions,
+    	));
 	}
   
 	/**
@@ -106,23 +94,24 @@ class UserController extends Controller
 	 */
 	public function deleteAction($id)
 	{	
-        $model = Flexio::app()->models->findByAttrs('User', array('id' => $id));   
-        if ($model->username !== 'admin') {
-            if ($model->delete()) {
-                 Flexio::app()->flash->set('success', 'User '. $model->username .' successfully removed.');
-                 Flexio::app()->redirect(array(
-                    'controller'=>'user',
-                    'action'=>'index'
-                ));
-            } else {
-                var_dump($model->getErrors());
-            }
-        } else {
-            Flexio::app()->flash->set('error', 'User '. $model->username .' can not be removed.');
-                 Flexio::app()->redirect(array(
-                    'controller'=>'user',
-                    'action'=>'index'
-                ));
+        $model = $this->app->models->findById('User', $id);
+
+        if ($model === null) {
+            $this->app->flash->set('error', 'Record with this id not found in DB.');
+            $this->redirect(array('index'));
         }
+
+        if ($model->username === 'admin') {
+            $this->app->flash->set('error', "Not removed. User with username 'admin' can't be removed.");
+            $this->redirect(array('index'));
+        }
+
+        if ($model->delete()) {
+            $this->app->flash->set('success', 'Removed successfully.');
+        } else {
+            $this->app->flash->set('error', 'Not removed.');
+        }
+
+        $this->redirect(array('index'));
 	}
 }

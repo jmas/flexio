@@ -39,10 +39,12 @@ class ModelManager
 		$records = $this->finder($className, $args, $values);
 
         foreach ($records as $record) {
-        	$return[] = new $className(array(
-        		'attrs'=>$record,
-        		'db'=>$this->getDb(),
-    		));
+        	$return[] = $this->create($className, $record);
+      //   	new $className(array(
+      //   		'attrs'=>$record,
+      //   		'db'=>$this->getDb(),
+      //   		'manager'=>$this,
+    		// ));
         }
 
         return $return;
@@ -54,12 +56,14 @@ class ModelManager
 	public function find($className, $args=array(), $values=array())
 	{
 		$record = $this->finder($className, $args, $values, true);
-
-         if (! empty($record)) {
-        	return new $className(array(
-        		'attrs'=>$record,
-        		'db'=>$this->getDb(),
-    		));
+		
+        if (! empty($record)) {
+        	return $this->create($className, $record);
+      //   	return new $className(array(
+      //   		'attrs'=>$record,
+      //   		'db'=>$this->getDb(),
+      //   		'manager'=>$this,
+    		// ));
         }
 
         return null;
@@ -106,7 +110,9 @@ class ModelManager
 	 */
 	public function findById($className, $id)
 	{
-		return $this->find($className, 'id=:id', array(':id'=>$id));
+		$table = $this->tableByClass($className);
+
+		return $this->find($className, $table . '.id=:id', array(':id'=>$id));
 	}
 
 	/**
@@ -129,9 +135,31 @@ class ModelManager
 	 */
 	public function create($className, $attrs=array())
 	{
+		$join = $className::join();
+
+		if ($join !== null && is_array($join)) {
+			foreach ($join as $joinName=>$joinItem) {
+				$joinClassName = $joinItem['className'];
+
+				$columns = $joinClassName::fields();
+
+				$joinAttrs = array();
+
+				foreach ($columns as $columnName) {
+					if (isset($attrs[$joinName . '_' . $columnName])) {
+						$joinAttrs[$columnName] = $attrs[$joinName . '_' . $columnName];
+						unset($attrs[$joinName . '_' . $columnName]);
+					}
+				}
+
+				$attrs[$joinName] = $this->create($joinClassName, $joinAttrs);
+			}
+		}
+
 		return new $className(array(
 			'attrs'=>$attrs,
 			'db'=>$this->getDb(),
+			'manager'=>$this,
 		));
 	}
 
@@ -165,7 +193,37 @@ class ModelManager
 
 		$suffix = $this->buildQuerySuffix($args);
 
-		$sql = 'SELECT * FROM '.$this->tableByClass($className).' '.$suffix;
+		$baseTable = $this->tableByClass($className);
+
+		$select = array($baseTable . '.*');
+		$from = array($this->tableByClass($className).' AS ' . $baseTable);
+
+		$join = $className::join();
+
+		if ($join !== null && is_array($join)) {
+			foreach ($join as $joinName=>$joinItem) {
+				$className = $joinItem['className'];
+				$on = $joinItem['on'];
+
+				$columns = $className::fields();
+				$selectColumns = array();
+
+				$table = $this->tableByClass($className);
+				$onItems = array();
+
+				foreach ($columns as $c) {
+					$select[] = $joinName . '.' . $c . ' AS ' . $joinName . '_' . $c;
+				}
+
+				foreach ($on as $k=>$v) {
+					$onItems[] = $baseTable . '.' . $k . '=' . $joinName . '.' . $v;
+				}
+
+				$from[] = $table . ' AS ' . $joinName . ' ON ' . implode(',', $onItems);
+			}
+		}
+
+		$sql = 'SELECT ' . implode(',', $select) . ' FROM '. implode(' LEFT JOIN ', $from) . ' '.$suffix;
 
         $stmt = $this->getDb()->prepare($sql);
         $stmt->execute($values);
