@@ -163,7 +163,11 @@ class PluginManager
 			$permissions=array();
 
 			foreach ($this->registered as $plugin) {
-				$permissions=array_merge($permissions, $plugin->permissions());
+				$perms = $plugin->permissions();
+
+				if (is_array($perms)) {
+					$permissions=array_merge($permissions, $perms);
+				}
 			}
 
 			$this->permissions=array_unique($permissions);
