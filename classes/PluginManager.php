@@ -93,10 +93,12 @@ class PluginManager
 		if (isset($this->registered[$pluginName])) {
 			return $this->registered[$pluginName];
 		}
+		
+		$className = ucfirst(preg_replace_callback('/\-([a-z])/', function($p) {
+			return ucfirst($p[1]);
+		}, $pluginName)) . 'Plugin';
 
-		$className = ucfirst($pluginName) . 'Plugin';
-
-		$pluginPath = PLUGINS_PATH . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . ucfirst($pluginName) . 'Plugin.php';
+		$pluginPath = PLUGINS_PATH . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . $className . '.php';
 
 		if (! file_exists($pluginPath)) {
 			throw new Exception("Plugin file '{$pluginPath}' not found.");
