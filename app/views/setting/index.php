@@ -11,7 +11,7 @@
             <label for="data[name]">Site name</label>
             <small class="help-block">Site name that will be used in backend and can be used in themes as title.</small>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <input type="text" class="form-control" name="data[name]" value="">
         </div>
     </div>
@@ -21,7 +21,7 @@
             <label for="data[language]">Language</label>
             <small class="help-block">System language.</small>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <select class="form-control" name="data[language]">
                 <option>English</option>
                 <option>Russian</option>
@@ -32,7 +32,7 @@
     
     <div class="form-group">
         <div class="col-md-3">
-            <label for="data[theme]">Timezone</label>
+            <label for="data[timezone]">Timezone</label>
             <small class="help-block">Site region standard time.</small>
         </div>
         <div class="col-md-3">
@@ -66,7 +66,7 @@
                 <option value="Atlantic/Cape_Verde">(GMT -1:00) Cape Verde Is.</option>
                 <option value="Atlantic/Azores">(GMT -1:00) Azores</option>
                 <option value="Africa/Casablanca">(GMT +0:00) Casablanca, Monrovia, Reykjavik</option>
-                <option value="UTC" selected>(GMT +0:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
+                <option value="UTC">(GMT +0:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
                 <option value="Europe/Amsterdam">(GMT +1:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
                 <option value="Europe/Belgrade">(GMT +1:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
                 <option value="Europe/Brussels">(GMT +1:00) Brussels, Copenhagen, Madrid, Paris</option>
@@ -77,7 +77,7 @@
                 <option value="Asia/Beirut">(GMT +2:00) Beirut</option>
                 <option value="Africa/Cairo">(GMT +2:00) Cairo</option>
                 <option value="Africa/Harare">(GMT +2:00) Harare, Pretoria</option>
-                <option value="Europe/Helsinki">(GMT +2:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
+                <option value="Europe/Helsinki" selected>(GMT +2:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
                 <option value="Asia/Jerusalem">(GMT +2:00) Jerusalem</option>
                 <option value="Europe/Minsk">(GMT +3:00) Minsk</option>
                 <option value="Africa/Windhoek">(GMT +2:00) Windhoek</option>
@@ -125,12 +125,12 @@
     
     <div class="form-group">
         <div class="col-md-3">
-            <label for="data[status]">Development mode</label>
+            <label for="data[mode]">Development mode</label>
             <small class="help-block">Disable caching, and show PHP errors.</small>
         </div>
         <div class="col-md-3">
         <label class="checkbox-switcher">
-            <input type="checkbox" name="data[status]">
+            <input type="checkbox" name="data[mode]" checked>
             <span class="switch">
                 <span class="btn btn-danger btn-xs">On</span>
                 <span class="btn btn-default btn-xs">Off</span>	   
@@ -147,7 +147,7 @@
             <label for="data[theme]">Default theme</label>
             <small class="help-block">Default theme that will be used in frontend.</small>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <select class="form-control" name="data[theme]">
                 <option>Default</option>
                 <option>SomeTheme</option>
@@ -157,17 +157,17 @@
     
     <div class="form-group">
         <div class="col-md-3">
-            <label for="data[theme]">Page status</label>
+            <label for="data[status]">Page status</label>
             <small class="help-block">Default status for page for created pages.</small>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="radio">
                 <label>
-                    <input type="radio" name="data[status]" value="1">
+                    <input type="radio" name="data[status]" value="1" checked>
                     <p>Published</p>
                 </label>
-                <label for="unpublished">
-                    <input id="unpublished" type="radio" name="data[status]" value="0" checked> 
+                <label>
+                    <input type="radio" name="data[status]" value="0"> 
                     <p>Unpublished</p>
                 </label>
             </div>
