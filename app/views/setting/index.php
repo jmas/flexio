@@ -18,11 +18,11 @@
     
     <div class="form-group">
         <div class="col-md-3">
-            <label for="data[theme]">Language</label>
+            <label for="data[language]">Language</label>
             <small class="help-block">System language.</small>
         </div>
         <div class="col-md-4">
-            <select class="form-control" name="data[theme]">
+            <select class="form-control" name="data[language]">
                 <option>English</option>
                 <option>Russian</option>
             </select>
