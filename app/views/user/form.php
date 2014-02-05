@@ -62,11 +62,14 @@
         </div>
         <div class="col-md-4"> 
             <?php foreach($this->permissions as $permission): ?>
-                <label class="checkbox">
+            <div class="checkbox">
+                <label>
                     <input type="checkbox" name="data[permissions][]" value="<?php echo $permission; ?>" <?php echo ($this->model->hasPermission($permission) ? 'checked' : ''); ?> parsley-group="permissions" parsley-mincheck="1">
                     <?php echo $permission; ?>
                 </label>
+            </div>
             <?php endforeach; ?> 
+            
         </div>
     </div>   
     <div class="form-group">
