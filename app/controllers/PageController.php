@@ -26,10 +26,10 @@ class PageController extends AppController
 	 */
 	public function indexAction($path=null)
 	{
-		$models = $this->app->pages->findAll();
+		//$models = $this->app->pages->findAll();
 
 		echo $this->render('index', array(
-			'models'=>$models,
+			// 'models'=>$models,
 		));
 	}
 }
