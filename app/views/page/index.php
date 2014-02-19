@@ -3,7 +3,7 @@
 <h2>Pages</h2>
 </div>
 
-<form class="form-inline pull-right" role="form">
+<?php /*<form class="form-inline pull-right" role="form">
 <div class="form-group">
   <label class="sr-only" for="exampleInputEmail2">Search</label>
   <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Search">
@@ -12,7 +12,7 @@
 
 <p>
 <a class="btn btn-primary" href="<?php echo $this->app->createUrl(array('controller'=>'page','action'=>'create')); ?>">Create</a>
-</p>
+</p>*/ ?>
 
 
 <div class="catalog">
