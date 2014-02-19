@@ -26,7 +26,12 @@ class SettingController extends AppController
 	 */
 	public function indexAction()
 	{
+        if ($this->app->request->isPost()) {
+            $data = $this->app->request->getPost('data');
+            var_dump($data);
+        }
 		echo $this->render('index');
+        
 	}
 
 	/**
