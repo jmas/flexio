@@ -14,7 +14,81 @@
 <a class="btn btn-primary" href="<?php echo $this->app->createUrl(array('controller'=>'page','action'=>'create')); ?>">Create</a>
 </p>
 
-<div class="list-group">
+
+<div class="catalog">
+	<div class="items closed-items">
+		<div class="item primary-item">
+			<div class="name"><a href="#">Main page</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Children 1</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Children 2</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Children 3</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Children 4</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+	</div>
+	<div class="items closed-items">
+		<div class="item primary-item">
+			<div class="name"><a href="#">Catalog</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Children 1</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Children 2</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Children 3</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Children 4</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+	</div>
+	<div class="items">
+		<div class="item primary-item">
+			<div class="name"><a href="#">Welding Tools</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Instrument 1</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item pack-item">
+			<div class="name"><a href="#">Instrument 2</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Instrument 3</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item">
+			<div class="name"><a href="#">Instrument 4</a></div>
+			<div class="options-btn">&times;</div>
+		</div>
+		<div class="item create-item">
+			<div class="name"><a href="#">+ Create page</a></div>
+		</div>
+	</div>
+</div>
+
+
+<?php /* <div class="list-group">
 	<?php foreach ($this->models as $model): ?>
 	<div class="list-group-item">
 	  <div class="pull-right">
@@ -26,4 +100,4 @@
 	  </p>
 	</div>
 	<?php endforeach; ?>
-</div>
+</div> */ ?>

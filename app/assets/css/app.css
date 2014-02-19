@@ -13,3 +13,105 @@
 .checkbox{
 font-weight:normal;
 }
+
+
+/**
+ * Catalog structure.
+ */
+.catalog {
+	padding:20px;
+}
+
+.catalog .items {
+	/*border:1px solid rgb(220,220,220);*/
+	box-shadow: 0 2px 5px rgb(200,200,200);
+	padding:1px;
+}
+
+.catalog .item {
+	position: relative;
+	border:1px solid rgb(220,220,220);
+	margin:10px;
+	padding:14px 10px;
+	background-color: rgb(252,252,252);
+}
+
+.catalog .item.create-item {
+	border:none;
+	background: none;
+}
+
+.catalog .item.pack-item {
+	margin-bottom: 20px;
+}
+
+.catalog .item.pack-item:after,
+.catalog .item.pack-item:before {
+	position: absolute;
+	left:-1px;
+	bottom:-6px;
+	content: '';
+	border:1px solid rgb(240,240,240);
+	border-top: none;
+	height: 5px;
+	width: 100%;
+}
+
+.catalog .item.pack-item:before {
+	bottom: -11px;
+}
+
+.catalog .item .options-btn {
+	position: absolute;
+	right:0;
+	top:0;
+	height: 100%;
+	background: rgb(248,248,248);
+	line-height: 45px;
+	width:45px;
+	text-align: center;
+	font-size: 120%;
+	font-weight: normal;
+}
+
+.catalog .item.primary-item {
+	background: transparent;
+	box-shadow: none;
+	border:none;
+	border-bottom: 1px solid rgb(245,245,245);
+	font-weight: bold;
+	padding:14px 10px;
+}
+
+.catalog .item.primary-item .options-btn {
+	background: none;
+}
+
+.catalog .items.closed-items {
+	box-shadow: none;
+	border:1px solid rgb(220,220,220);
+	border-bottom: none;
+	margin:0 10px;
+	border-color:rgb(245,245,245);
+}
+
+.catalog .items.closed-items a {
+	color:rgb(150,150,150);
+}
+
+.catalog .items.closed-items .options-btn {
+	display: none;
+}
+
+.catalog .items.closed-items .item {
+	display: none;
+}
+
+.catalog .items.closed-items .item.primary-item {
+	display: block;
+	font-weight: normal;
+	border: none;
+	padding:10px 10px;
+	font-size: 90%;
+	margin:0;
+}
